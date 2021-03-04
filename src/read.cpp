@@ -971,8 +971,7 @@ void read(map<string, string> readParameters)
 			    IncidenceTime[i-10] = inc; // want to record signal time from PMTs
           Float_t signalMinimum = (&hCh)->GetMinimum();
           // cout << "minimum signal " << signalMinimum << endl;
-          // here are some test lines
-          // geh du alter esel hol fisch!
+          
           if (10 == i) {
             Incidence10 = inc;
             Invert_Incidence10 = invert_inc;
