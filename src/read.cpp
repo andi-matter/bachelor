@@ -311,6 +311,12 @@ void read(map<string, string> readParameters)
   Float_t Incidence12; // incidence time channel 12
   Float_t Incidence13; // incidence time channel 13
 
+  Float_t timeMeanTop; // arithmetic mean
+  Float_t timeMeanBot;
+  Float_t timeResApprox; // (t1 + t2 - (t3 + t4))/4
+  Float_t amplitudeMeanTop; // geometric mean
+  Float_t amplitudeMeanBot;
+
   Float_t Invert_Incidence10; // incidence time channel 10, calc by CFDInvert
   Float_t Invert_Incidence11; // incidence time channel 11, calc by CFDInvert
   Float_t Invert_Incidence12;
@@ -459,25 +465,32 @@ void read(map<string, string> readParameters)
   tree->Branch("tSiPM", tSiPM, "tSiPM[nCh]/F");
 
   //andrea
-  tree->Branch("Time_diff_top", &timeDifferenceTop, "timeDiff_ns/F");
-  tree->Branch("Time_diff_bot", &timeDifferenceBot, "timeDiff_ns/F");
-  tree->Branch("Trigger_time", IncidenceTime, "time_ns[4]/F");
-  tree->Branch("Time_diff_all", &timeDifference, "timeDiff_ns/F");
-  tree->Branch("Incidence_time_ch10", &Incidence10, "time_ns/F");
-  tree->Branch("Incidence_time_ch11", &Incidence11, "time_ns/F");
-  tree->Branch("Incidence_time_ch12", &Incidence12, "time_ns/F");
-  tree->Branch("Incidence_time_ch13", &Incidence13, "time_ns/F");
-  tree->Branch("Invert_Incidence_time_ch10", &Invert_Incidence10, "time_ns/F");
-  tree->Branch("Invert_Incidence_time_ch11", &Invert_Incidence11, "time_ns/F");
-  tree->Branch("Invert_Incidence_time_ch12", &Invert_Incidence12, "time_ns/F");
-  tree->Branch("Invert_Incidence_time_ch13", &Invert_Incidence13, "time_ns/F");
-  tree->Branch("Inv_Time_diff_all", &inv_timeDifference, "timeDiff_ns/F");
-  tree->Branch("Inv_Time_diff_top", &inv_timeDifferenceTop, "timeDiff_ns/F");
-  tree->Branch("Inv_Time_diff_bot", &inv_timeDifferenceBot, "timeDiff_ns/F");
-  tree->Branch("minimum_ch10", &minCh10, "voltage_mV/F");
-  tree->Branch("minimum_ch11", &minCh11, "voltage_mV/F");
-  tree->Branch("minimum_ch12", &minCh12, "voltage_mV/F");
-  tree->Branch("minimum_ch13", &minCh13, "voltage_mV/F");
+  tree->Branch("Time_diff_top", &timeDifferenceTop, "Time_diff_top/F");
+  tree->Branch("Time_diff_bot", &timeDifferenceBot, "Time_diff_bot/F");
+  //tree->Branch("Trigger_time", IncidenceTime, "Trigger_time[4]/F");
+  tree->Branch("Time_diff_all", &timeDifference, "Time_diff_all/F");
+  tree->Branch("Incidence_time_ch10", &Incidence10, "Incidence_time_ch10/F");
+  tree->Branch("Incidence_time_ch11", &Incidence11, "Incidence_time_ch11/F");
+  tree->Branch("Incidence_time_ch12", &Incidence12, "Incidence_time_ch12/F");
+  tree->Branch("Incidence_time_ch13", &Incidence13, "Incidence_time_ch13/F");
+  tree->Branch("Invert_Incidence_time_ch10", &Invert_Incidence10, "Invert_Incidence_time_ch10/F");
+  tree->Branch("Invert_Incidence_time_ch11", &Invert_Incidence11, "Invert_Incidence_time_ch11/F");
+  tree->Branch("Invert_Incidence_time_ch12", &Invert_Incidence12, "Invert_Incidence_time_ch12/F");
+  tree->Branch("Invert_Incidence_time_ch13", &Invert_Incidence13, "Invert_Incidence_time_ch13/F");
+  tree->Branch("Inv_Time_diff_all", &inv_timeDifference, "Inv_Time_diff_all/F");
+  tree->Branch("Inv_Time_diff_top", &inv_timeDifferenceTop, "Inv_Time_diff_top/F");
+  tree->Branch("Inv_Time_diff_bot", &inv_timeDifferenceBot, "Inv_Time_diff_bot/F");
+  tree->Branch("minimum_ch10", &minCh10, "minimum_ch10/F");
+  tree->Branch("minimum_ch11", &minCh11, "minimum_ch11/F");
+  tree->Branch("minimum_ch12", &minCh12, "minimum_ch12/F");
+  tree->Branch("minimum_ch13", &minCh13, "minimum_ch13/F");
+  tree->Branch("timeMeanTop", &timeMeanTop, "timeMeanTop/F");
+  tree->Branch("timeMeanBot", &timeMeanBot, "timeMeanBot/F");
+  tree->Branch("timeResApprox", &timeResApprox, "timeResApprox/F");
+  tree->Branch("amplitudeMeanTop", &amplitudeMeanTop, "amplitudeMeanTop/F");
+  tree->Branch("amplitudeMeanBot", &amplitudeMeanBot, "amplitudeMeanBot/F");
+  
+
 
 
   
@@ -966,10 +979,20 @@ void read(map<string, string> readParameters)
           if (EventNumber % 10000 == 0) {
             cout << "Threshold for CFD in timing: " << threshold << "Offset: " << offset << endl;
           }
-          Float_t inc = CFDNegativeCustom(&hCh, threshold, offset); // search half peak from peak - offset up
-          Float_t invert_inc = CFDNegativeInvert(&hCh, threshold); // search half peak from peak down
+
+          // andrea
+          Float_t inc = CFDNegativeCustom(&hChtemp.at(i), threshold, offset); // search half peak from peak - offset up
+          Float_t invert_inc = CFDNegativeInvert(&hChtemp.at(i), threshold); // search half peak from peak down
 			    IncidenceTime[i-10] = inc; // want to record signal time from PMTs
-          Float_t signalMinimum = (&hCh)->GetMinimum();
+          
+          
+          Float_t signalMinimum = hChtemp.at(i).GetMinimum();
+
+          if (signalMinimum > (-10.0)) {
+            // skipThisEvent = true;
+            // continue;
+          } 
+          
           // cout << "minimum signal " << signalMinimum << endl;
           // bla bla blaaa
           if (10 == i) {
@@ -990,9 +1013,7 @@ void read(map<string, string> readParameters)
           if (13 == i) {
             Incidence13 = inc;
             Invert_Incidence13 = invert_inc;
-            minCh13 = signalMinimum;
-            
-            
+            minCh13 = signalMinimum;           
           }
 		    } 
         
@@ -1009,6 +1030,9 @@ void read(map<string, string> readParameters)
 		//andrea
         if (11 == i) {
           timeDifferenceTop = Incidence11 - Incidence10;
+          timeMeanTop = 0.5*(Incidence11 + Incidence10);
+          amplitudeMeanTop = sqrtf(fabs(minCh10 * minCh11));
+
           inv_timeDifferenceTop = Invert_Incidence11 - Invert_Incidence10;
         }	
         if (13 == i) {
@@ -1016,6 +1040,10 @@ void read(map<string, string> readParameters)
           inv_timeDifferenceBot = Invert_Incidence13 - Invert_Incidence12;
           inv_timeDifference = inv_timeDifferenceTop - inv_timeDifferenceBot;
           timeDifference = timeDifferenceTop - timeDifferenceBot;
+          
+          timeMeanBot = 0.5*(Incidence12 + Incidence13);
+          amplitudeMeanBot = sqrtf(fabs(minCh12 * minCh13));
+          timeResApprox = 0.25*(Incidence11 + Incidence10 - (Incidence12 + Incidence13));
           int absTimeDifference = abs(timeDifference);
           // cout << " uh oh " << absTimeDifference << endl;
           if (15 < absTimeDifference) {
