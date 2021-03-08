@@ -135,7 +135,7 @@ bool enableBaselineCorrection = true;
 //Allow Force Printing individual events
 bool allowForcePrintEvents = false;
 bool forcePrintThisEvent = false;
-int maximalForcePrintEvents = 2;
+int maximalForcePrintEvents = 1;
 int forcePrintEvents = 0;
 
 struct rusage r_usage;
@@ -975,7 +975,7 @@ void read(map<string, string> readParameters)
         }
 		    else if ((i==10 || i==11 || i==12 || i==13)){ //andrea
           float threshold = 0.5;
-          int offset = 20;
+          int offset = 90;
           if (EventNumber % 10000 == 0) {
             cout << "Threshold for CFD in timing: " << threshold << "Offset: " << offset << endl;
           }
@@ -986,10 +986,11 @@ void read(map<string, string> readParameters)
 			    IncidenceTime[i-10] = inc; // want to record signal time from PMTs
           
           
+          
           Float_t signalMinimum = hChtemp.at(i).GetMinimum();
 
-          if (signalMinimum > (-10.0)) {
-            // skipThisEvent = true;
+          if (signalMinimum > (-20.0)) {
+            skipThisEvent = true;
             // continue;
           } 
           
@@ -999,6 +1000,12 @@ void read(map<string, string> readParameters)
             Incidence10 = inc;
             Invert_Incidence10 = invert_inc;
             minCh10 = signalMinimum;
+            if (inc > 350 || inc < 0) { 
+              //forcePrintThisEvent = true;
+              skipThisEvent = true;
+              cout << "Inc time weird " << whileCounter << endl;
+              cout << inc << minCh10 << endl;
+            }
           }   
           if (11 == i) {
             Incidence11 = inc;
