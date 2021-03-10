@@ -78,12 +78,12 @@ float CFDNegative(TH1F *hWave, float thr)
   return x1 + k * (thr * peak - y1);
 }
 
-float CFDNegativeCustom(TH1F* hWave,float thr, int negativeOffset)
+float CFDNegativeCustom(TH1F* hWave,float thr, int offset)
 { 
   float peak = fabs(hWave->GetMinimum());
   int timePos = 1;
   int minimumBin = hWave->GetMinimumBin();
-  timePos = minimumBin - negativeOffset;
+  timePos = offset;
   float val = 0;
   while (fabs(val) < thr * peak)
   {
