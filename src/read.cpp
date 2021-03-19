@@ -43,6 +43,7 @@
 
 // andrea
 bool TIMINGCUTS = false;
+bool TIMEDIFFCUT = false;
 
 
 float SP = 0.3125; // ns per bin
@@ -316,6 +317,7 @@ void read(map<string, string> readParameters)
   Float_t timeResApprox; // (t1 + t2 - (t3 + t4))/4
   Float_t amplitudeMeanTop; // geometric mean
   Float_t amplitudeMeanBot;
+  Float_t meanFlightTime;
 
   Float_t Invert_Incidence10; // incidence time channel 10, calc by CFDInvert
   Float_t Invert_Incidence11; // incidence time channel 11, calc by CFDInvert
@@ -329,6 +331,9 @@ void read(map<string, string> readParameters)
   Float_t minCh11;
   Float_t minCh12;
   Float_t minCh13;
+
+  float integral_hist[8]; // save signal integrals for SiPM channels (COSMICs)
+
 
 
 
@@ -358,6 +363,9 @@ void read(map<string, string> readParameters)
   std::vector<TH1F *> hChSum;
   std::vector<TH1F> hChtemp;
   std::vector<TH1F *> hChShift;
+
+  // andrea
+  std::vector<TH1F *> histChannelIntegral;
 
   Float_t amplitudeChannelSumWOM[womCount];
   Float_t chargeChannelSumWOM[womCount];
@@ -396,6 +404,15 @@ void read(map<string, string> readParameters)
       h->SetName(name);
       histChannelSumWOM.push_back(h);
     }
+
+    for (int i = 0; i < 8; i++)
+    {
+      TString name("");
+      name.Form("histChannelIntegral%d", i);
+      TH1F *h = new TH1F("h", ";integral [ns*mV];counts", binNumber, -0.5 * SP, 1023.5 * SP);
+      h->SetName(name);
+      histChannelIntegral.push_back(h);
+    }
   }
 
   for (int i = 0; i < runChannelNumberWC; i++)
@@ -417,6 +434,10 @@ void read(map<string, string> readParameters)
   womCanvas.Divide(2, 2);
   TCanvas cChSum("cChSum", "cChSum", 1500, 900);
   cChSum.Divide(plotGrid, plotGrid);
+
+  // andrea
+  TCanvas integralsWOM("integralsWOM", "integralsWOM", 1000, 1000);
+  integralsWOM.Divide(2, 4);
 
   /*Create branches in the root-tree for the data.*/
   tree->Branch("EventNumber", &EventNumber, "EventNumber/I");
@@ -473,13 +494,7 @@ void read(map<string, string> readParameters)
   tree->Branch("Incidence_time_ch11", &Incidence11, "Incidence_time_ch11/F");
   tree->Branch("Incidence_time_ch12", &Incidence12, "Incidence_time_ch12/F");
   tree->Branch("Incidence_time_ch13", &Incidence13, "Incidence_time_ch13/F");
-  tree->Branch("Invert_Incidence_time_ch10", &Invert_Incidence10, "Invert_Incidence_time_ch10/F");
-  tree->Branch("Invert_Incidence_time_ch11", &Invert_Incidence11, "Invert_Incidence_time_ch11/F");
-  tree->Branch("Invert_Incidence_time_ch12", &Invert_Incidence12, "Invert_Incidence_time_ch12/F");
-  tree->Branch("Invert_Incidence_time_ch13", &Invert_Incidence13, "Invert_Incidence_time_ch13/F");
-  tree->Branch("Inv_Time_diff_all", &inv_timeDifference, "Inv_Time_diff_all/F");
-  tree->Branch("Inv_Time_diff_top", &inv_timeDifferenceTop, "Inv_Time_diff_top/F");
-  tree->Branch("Inv_Time_diff_bot", &inv_timeDifferenceBot, "Inv_Time_diff_bot/F");
+
   tree->Branch("minimum_ch10", &minCh10, "minimum_ch10/F");
   tree->Branch("minimum_ch11", &minCh11, "minimum_ch11/F");
   tree->Branch("minimum_ch12", &minCh12, "minimum_ch12/F");
@@ -489,6 +504,12 @@ void read(map<string, string> readParameters)
   tree->Branch("timeResApprox", &timeResApprox, "timeResApprox/F");
   tree->Branch("amplitudeMeanTop", &amplitudeMeanTop, "amplitudeMeanTop/F");
   tree->Branch("amplitudeMeanBot", &amplitudeMeanBot, "amplitudeMeanBot/F");
+  tree->Branch("meanFlightTime", &meanFlightTime, "meanFlightTime/F");
+
+  for (int i=0; i<8; i++) {
+    tree->Branch(Form("integral_hist_%d", i), &integral_hist[i], Form("integral_hist_%d/F", i));
+  }
+  // tree->Branch("integral_hist_0", &integral_hist[0], "integral_hist_0/F");
   
 
 
@@ -518,82 +539,7 @@ void read(map<string, string> readParameters)
   tree->Branch("nSkipped", skippedCount, "nSkipped/I");
 
 
-/*   // andrea
-  // create branches for cut-tree
-  //Create branches in the root-tree for the data.
-  treeCut->Branch("EventNumber", &EventNumber, "EventNumber/I");
-  treeCut->Branch("SamplingPeriod", &SamplingPeriod, "SamplingPeriod/F");
-  treeCut->Branch("EpochTime", &EpochTime, "EpochTime/D");
-  treeCut->Branch("Year", &Year, "Year/I");
-  treeCut->Branch("Month", &Month, "Month/I");
-  treeCut->Branch("Day", &Day, "Day/I");
-  treeCut->Branch("Hour", &Hour, "Hour/I");
-  treeCut->Branch("Minute", &Minute, "Minute/I");
-  treeCut->Branch("Second", &Second, "Second_/I");
-  treeCut->Branch("Millisecond", &Millisecond, "Millisecond/I");
-  treeCut->Branch("trigT", &trigT, "trigT/F");
-  treeCut->Branch("tSUMp", &tSUMp, "tSUMp/F");
-  treeCut->Branch("tSUMm", &tSUMm, "tSUMm/F");
 
-  //RUN PARAMETER
-  treeCut->Branch("runPosition", &runPosition, "runPosition/I");
-  treeCut->Branch("runEnergy", &runEnergy, "runEnergy/F");
-  treeCut->Branch("runAngle", &runAngle, "runAngle/I");
-  treeCut->Branch("runNumber", &runNumber, "runNumber/I");
-  treeCut->Branch("runChannelNumberWC", &runChannelNumberWC, "runChannelNumberWC/I");
-  treeCut->Branch("integrationWindowRun", &iwRun, "integrationWindowRun/I");
-
-  // CHANNEL INFO (but everything that is nCH-dependend below)
-  treeCut->Branch("nCh", &nCh, "nCh/I");
-  treeCut->Branch("WOMID", WOMID, "WOMID[nCh]/I");
-  treeCut->Branch("ch", ChannelNr, "ch[nCh]/I");
-  // AMPLITUDE
-  treeCut->Branch("Amplitude", Amplitude, "Amplitude[nCh]/F"); // calibrated
-  //tree->Branch("amp_inRange", amp_inRange.data(), "amp_inRange[nCh]/F"); // calibrated
-  treeCut->Branch("max", max.data(), "max[nCh]/F");
-  treeCut->Branch("min", min.data(), "min[nCh]/F");
-  // INTEGRAL
-  //tree->Branch("Integral_0_300", Integral_0_300, "Integral_0_300[nCh]/F");
-  //tree->Branch("Integral_inRange", Integral_inRange, "Integral_inRange[nCh]/F");
-  treeCut->Branch("Integral", Integral, "Integral[nCh]/F");
-  treeCut->Branch("IntegralErrorP", IntegralErrorP, "IntegralErrorP[nCh]/F");
-  treeCut->Branch("IntegralErrorM", IntegralErrorM, "IntegralErrorM[nCh]/F");
-
-  // tree->Branch("Integral_mVns", Integral_mVns, "Integral_mVns[nCh]/F"); // calibrated
-  treeCut->Branch("IntegralDifference", IntegralDiff, "IntegralDifference[nCh]/F");
-
-  // TIMING
-  treeCut->Branch("t", t, "t[nCh]/F");
-  treeCut->Branch("tSiPM", tSiPM, "tSiPM[nCh]/F");
-  //andrea
-  treeCut->Branch("Time_diff_top", &timeDifferenceTop, "timeDiff_ns/F");
-  treeCut->Branch("Time_diff_bot", &timeDifferenceBot, "timeDiff_ns/F");
-  treeCut->Branch("Trigger_time", IncidenceTime, "time_ns[4]/F");
-  treeCut->Branch("Time_diff_all", &timeDifference, "timeDiff_ns/F");
-  
-  // BASELINE
-  treeCut->Branch("BL_lower", BL_lower, "BL_lower[nCh]/F");
-  treeCut->Branch("BL_RMS_lower", BL_RMS_lower, "BL_RMS_lower[nCh]/F");
-  treeCut->Branch("BL_Chi2_lower", BL_Chi2_lower, "BL_Chi2_lower[nCh]/F");
-  treeCut->Branch("BL_pValue_lower", BL_pValue_lower, "BL_pValue_lower[nCh]/F");
-  treeCut->Branch("BL_upper", BL_upper, "BL_upper[nCh]/F");
-  treeCut->Branch("BL_RMS_upper", BL_RMS_upper, "BL_RMS_upper[nCh]/F");
-  treeCut->Branch("BL_Chi2_upper", BL_Chi2_upper, "BL_Chi2_upper[nCh]/F");
-  treeCut->Branch("BL_pValue_upper", BL_pValue_upper, "BL_pValue_upper[nCh]/F");
-  treeCut->Branch("BL_used", BL_used, "BL_used[nCh]/F");
-  treeCut->Branch("BL_Chi2_used", BL_Chi2_used, "BL_Chi2_used[nCh]/F");
-  treeCut->Branch("BL_pValue_used", BL_pValue_used, "BL_pValue_used[nCh]/F");
-  // CALIBRATED SUM
-  treeCut->Branch("chargeChannelSumWOM", chargeChannelSumWOM, "chargeChannelSumWOM[4]/F");
-  treeCut->Branch("chargeChannelSumWOMErrorP", chargeChannelSumWOMErrorP, "chargeChannelSumWOMErrorP[4]/F");
-  treeCut->Branch("chargeChannelSumWOMErrorM", chargeChannelSumWOMErrorM, "chargeChannelSumWOMErrorM[4]/F");
-
-  treeCut->Branch("amplitudeChannelSumWOM", amplitudeChannelSumWOM, "amplitudeChannelSumWOM[4]/F");
-  treeCut->Branch("EventIDsamIndex", EventIDsamIndex, "EventIDsamIndex[nCh]/I");
-  treeCut->Branch("FirstCellToPlotsamIndex", FirstCellToPlotsamIndex, "FirstCellToPlotsamIndex[nCh]/I");
-
-  treeCut->Branch("nSkipped", skippedCount, "nSkipped/I");
- */
 
   /***
  *     __   ___       __          __      __  ___       __  ___ 
@@ -990,7 +936,7 @@ void read(map<string, string> readParameters)
           Float_t signalMinimum = hChtemp.at(i).GetMinimum();
 
           if (signalMinimum > (-20.0)) {
-            skipThisEvent = true;
+            // skipThisEvent = true;
             // continue;
           } 
           
@@ -1051,7 +997,8 @@ void read(map<string, string> readParameters)
           timeMeanBot = 0.5*(Incidence12 + Incidence13);
           amplitudeMeanBot = sqrtf(fabs(minCh12 * minCh13));
           timeResApprox = 0.25*(Incidence11 + Incidence10 - (Incidence12 + Incidence13));
-          int absTimeDifference = abs(timeDifference);
+          meanFlightTime = 0.5*(Incidence11 + Incidence10 - (Incidence12 + Incidence13));
+          float absTimeDifference = fabs(timeDifference);
           // cout << " uh oh " << absTimeDifference << endl;
           if (15 < absTimeDifference) {
             // skipThisEvent = true;
@@ -1059,9 +1006,14 @@ void read(map<string, string> readParameters)
             //cout << " greater 15! " << endl;
             //skipThisEventInCut = true;
           }
-          if (TIMINGCUTS && !((0 <= absTimeDifference) && (2 >= absTimeDifference))) {
-          // skipThisEventInCut = true;
-            // skipThisEvent = true;
+          Float_t interval = 10;
+          if (TIMEDIFFCUT && (timeDifferenceTop < (-interval) || timeDifferenceTop > interval || timeDifferenceBot <(-interval) || timeDifferenceBot > interval)) {
+            skipThisEvent = true; // Dt top and Dt bot in interval [-interval, interval]
+          }
+
+          if (TIMINGCUTS && !(1.0 >= absTimeDifference)) {
+          // skipThisEventInCut = true; // total time difference in interval (0,2)
+            skipThisEvent = true;
           }
         }
 
@@ -1107,6 +1059,9 @@ void read(map<string, string> readParameters)
         float effectivFactorError = sqrt(pow((correctionValueError / calibrationCharges.at(shiftedIndex)), 2) + pow((correctionValues[shiftedIndex] * calibrationError / pow(calibrationCharges.at(shiftedIndex), 2)), 2));
 
         Integral[i] = IntegralHist(&hCh, integralStartShifted, integralEndShifted, 0) * effectivFactor;
+       
+        // andrea
+        if (i < 8) integral_hist[i] = IntegralHist(&hCh, integralStartShifted, integralEndShifted, 0); // Integral[i];
 
         IntegralErrorP[i] = IntegralHist(&hCh, integralStartShifted, integralEndShifted, 0) * (effectivFactor + effectivFactorError);
         IntegralErrorM[i] = IntegralHist(&hCh, integralStartShifted, integralEndShifted, 0) * (effectivFactor - effectivFactorError);
@@ -1251,6 +1206,8 @@ void read(map<string, string> readParameters)
           hChSum.at(i)->Add(&hCh, 1); //Dont sum empty waveforms into your sum histogram
       }
 
+      
+
       /***
  *          __            __              __  
  *    |  | /  \  |\/|    /__` |  |  |\/| /__` 
@@ -1359,12 +1316,15 @@ void read(map<string, string> readParameters)
             {
               cWaves.Print((TString)(plotSaveFolder + "/waveforms.pdf("), "pdf");
               womCanvas.Print((TString)(plotSaveFolder + "/waveforms_womSum.pdf("), "pdf");
+              
+              
             }
             else
             {
 
               cWaves.Print((TString)(plotSaveFolder + "/waveforms.pdf"), "pdf");
               womCanvas.Print((TString)(plotSaveFolder + "/waveforms_womSum.pdf"), "pdf");
+              
             }
           }
         }
@@ -1387,6 +1347,15 @@ void read(map<string, string> readParameters)
     fileCounter++;
   }
 
+  // andrea
+  // after event loop!
+  for (int i = 0; i < 8; i++) {
+    integralsWOM.cd(i+1);
+    histChannelIntegral.at(i)->Draw(Form("integral_hist_%d",i));
+  }
+  //integralsWOM.Print((TString)(plotSaveFolder + "/integrals.pdf("), "pdf");
+
+
   if (print)
   {
     /*Clearing objects and saving files.*/
@@ -1396,9 +1365,11 @@ void read(map<string, string> readParameters)
     {
       cWaves.Print((TString)(plotSaveFolder + "/waveforms.pdf)"), "pdf");
       womCanvas.Print((TString)(plotSaveFolder + "/waveforms_womSum.pdf)"), "pdf");
+      integralsWOM.Print((TString)(plotSaveFolder + "/integrals.pdf"), "pdf");
     }
     cWaves.Clear();
     womCanvas.Clear();
+    integralsWOM.Clear();
     for (int i = 0; i < runChannelNumberWC; i++)
     {
       cChSum.cd(i + 1);
@@ -1412,6 +1383,7 @@ void read(map<string, string> readParameters)
       //   hChSum.at(i)->SetFillColorAlpha(4, 0.8);
     }
     cChSum.Print((TString)(plotSaveFolder + "/waveforms_chSum.pdf"), "pdf");
+    integralsWOM.Print((TString)(plotSaveFolder + "/integrals.pdf"), "pdf");
   }
 
   gErrorIgnoreLevel = kWarning;
