@@ -205,6 +205,7 @@ parseRunList() {
 compileRead() {
     echo "Compiling Read.C..."
     g++ ./src/geometry.C ./src/read.cpp ./src/analysis.C ./src/main.C ./src/misc.C $(root-config --libs --cflags) -lSpectrum -o ./src/read
+	g++ ./src/makeIntegralsPDF.cpp $(root-config --libs --cflags) -lSpectrum -o ./src/makeIntegralsPDF
     echo "Compiling done!"
 }
 
@@ -254,10 +255,11 @@ readFull() {
             #time $here/readFull $runDir/$runName.list $inFolder/$runName/ $runDir/out.root ${lineArr[0]} ${lineArr[2]} ${lineArr[3]} ${lineArr[4]} ${lineArr[5]} ${lineArr[6]}
 
             time ./src/read $runDir/$runName.list $inFolder/$runName/ $runDir/$runName.root $runName $headerSize "$isDC" "$dynamicBL" "$useCalibValues" "${lineArr[0]}" "${lineArr[1]}" "${lineArr[2]}" "${lineArr[3]}" "${lineArr[4]}" "${lineArr[5]}" "$automaticWindow" "$iWForceRun"
-
+			
         fi
     done <./RootRunlist.txt
-
+	time ./src/makeIntegralsPDF $runDir/$runName.root
+	echo "Doing integrals"
 }
 
 compileMerger() {
@@ -274,6 +276,8 @@ merger() {
     pdfunite $(find $2 -name "*waveforms.pdf") $2/waveforms.pdf
     pdfunite $(find $2 -name "*waveforms_chSum.pdf") $2/waveforms_chSum.pdf
     pdfunite $(find $2 -name "*waveforms_womSum.pdf") $2/waveforms_womSum.pdf
+	#pdfunite $(find $2 -name "*integrals.pdf") $2/integrals.pdf
+
 
 }
 
@@ -295,10 +299,36 @@ readFast() {
     installPDFUnite
     compileMerger
     readAll=false
+
     inFolder=$2
     outFolder=$3
     headerSize=$4
     saveFolder=$outFolder
+	 
+	
+	echo "${saveFolder}"
+	 
+	
+	echo "${outFolder}/${runNumber}.root"
+	
+	for dir in "${saveFolder}/*" ; do
+		printf $dir 
+		printf "\n"
+		if [[ "$dir" == *"${runNumber}_"* ]] ; then
+			memDir = "$dir"
+			for file in "${memDir}/*" ; do
+				if [[ "$dir" == *".root"* ]] ; then
+					memFile = file
+					printf "rootfile found  "
+					printf $memFile 
+					break
+				fi 
+			done 			
+		fi
+	done 
+	
+	echo "${saveFolder}/${file}/${file}.root"
+	
 
     if [[ " ${runNumber[@]} " =~ "a" ]]; then
         readAll=true
@@ -400,6 +430,33 @@ readFast() {
         #reads lines of "runslist"
 
     )
+	
+	for dir in "${saveFolder}/*" ; do
+		printf $dir 
+		printf "\n"
+		if [[ "$dir" == *"${runNumber}_"* ]] ; then
+			memDir = $dir
+			printf "memDir "
+			printf $memDir
+			for file in "${memDir}/*" ; do
+				echo " test here   "
+				printf $file
+				if [[ "$file" == *".root"* ]] ; then
+					memFile = $file
+					printf "rootfile found  "
+					printf $memFile 
+					break
+				fi 
+			done 			
+		fi
+	done
+	
+	printf "this is the"    
+	printf "$memFile"
+	time ./src/makeIntegralsPDF "$memFile"
+	pdfunite $(find $2 -name "*integrals.pdf") $2/integrals.pdf
+	echo "Doing integrals"
+	
 
 }
 

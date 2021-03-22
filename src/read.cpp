@@ -365,7 +365,7 @@ void read(map<string, string> readParameters)
   std::vector<TH1F *> hChShift;
 
   // andrea
-  std::vector<TH1F *> histChannelIntegral;
+  // std::vector<TH1F *> histChannelIntegral;
 
   Float_t amplitudeChannelSumWOM[womCount];
   Float_t chargeChannelSumWOM[womCount];
@@ -405,14 +405,15 @@ void read(map<string, string> readParameters)
       histChannelSumWOM.push_back(h);
     }
 
-    for (int i = 0; i < 8; i++)
-    {
-      TString name("");
-      name.Form("histChannelIntegral%d", i);
-      TH1F *h = new TH1F("h", ";integral [ns*mV];counts", binNumber, -0.5 * SP, 1023.5 * SP);
-      h->SetName(name);
-      histChannelIntegral.push_back(h);
-    }
+    //andrea
+    // for (int i = 0; i < 8; i++)
+    // {
+    //   TString name("");
+    //   name.Form("histChannelIntegral%d", i);
+    //   TH1F *h = new TH1F("h", ";integral [ns*mV];counts", binNumber, -0.5 * SP, 1023.5 * SP);
+    //   h->SetName(name);
+    //   histChannelIntegral.push_back(h);
+    // }
   }
 
   for (int i = 0; i < runChannelNumberWC; i++)
@@ -436,8 +437,8 @@ void read(map<string, string> readParameters)
   cChSum.Divide(plotGrid, plotGrid);
 
   // andrea
-  TCanvas integralsWOM("integralsWOM", "integralsWOM", 1000, 1000);
-  integralsWOM.Divide(2, 4);
+  TCanvas cIntegralsWOM("cIntegralsWOM", "cIntegralsWOM", 1000, 1000);
+  cIntegralsWOM.Divide(2, 4);
 
   /*Create branches in the root-tree for the data.*/
   tree->Branch("EventNumber", &EventNumber, "EventNumber/I");
@@ -505,9 +506,9 @@ void read(map<string, string> readParameters)
   tree->Branch("amplitudeMeanTop", &amplitudeMeanTop, "amplitudeMeanTop/F");
   tree->Branch("amplitudeMeanBot", &amplitudeMeanBot, "amplitudeMeanBot/F");
   tree->Branch("meanFlightTime", &meanFlightTime, "meanFlightTime/F");
-
+  //andrea
   for (int i=0; i<8; i++) {
-    tree->Branch(Form("integral_hist_%d", i), &integral_hist[i], Form("integral_hist_%d/F", i));
+    tree->Branch(Form("integral_hist_%d", i), &(integral_hist[i]), Form("integral_hist_%d/F", i));
   }
   // tree->Branch("integral_hist_0", &integral_hist[0], "integral_hist_0/F");
   
@@ -1300,6 +1301,8 @@ void read(map<string, string> readParameters)
  *    \__/ \__/  |  |    \__/  |  
  *                                
  */
+      
+
 
       if (print)
       {
@@ -1315,8 +1318,10 @@ void read(map<string, string> readParameters)
             if (fileCounter == 0 && ((fileCounter != (numberOfBinaryFiles - 1)) || forcePrintThisEvent))
             {
               cWaves.Print((TString)(plotSaveFolder + "/waveforms.pdf("), "pdf");
+              //cWaves.Print((TString)(plotSaveFolder + "/waveforms2.pdf("), "pdf");
+
               womCanvas.Print((TString)(plotSaveFolder + "/waveforms_womSum.pdf("), "pdf");
-              
+              cout << "print in if filecounter" << endl;
               
             }
             else
@@ -1324,7 +1329,7 @@ void read(map<string, string> readParameters)
 
               cWaves.Print((TString)(plotSaveFolder + "/waveforms.pdf"), "pdf");
               womCanvas.Print((TString)(plotSaveFolder + "/waveforms_womSum.pdf"), "pdf");
-              
+              cout << "print in else" << endl;
             }
           }
         }
@@ -1347,14 +1352,24 @@ void read(map<string, string> readParameters)
     fileCounter++;
   }
 
+  
   // andrea
-  // after event loop!
-  for (int i = 0; i < 8; i++) {
-    integralsWOM.cd(i+1);
-    histChannelIntegral.at(i)->Draw(Form("integral_hist_%d",i));
-  }
-  //integralsWOM.Print((TString)(plotSaveFolder + "/integrals.pdf("), "pdf");
+      // after event loop!
+      // for (int i = 0; i < 8; i++) {
+      //   cIntegralsWOM.cd(i+1);
+      //   TString name("");
+      //   name.Form("integral_hist_%d", i);
+      //   gStyle->SetOptStat(1111);
+      //   tree->Draw(name);
+      //   cIntegralsWOM.Update();
+        
+      // }
+      //cIntegralsWOM.SaveAs((TString)(plotSaveFolder + "/integrals.pdf"));
 
+      
+      //cIntegralsWOM.SaveAs((TString)(plotSaveFolder + "/integrals.pdf"));
+
+      cout << "integrals WOM channels print" << endl;
 
   if (print)
   {
@@ -1364,12 +1379,16 @@ void read(map<string, string> readParameters)
     if (numberOfBinaryFiles != 1 || forcePrintEvents > 0)
     {
       cWaves.Print((TString)(plotSaveFolder + "/waveforms.pdf)"), "pdf");
+      //cWaves.Print((TString)(plotSaveFolder + "/waveforms2.pdf)"), "pdf");
+
       womCanvas.Print((TString)(plotSaveFolder + "/waveforms_womSum.pdf)"), "pdf");
-      integralsWOM.Print((TString)(plotSaveFolder + "/integrals.pdf"), "pdf");
+      //cIntegralsWOM.Print((TString)(plotSaveFolder + "/integrals.pdf"), "pdf");
+      
+      cout << "print in if numberOfBinaryFiles" << endl;
     }
     cWaves.Clear();
     womCanvas.Clear();
-    integralsWOM.Clear();
+    //cIntegralsWOM.Clear();
     for (int i = 0; i < runChannelNumberWC; i++)
     {
       cChSum.cd(i + 1);
@@ -1383,7 +1402,21 @@ void read(map<string, string> readParameters)
       //   hChSum.at(i)->SetFillColorAlpha(4, 0.8);
     }
     cChSum.Print((TString)(plotSaveFolder + "/waveforms_chSum.pdf"), "pdf");
-    integralsWOM.Print((TString)(plotSaveFolder + "/integrals.pdf"), "pdf");
+    //cChSum.Print((TString)(plotSaveFolder + "/waveforms_chSum2.pdf"), "pdf");
+
+    // andrea
+    // after event loop!
+    for (int i = 0; i < 8; i++) {
+      cIntegralsWOM.cd(i+1);
+      TString name("");
+      name.Form("integral_hist_%d", i);
+      gStyle->SetOptStat(1111);
+      tree->Draw(name);      
+    }
+    //cIntegralsWOM.Update();
+    // cIntegralsWOM.Print((TString)(plotSaveFolder + "/integrals.pdf"), "pdf");
+    // cIntegralsWOM.Clear();
+    // cout << "print after if filecounter" << endl;
   }
 
   gErrorIgnoreLevel = kWarning;
@@ -1396,10 +1429,7 @@ void read(map<string, string> readParameters)
   rootFile->Write();
   rootFile->Close();
 
-/*   // andrea
-// set up additional root-file and root-tree for data with applied cut on timing interval
-Create root-file and root-tree for data
-//TString outFileCut = "0" + outFile(0, outFile.Length()-5) + "_cut.root";
+/*   
   TFile *rootFileCut = new TFile("cuts.root", "RECREATE");
   if (rootFileCut->IsZombie())
   {
