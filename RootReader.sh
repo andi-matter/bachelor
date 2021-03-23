@@ -306,28 +306,31 @@ readFast() {
     saveFolder=$outFolder
 	 
 	
-	echo "${saveFolder}"
+	# echo "${saveFolder}"
 	 
 	
-	echo "${outFolder}/${runNumber}.root"
+	# for dir in ${saveFolder}/*; do
+		# printf $dir 
+		# printf "\n ylgsodfij \n"
+		# if [[ $dir == *"${runNumber}"* ]]; then
+			# memDir=$dir
+			# printf "memDir "
+			# printf $memDir
+			# for file in ${memDir}/*; do
+				# echo " test here   "
+				# printf $file
+				# if [[ $file == *".root"* ]]; then
+					# memFile=$file
+					# printf "rootfile found  "
+					# printf $memFile 
+					# break
+				# fi 
+			# done 
+			# break
+		# fi
+	# done 
 	
-	for dir in "${saveFolder}/*" ; do
-		printf $dir 
-		printf "\n"
-		if [[ "$dir" == *"${runNumber}_"* ]] ; then
-			memDir = "$dir"
-			for file in "${memDir}/*" ; do
-				if [[ "$dir" == *".root"* ]] ; then
-					memFile = file
-					printf "rootfile found  "
-					printf $memFile 
-					break
-				fi 
-			done 			
-		fi
-	done 
-	
-	echo "${saveFolder}/${file}/${file}.root"
+	# echo "${saveFolder}/${file}/${file}.root"
 	
 
     if [[ " ${runNumber[@]} " =~ "a" ]]; then
@@ -431,30 +434,33 @@ readFast() {
 
     )
 	
-	for dir in "${saveFolder}/*" ; do
-		printf $dir 
-		printf "\n"
-		if [[ "$dir" == *"${runNumber}_"* ]] ; then
-			memDir = $dir
-			printf "memDir "
-			printf $memDir
-			for file in "${memDir}/*" ; do
-				echo " test here   "
-				printf $file
-				if [[ "$file" == *".root"* ]] ; then
-					memFile = $file
+	## andrea
+	for dir in ${saveFolder}/*; do
+		# printf $dir 
+		# printf "\n ylgsodfij \n"
+		if [[ $dir == *"${runNumber}"* ]]; then
+			memDir=$dir
+			# printf "memDir "
+			# printf $memDir
+			for file in ${memDir}/*; do
+				# echo " test here   "
+				# printf $file
+				if [[ $file == *".root"* ]]; then
+					memFile=$file
 					printf "rootfile found  "
 					printf $memFile 
+                    printf "\n "
 					break
 				fi 
-			done 			
+			done 
+			break
 		fi
 	done
 	
-	printf "this is the"    
-	printf "$memFile"
-	time ./src/makeIntegralsPDF "$memFile"
-	pdfunite $(find $2 -name "*integrals.pdf") $2/integrals.pdf
+	# printf "this is the"    
+	# printf $memFile
+	./src/makeIntegralsPDF "$memFile"
+	pdfunite $(find $memDir -name "*integrals.pdf") $memDir/integrals.pdf
 	echo "Doing integrals"
 	
 
