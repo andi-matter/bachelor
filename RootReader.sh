@@ -205,7 +205,7 @@ parseRunList() {
 compileRead() {
     echo "Compiling Read.C..."
     g++ ./src/geometry.C ./src/read.cpp ./src/analysis.C ./src/main.C ./src/misc.C $(root-config --libs --cflags) -lSpectrum -o ./src/read
-	g++ ./src/makeIntegralsPDF.cpp $(root-config --libs --cflags) -lSpectrum -o ./src/makeIntegralsPDF
+	#g++ ./src/makeIntegralsPDF.cpp $(root-config --libs --cflags) -lSpectrum -o ./src/makeIntegralsPDF
     echo "Compiling done!"
 }
 
@@ -253,13 +253,15 @@ readFull() {
             fi
 
             #time $here/readFull $runDir/$runName.list $inFolder/$runName/ $runDir/out.root ${lineArr[0]} ${lineArr[2]} ${lineArr[3]} ${lineArr[4]} ${lineArr[5]} ${lineArr[6]}
-
+            echo "Runnumber in readFull"
+            echo $runNumber
+            echo $runName
             time ./src/read $runDir/$runName.list $inFolder/$runName/ $runDir/$runName.root $runName $headerSize "$isDC" "$dynamicBL" "$useCalibValues" "${lineArr[0]}" "${lineArr[1]}" "${lineArr[2]}" "${lineArr[3]}" "${lineArr[4]}" "${lineArr[5]}" "$automaticWindow" "$iWForceRun"
 			
         fi
     done <./RootRunlist.txt
-	time ./src/makeIntegralsPDF $runDir/$runName.root
-	echo "Doing integrals"
+	#time ./src/makeIntegralsPDF $runDir/$runName.root
+	#echo "Doing integrals"
 }
 
 compileMerger() {
@@ -459,9 +461,10 @@ readFast() {
 	
 	# printf "this is the"    
 	# printf $memFile
-	./src/makeIntegralsPDF "$memFile"
-	pdfunite $(find $memDir -name "*integrals.pdf") $memDir/integrals.pdf
-	echo "Doing integrals"
+
+	#./src/makeIntegralsPDF "$memFile"
+	#pdfunite $(find $memDir -name "*integrals.pdf") $memDir/integrals.pdf
+	#echo "Doing integrals"
 	
 
 }
@@ -483,6 +486,13 @@ readRoot() {
 
 readFastIteration() {
 	echo "readFastITeration "
+
+    echo "Runnumber in readFastIt"
+    echo ${fastLineArr[2]}
+    echo $fastRunName
+    echo ${fastLineArr[0]}
+    echo $fastRunDir/$1.list $fastInFolder/$fastRunName/ $fastRunDir/$1/out.root $fastRunName $fastHeaderSize "$isDC" "$dynamicBL" "$useCalibValues" "${fastLineArr[0]}" "${fastLineArr[1]}" "${fastLineArr[2]}" "${fastLineArr[3]}" "${fastLineArr[4]}" "${fastLineArr[5]}" "$automaticWindow" "$iWForceRun"
+
     ./src/read $fastRunDir/$1.list $fastInFolder/$fastRunName/ $fastRunDir/$1/out.root $fastRunName $fastHeaderSize "$isDC" "$dynamicBL" "$useCalibValues" "${fastLineArr[0]}" "${fastLineArr[1]}" "${fastLineArr[2]}" "${fastLineArr[3]}" "${fastLineArr[4]}" "${fastLineArr[5]}" "$automaticWindow" "$iWForceRun"
 
 }
@@ -893,7 +903,8 @@ start() {
             echo "Runlist creation failed!"
         fi
     fi
-
+    echo "Runnumber before done"
+    echo $runNumber
     readRoot $threads $runNumber $inFolder $outFolder $headerSize
     echo "---------------------------------------------"
     echo "  ____    ___   _   _  _____ "

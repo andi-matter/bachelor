@@ -162,6 +162,7 @@ void read(map<string, string> readParameters)
 
   gErrorIgnoreLevel = defaultErrorLevel;
   string runName = readParameters["runName"];
+  cout << "runname in read" << runName << "\n" << endl;
   TString inFileList = readParameters["inFileList"];
   TString inDataFolder = readParameters["inDataFolder"];
   TString outFile = readParameters["outFile"];
@@ -169,6 +170,12 @@ void read(map<string, string> readParameters)
 
   try
   {
+
+    // std::cerr <<"#### runNumber:'" << readParameters["runNumber"] << "'\n";
+    // std::cerr <<"#### pposition:'" << readParameters["runPosition"] << "'\n";
+    // std::cerr <<"####ang:'" << readParameters["runAngle"] << "'\n";
+    // std::cerr <<"#### runener:'" << readParameters["runEnergy"] << "'\n";
+    // std::cerr <<"#### runNumberWC:'" << readParameters["runChannelNumberWC"] << "'\n";
     runNumber = stoi(readParameters["runNumber"]);
     runPosition = stoi(readParameters["runPosition"]);
     runAngle = stoi(readParameters["runAngle"]);
@@ -177,7 +184,7 @@ void read(map<string, string> readParameters)
   }
   catch (const std::exception &e)
   {
-    //  std::cerr <<"Error at runNumber:" <<e.what() << '\n';
+    // std::cerr <<"Error at runNumber:" <<e.what() << '\n';
   }
 
   switch_BL = parseBoolean(readParameters["dynamicBL"]);
@@ -1062,7 +1069,7 @@ void read(map<string, string> readParameters)
         Integral[i] = IntegralHist(&hCh, integralStartShifted, integralEndShifted, 0) * effectivFactor;
        
         // andrea
-        if (i < 8) integral_hist[i] = IntegralHist(&hCh, integralStartShifted, integralEndShifted, 0); // Integral[i];
+        if (i < 8) integral_hist[i] = effectivFactor * IntegralHist(&hCh, integralStartShifted, integralEndShifted, 0); // Integral[i];
 
         IntegralErrorP[i] = IntegralHist(&hCh, integralStartShifted, integralEndShifted, 0) * (effectivFactor + effectivFactorError);
         IntegralErrorM[i] = IntegralHist(&hCh, integralStartShifted, integralEndShifted, 0) * (effectivFactor - effectivFactorError);
