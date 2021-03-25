@@ -51,7 +51,7 @@ float pe = 47.46;  //mV*ns
 
 vector<float> calibrationCharges = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};      // dummy
 vector<float> calibrationChargeErrors = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // dummy
-string calibrationRunName = ""; //7_calib_vb58_tune8700_pcbd
+string calibrationRunName = "dummy"; //7_calib_vb58_tune8700_pcbd
 string dcIntegrationWindow = "";
 
 vector<float> BL_const = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};                       // dummy
@@ -162,7 +162,7 @@ void read(map<string, string> readParameters)
 
   gErrorIgnoreLevel = defaultErrorLevel;
   string runName = readParameters["runName"];
-  cout << "runname in read" << runName << "\n" << endl;
+  // cout << "runname in read" << runName << "\n" << endl;
   TString inFileList = readParameters["inFileList"];
   TString inDataFolder = readParameters["inDataFolder"];
   TString outFile = readParameters["outFile"];
@@ -210,6 +210,7 @@ void read(map<string, string> readParameters)
   string correctionFactorPath = "/src/CorrectionValues.txt";
 
   string calib_path_charge = workingDir + charge_file;
+  // cout << calib_path_charge << " CAlIBRATION PATH \n" << endl;
   string calib_path_bl = workingDir + baseline_file;
   string integrationWindowFile = workingDir + integrationWindowPath;
   string correctionValueFile = workingDir + correctionFactorPath;
@@ -218,6 +219,7 @@ void read(map<string, string> readParameters)
   {
     pair<vector<float>, vector<float>> pairIW = readPair(calib_path_charge, calibrationRunName, 1, 0);
     calibrationCharges = pairIW.first;
+    // cout << "calibration charges " << vectorToString(calibrationCharges) << "\n" << endl;
     calibrationChargeErrors = pairIW.second;
   }
   string iwSelection = runName;
@@ -629,7 +631,7 @@ void read(map<string, string> readParameters)
   {
 
     fileName = inDataFolder + fileName;
-    cout << fileName << endl;
+    // cout << fileName << endl;
     FILE *pFILE = fopen(fileName.Data(), "rb");
     if (pFILE == NULL)
     {
@@ -1328,7 +1330,7 @@ void read(map<string, string> readParameters)
               //cWaves.Print((TString)(plotSaveFolder + "/waveforms2.pdf("), "pdf");
 
               womCanvas.Print((TString)(plotSaveFolder + "/waveforms_womSum.pdf("), "pdf");
-              cout << "print in if filecounter" << endl;
+              // cout << "print in if filecounter" << endl;
               
             }
             else
@@ -1336,7 +1338,7 @@ void read(map<string, string> readParameters)
 
               cWaves.Print((TString)(plotSaveFolder + "/waveforms.pdf"), "pdf");
               womCanvas.Print((TString)(plotSaveFolder + "/waveforms_womSum.pdf"), "pdf");
-              cout << "print in else" << endl;
+              // cout << "print in else" << endl;
             }
           }
         }
@@ -1376,7 +1378,7 @@ void read(map<string, string> readParameters)
       
       //cIntegralsWOM.SaveAs((TString)(plotSaveFolder + "/integrals.pdf"));
 
-      cout << "integrals WOM channels print" << endl;
+      // cout << "integrals WOM channels print" << endl;
 
   if (print)
   {
@@ -1391,7 +1393,7 @@ void read(map<string, string> readParameters)
       womCanvas.Print((TString)(plotSaveFolder + "/waveforms_womSum.pdf)"), "pdf");
       //cIntegralsWOM.Print((TString)(plotSaveFolder + "/integrals.pdf"), "pdf");
       
-      cout << "print in if numberOfBinaryFiles" << endl;
+      // cout << "print in if numberOfBinaryFiles" << endl;
     }
     cWaves.Clear();
     womCanvas.Clear();

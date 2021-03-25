@@ -49,8 +49,8 @@ float stringToFloat(string text)
   } catch (const std::exception &e)
   {
     std::cerr <<"Error at stof:" <<e.what() << '\n';
-    cout << "\n";
-    cout << text << "\n" << endl;
+    // cout << "\n";
+    // cout << text << "\n" << endl;
     throw 20;
     
   }
@@ -142,8 +142,8 @@ pair<vector<float>,vector<float>> readPair(string path, string _runName, double 
       size_t pos = 0;
       std::string token;
       string calibValue;
-      cout << " string _runname " << _runName << "\n" << endl;
-      cout << " string s " << s << "\n" << endl;
+      // cout << " string _runname " << _runName << "\n" << endl;
+      // cout << " string s " << s << "\n" << endl;
       while ((pos = s.find(columnDelimiter)) != std::string::npos)
       {
         token = s.substr(0, pos); //LIKE: 33/178

@@ -235,8 +235,8 @@ readFull() {
     while read line; do
         [[ $line == \#* ]] && continue
         lineArr=($line)
-		echo HIERHER
-		echo $line
+		# echo HIERHER
+		# echo $line
 
         doRun="0"
         if [[ " ${runNumber[@]} " =~ " ${lineArr[0]} " ]]; then
@@ -253,9 +253,9 @@ readFull() {
             fi
 
             #time $here/readFull $runDir/$runName.list $inFolder/$runName/ $runDir/out.root ${lineArr[0]} ${lineArr[2]} ${lineArr[3]} ${lineArr[4]} ${lineArr[5]} ${lineArr[6]}
-            echo "Runnumber in readFull"
-            echo $runNumber
-            echo $runName
+            # echo "Runnumber in readFull"
+            # echo $runNumber
+            # echo $runName
             time ./src/read $runDir/$runName.list $inFolder/$runName/ $runDir/$runName.root $runName $headerSize "$isDC" "$dynamicBL" "$useCalibValues" "${lineArr[0]}" "${lineArr[1]}" "${lineArr[2]}" "${lineArr[3]}" "${lineArr[4]}" "${lineArr[5]}" "$automaticWindow" "$iWForceRun"
 			
         fi
@@ -487,11 +487,11 @@ readRoot() {
 readFastIteration() {
 	echo "readFastITeration "
 
-    echo "Runnumber in readFastIt"
-    echo ${fastLineArr[2]}
-    echo $fastRunName
-    echo ${fastLineArr[0]}
-    echo $fastRunDir/$1.list $fastInFolder/$fastRunName/ $fastRunDir/$1/out.root $fastRunName $fastHeaderSize "$isDC" "$dynamicBL" "$useCalibValues" "${fastLineArr[0]}" "${fastLineArr[1]}" "${fastLineArr[2]}" "${fastLineArr[3]}" "${fastLineArr[4]}" "${fastLineArr[5]}" "$automaticWindow" "$iWForceRun"
+    # echo "Runnumber in readFastIt"
+    # echo ${fastLineArr[2]}
+    # echo $fastRunName
+    # echo ${fastLineArr[0]}
+    # echo $fastRunDir/$1.list $fastInFolder/$fastRunName/ $fastRunDir/$1/out.root $fastRunName $fastHeaderSize "$isDC" "$dynamicBL" "$useCalibValues" "${fastLineArr[0]}" "${fastLineArr[1]}" "${fastLineArr[2]}" "${fastLineArr[3]}" "${fastLineArr[4]}" "${fastLineArr[5]}" "$automaticWindow" "$iWForceRun"
 
     ./src/read $fastRunDir/$1.list $fastInFolder/$fastRunName/ $fastRunDir/$1/out.root $fastRunName $fastHeaderSize "$isDC" "$dynamicBL" "$useCalibValues" "${fastLineArr[0]}" "${fastLineArr[1]}" "${fastLineArr[2]}" "${fastLineArr[3]}" "${fastLineArr[4]}" "${fastLineArr[5]}" "$automaticWindow" "$iWForceRun"
 
@@ -644,7 +644,10 @@ startAutomaticEffRun() {
             dcScriptDir=$(find $analysisPath -name 'DCProbability.py' -printf "%h\n")
 
             rootfileFolderDir=$analysisPath/rootfiles
+            echo "saved run number "
+            echo "${runNumber[@]}"
             savedRunNumber=("${runNumber[@]}")
+            echo $savedRunNumber
 
             unset runNumber
             runNumber=("${runNumberDC[@]}")
@@ -903,8 +906,8 @@ start() {
             echo "Runlist creation failed!"
         fi
     fi
-    echo "Runnumber before done"
-    echo $runNumber
+    # echo "Runnumber before done"
+    # echo $runNumber
     readRoot $threads $runNumber $inFolder $outFolder $headerSize
     echo "---------------------------------------------"
     echo "  ____    ___   _   _  _____ "
