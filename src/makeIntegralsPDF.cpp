@@ -25,7 +25,7 @@
 #include <TNtuple.h>
 #include <TImage.h>
 #include <TAttImage.h>
-#include <sys/resource.h>
+
 //C, C++
 #include <stdio.h>
 #include <assert.h>
@@ -42,16 +42,17 @@
 #include "analysis.h"
 #include "misc.h"
 #include "read.h"
-#include <linux/limits.h>
 
+
+using namespace std;
 
 int main(int argc, char *argv[]) {
   string rootfileStr = argv[1]; // takes in format e.g. ../RootAnalysis/finishedRootfiles/18_cosmics_vb58_50k_2808_PARTS.root
-  cout << "1 " << rootfileStr << endl;
+  std::cout << "1 " << rootfileStr << endl;
   
   // string directory = "" + (string) argv[2];
   // find out run file name, assuming it ends in .root
-  // cout << "2 " << directory << endl;
+  // std::cout << "2 " << directory << endl;
 
   string runName = "";
   for (int i = rootfileStr.size()-5; i >= 0; i--) {
@@ -64,29 +65,29 @@ int main(int argc, char *argv[]) {
     runName[i] = rootfileStr[i];
   }
   printf("Hello world");
-  cout << "3 " << runName << "\n" << endl;
+  std::cout << "3 " << runName << "\n" << endl;
 
 
   // if not otherwise specified, files will be save to ../RootAnalysis/integralAnalysis/runName
   // HARDCODED PATH
   string saveFolder = "";
-  if (argc == 2) { // || (string(argv[2])).empty() ) {
-    saveFolder = Form("/mnt/d/RootAnalysis/RootAnalysis/integralAnalysis/%s", runName.c_str());
-    cout << " argc 1 " << endl;
+  if (argc < 3) { // || (string(argv[2])).empty() ) {
+    saveFolder = Form("/mnt/d/Programme/RootAnalysis/RootAnalysis/integralAnalysis/%s", runName.c_str());
+    std::cout << " argc < 3 " << endl;
   } else {
-    cout << "argc not 1 " << argc << endl;
+    std::cout << "argc not <3  " << argc << endl;
     string saveFolder = argv[2]; // path specified when analysis is called (makeIntegralsPDF.sh)
-    cout << saveFolder << endl;
+    std::cout << saveFolder << endl;
   }
 
   // char* rootfile;
   // char* rootdir;
   // string str_obj_file(rootfileStr);
   // rootfile = &str_obj_file[0];
-  // cout << rootfile << endl;
+  // std::cout << rootfile << endl;
   // string str_obj_dir(rootfileStr);
   // rootdir = &str_obj_dir[0];
-  // cout << rootdir << endl;
+  // std::cout << rootdir << endl;
 
   int runNumber = 18; // DUMMY
 
@@ -106,36 +107,40 @@ int main(int argc, char *argv[]) {
   gStyle->SetLineScalePS(1);
 
 
-  FILE* integralMeans = fopen((saveFolder + "/integralMeans.txt").c_str(), "w");
+  FILE* integralMeans = fopen((saveFolder + "integralMeans.txt").c_str(), "w");
   TLine* meanLineVec[nCh];                //array of lines for mean values
 
 
-  cout << " \n hello rootfile \n" << rootfileStr << "\n" << endl;
-  printf("Analysing file: %s\n", rootfileStr.c_str());
+  std::cout << " \n hello rootfile \n" << rootfileStr << "\n" << endl;
+  printf("Analysing    file: %s\n", rootfileStr.c_str());
   TFile file(rootfileStr.c_str());
+ 
 
   if (file.IsZombie())
     {
-        cout << "Problem with file " << rootfileStr << "; check if file path is correct!" << endl;
+        std::cout << "Problem with file " << rootfileStr << "; check if file path is correct!" << endl;
         exit(-1);
     }
+  std::cout << file.IsZombie() << endl;
+
 
   TTree* tree = new TTree;
   file.GetObject("T", tree);
+  tree->GetEntry(1);
 
-  cout << "1" << endl;
+  std::cout << "1" << endl;
   
   // char rootDir[] = rootfile;
-  // cout << " before " << rootdir << endl;
+  // std::cout << " before " << rootdir << endl;
   // *(strrchr(rootdir, '/') + 1) = 0; 
-  // cout << "after " << rootdir << endl;
-  // cout << " after rootfile " << rootfile << endl;
+  // std::cout << "after " << rootdir << endl;
+  // std::cout << " after rootfile " << rootfile << endl;
   // put extra NULL check before if path can have 0 '\' also
 
   //Drawing range for histograms:
   Int_t xMin, xMax;
   xMin = -10;
-  xMax = 500;
+  xMax = 5000;
 
   //Retrieve light yield data for all channels
   TH1F* histVec[nCh];                     //array of histograms
@@ -145,7 +150,7 @@ int main(int argc, char *argv[]) {
   Float_t histStdDevErrVec[nCh];          //array of standard deviation errors
   Float_t histMaxY[nCh];
 
-  cout << "2" << endl;
+  std::cout << "2" << endl;
 
   TString histName, histTitle, histDraw;  //name and title for histogram; as well as the command to draw it which will be formatted later
   Int_t histEntries;                      //number of entries in each histogram
@@ -177,7 +182,7 @@ int main(int argc, char *argv[]) {
   //graphPad.SetLeftMargin(0.2);
   //graphPad.SetBottomMargin(0.15);
 
-  cout << "3" << endl;
+  std::cout << "3" << endl;
 
   for (int nPad = 1; nPad < 9; nPad++) {
       graphPad.cd(nPad);
@@ -187,7 +192,7 @@ int main(int argc, char *argv[]) {
       gPad->SetGrid();
   }
 
-  cout << "4" << endl;
+  std::cout << "4" << endl;
 
   for (int i = 0; i < nCh; i++) {
     graphPad.cd(i + 1);
@@ -195,15 +200,15 @@ int main(int argc, char *argv[]) {
     //Naming the histogram and setting upt the draw command:
     histTitle.Form("Channel %d (XXX degrees)", i);
     histName.Form("Hist%d", i);
-    histDraw.Form("integral_hist_%d>>Hist%d", 1, i);
-    cout << "5 " << i << endl;
-    cout << histDraw << endl;
+    histDraw.Form("integral_hist_%d>>Hist%d", i, i);
+    std::cout << "5 " << i << endl;
+    std::cout << histDraw << endl;
 
 
 
     //Drawing the Histogram:
     histVec[i] = new TH1F(histName, histTitle, (xMax - xMin), xMin, xMax);
-    cout << "5.1 " << i << endl;
+    std::cout << "5.1 " << i << endl;
     gStyle->SetTitleSize(0.08, "t"); 
     //histVec[i]->SetTitleSize(0.25, "t");
     //histVec[i]->GetXaxis()->SetTitle("Number of photoelectrons");
@@ -217,11 +222,11 @@ int main(int argc, char *argv[]) {
     histVec[i]->SetMarkerStyle(8);
     histVec[i]->SetMarkerSize(0.2);
     histVec[i]->SetMarkerColorAlpha(kBlack, 0.6);
-    cout << "5.2 " << i << endl;
+    std::cout << "5.2 " << i << endl;
 
     tree->Draw(histDraw, "", "HIST");
 
-    cout << "5.3 " << i << endl;
+    std::cout << "5.3 " << i << endl;
 
     //Getting histogram maximum (how high to draw the lines):
     histMaxY[i] = histVec[i]->GetBinContent(histVec[i]->GetMaximumBin());
@@ -276,7 +281,7 @@ int main(int argc, char *argv[]) {
     histStdDevVec[i] = histVec[i]->GetStdDev();
     histStdDevErrVec[i] = histVec[i]->GetStdDevError();
 
-    cout << "6 " << i << endl;
+    std::cout << "6 " << i << endl;
 
     //Getting histogram sum (total number of photons, for light yield vs f_{max}/f_{min} plot):
     int nCells = histVec[i]->GetNcells();
@@ -291,7 +296,7 @@ int main(int argc, char *argv[]) {
 
     //Drawing mean lines:
 
-    cout << "7 " << i << endl;
+    std::cout << "7 " << i << endl;
 
     meanLineVec[i] = new TLine(histMeanVec[i], 0, histMeanVec[i], histMaxY[i] * 1.01);
     meanLineVec[i]->SetLineColor(4);
@@ -316,11 +321,13 @@ int main(int argc, char *argv[]) {
     histVec[i]->GetXaxis()->SetRangeUser(histMeanVec[i] * (-0.2), TMath::Min(histMeanVec[i] * 4.99, (double)histVec[i]->GetNbinsX()));
 
     //Customizing the legend:
-    TLegend* histLeg = new TLegend(0.45, 0.56, 0.92, 0.92);
+    TLegend* histLeg = new TLegend(0.44, 0.68, 0.92, 0.85);
     histLeg->SetFillColorAlpha(kWhite, 0); //translucent legend
-    histLeg->SetBorderSize(0);
-    histLeg->AddEntry(meanLineVec[i], "#bar{Int.} = ", "l");
-    histLeg->AddEntry((TObject*)0, Form("%1.2f #pm %1.2f", histMeanVec[i], histMeanErrVec[i]), "");
+    histLeg->SetBorderSize(1);
+    histLeg->AddEntry(meanLineVec[i], Form("Mean = %1.2f #pm %1.2f", histMeanVec[i], histMeanErrVec[i]), "l");
+    histLeg->AddEntry((TObject*)0, Form("Entries = %d", (int) histVec[i]->GetEntries()));
+    // histLeg->AddEntry((TObject*)0, Form("Mean = %1.2f #pm %1.2f", histMeanVec[i], histMeanErrVec[i]), "");
+    gStyle->SetLegendTextSize(0.05);
     /*if (photonCut[i] > 0)
     {
         histLeg->AddEntry(leftEdgeLineVec[arg][i], Form("Cutoff Value: %d", photonCut[i]), "l");
@@ -333,15 +340,16 @@ int main(int argc, char *argv[]) {
   title.SetLabel(Form("Light yield for different Channels, Run %d, Angle XXX, Position XXX", runNumber));
 
   // save integral hist mean values & errors & stdev in integralsMeans
-  fprintf(integralMeans, "#integralMeans\tintegralMeanErr\tStdDev\tStdDevErr");
+  std::fprintf(integralMeans, "#integralMeans\tintegralMeanErr\tStdDev\tStdDevErr\n");
   for (int i=0; i<8; i++) {
-  fprintf(integralMeans, "%f\t%f\t%f\t%f", histMeanVec[i], histMeanErrVec[i], histStdDevVec[i], histStdDevErrVec[i]);
+  std::fprintf(integralMeans, "%f\t%f\t%f\t%f", histMeanVec[i], histMeanErrVec[i], histStdDevVec[i], histStdDevErrVec[i]);
+  std::fprintf(integralMeans, "\n");
   }
   fclose(integralMeans);
   
   // string location = rootdir;
   string loc_name = saveFolder + "/integrals.pdf";
-  cout << loc_name << endl;
+  std::cout << loc_name << endl;
   canvas.SaveAs(loc_name.c_str());
   //cIntegralsWOM.Clear();
 

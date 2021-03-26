@@ -26,10 +26,10 @@ done
 
 # compile makeIntegralsPDF.cpp with libraries
 echo "Compiling!"
-g++ makeIntegralsPDF.cpp `root-config --libs --cflags` -o makeIntegralsPDF
+g++ ./src/makeIntegralsPDF.cpp `root-config --libs --cflags` -o ./src/makeIntegralsPDF
 
 # Check if the file was successfully compiled:
-if [ -e makeIntegralsPDF ]
+if [ -e ./src/makeIntegralsPDF ]
 	then
 	echo "Compilation successful."
 else
@@ -41,7 +41,7 @@ file=$(find /mnt/d/Programme/RootAnalysis/RootAnalysis/finishedRootfiles -name "
 echo "file here!"
 echo $file
 
-./makeIntegralsPDF "$file"
+./src/makeIntegralsPDF "$file"
 
 
 
