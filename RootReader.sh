@@ -909,6 +909,9 @@ start() {
     # echo "Runnumber before done"
     # echo $runNumber
     readRoot $threads $runNumber $inFolder $outFolder $headerSize
+    # andrea
+    cp -v ./runlogs/cut_log.txt $outFolder/${runNumber}*
+    # end andrea
     echo "---------------------------------------------"
     echo "  ____    ___   _   _  _____ "
     echo " |  _ \  / _ \ | \ | || ____|"

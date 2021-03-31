@@ -22,3 +22,27 @@ rootFiles_done/
 src/makeIntegralsPDF
 
 RootReader2.sh
+/unused_stuff
+/src/AngularDistribution.sh
+/src/MeanAngles.cpp
+/src/MeanAngles.sh
+/src/AngularDistribution.cpp
+/variablesRead.txt
+/analysisPath.txt
+/irgendwasfestes.sh
+/irgendwasfestes.bash
+/src/PhotonCountDistribution.cpp
+/src/PhotonCountDistribution.sh
+/src/analysisPath.txt.txt
+/src/AngularDistribution.cpp
+/src/AngularDistribution.sh
+/src/Baselines.txt
+/src/CalibrationValues.txt
+/src/CorrectionValues.txt
+/src/CorrectionValuesFormated.txt
+/src/FWValues.txt
+/src/IntegrationWindows.txt
+/src/MeanAngles.cpp
+/src/MeanAngles.sh
+/src/PercentageValues.txt
+/src/PhotonCountDistribution

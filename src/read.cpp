@@ -34,6 +34,7 @@
 #include <numeric>
 #include <tuple>
 #include <map>
+#include <string>
 //specific
 #include "geometry.h"
 #include "analysis.h"
@@ -42,8 +43,18 @@
 #include <linux/limits.h>
 
 // andrea
-bool TIMINGCUTS = false;
-bool TIMEDIFFCUT = false;
+bool ANGLECUTS = true;
+bool POSITIONCUTS = true;
+float dTintervalTop = 2.0;
+float dTintervalBot = -2.0;
+float diffTopIntervalTop = 2;
+float diffTopIntervalBot = -2;
+
+Int_t angles[8] = { 0,45,90,135,180,225,270,315 };
+Int_t channelOrder[8] = { 0,1,2,3,4,5,6,7 }; // XXX //0 deg --> channel 6, 45 deg --> channel 5, 90 deg --> channel 4, ... , 315 deg --> channel 7
+
+Float_t phi_ew[9];
+// end andrea
 
 
 float SP = 0.3125; // ns per bin
@@ -51,7 +62,7 @@ float pe = 47.46;  //mV*ns
 
 vector<float> calibrationCharges = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};      // dummy
 vector<float> calibrationChargeErrors = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // dummy
-string calibrationRunName = "dummy"; //7_calib_vb58_tune8700_pcbd
+string calibrationRunName = "7_calib_vb58_tune8700_pcbd";
 string dcIntegrationWindow = "";
 
 vector<float> BL_const = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};                       // dummy
@@ -161,7 +172,7 @@ void read(map<string, string> readParameters)
  */
 
   gErrorIgnoreLevel = defaultErrorLevel;
-  string runName = readParameters["runName"];
+  std::string runName = readParameters["runName"];
   // cout << "runname in read" << runName << "\n" << endl;
   TString inFileList = readParameters["inFileList"];
   TString inDataFolder = readParameters["inDataFolder"];
@@ -519,6 +530,10 @@ void read(map<string, string> readParameters)
   for (int i=0; i<8; i++) {
     tree->Branch(Form("integral_hist_%d", i), &(integral_hist[i]), Form("integral_hist_%d/F", i));
   }
+  for (int i=0; i<8; i++) {
+    tree->Branch(Form("Phi_ew_omit_ch%d", i), &(phi_ew[i]), Form("Phi_ew_omit_ch%d/F", i));
+  }
+  tree->Branch("Phi_ew_all_ch", &(phi_ew[8]), "Phi_ew_all_ch/F");
   // tree->Branch("integral_hist_0", &integral_hist[0], "integral_hist_0/F");
   
 
@@ -978,7 +993,7 @@ void read(map<string, string> readParameters)
             Invert_Incidence13 = invert_inc;
             minCh13 = signalMinimum;           
           }
-		    } 
+		    } //end andrea
         
         else
         { //SiPMs
@@ -998,6 +1013,7 @@ void read(map<string, string> readParameters)
 
           inv_timeDifferenceTop = Invert_Incidence11 - Invert_Incidence10;
         }	
+
         if (13 == i) {
           timeDifferenceBot = Incidence13 - Incidence12;
           inv_timeDifferenceBot = Invert_Incidence13 - Invert_Incidence12;
@@ -1009,22 +1025,29 @@ void read(map<string, string> readParameters)
           timeResApprox = 0.25*(Incidence11 + Incidence10 - (Incidence12 + Incidence13));
           meanFlightTime = 0.5*(Incidence11 + Incidence10 - (Incidence12 + Incidence13));
           float absTimeDifference = fabs(timeDifference);
-          // cout << " uh oh " << absTimeDifference << endl;
-          if (15 < absTimeDifference) {
-            // skipThisEvent = true;
-            //cout << "skip this event? " << skipThisEvent << endl;
-            //cout << " greater 15! " << endl;
-            //skipThisEventInCut = true;
-          }
-          Float_t interval = 10;
-          if (TIMEDIFFCUT && (timeDifferenceTop < (-interval) || timeDifferenceTop > interval || timeDifferenceBot <(-interval) || timeDifferenceBot > interval)) {
-            skipThisEvent = true; // Dt top and Dt bot in interval [-interval, interval]
-          }
 
-          if (TIMINGCUTS && !(1.0 >= absTimeDifference)) {
-          // skipThisEventInCut = true; // total time difference in interval (0,2)
-            skipThisEvent = true;
-          }
+        // cout << " uh oh " << absTimeDifference << endl;
+        if (15 < absTimeDifference) {
+          // skipThisEvent = true;
+          //cout << "skip this event? " << skipThisEvent << endl;
+          //cout << " greater 15! " << endl;
+          //skipThisEventInCut = true;
+        }
+
+        // cut on TimeDifference -> angle:
+        // only events in Interval get counted
+        if (ANGLECUTS && !(timeDifference <= dTintervalTop && timeDifference >= dTintervalBot)) {
+          skipThisEvent = true;
+        }
+
+        // cut on timeDiffTop -> Position
+        // only events in interval get counted:
+        if (POSITIONCUTS && !(timeDifferenceTop <= diffTopIntervalTop && timeDifferenceTop >= diffTopIntervalBot)) {
+          skipThisEvent = true; // Dt top and Dt bot in interval [-interval, interval]
+        }
+        //end andrea
+
+          
         }
 
         /***
@@ -1071,7 +1094,9 @@ void read(map<string, string> readParameters)
         Integral[i] = IntegralHist(&hCh, integralStartShifted, integralEndShifted, 0) * effectivFactor;
        
         // andrea
-        if (i < 8) integral_hist[i] = effectivFactor * IntegralHist(&hCh, integralStartShifted, integralEndShifted, 0); // Integral[i];
+        if (i < 8) integral_hist[i] = Integral[i];
+        // end andrea
+
 
         IntegralErrorP[i] = IntegralHist(&hCh, integralStartShifted, integralEndShifted, 0) * (effectivFactor + effectivFactorError);
         IntegralErrorM[i] = IntegralHist(&hCh, integralStartShifted, integralEndShifted, 0) * (effectivFactor - effectivFactorError);
@@ -1215,6 +1240,50 @@ void read(map<string, string> readParameters)
         if (IntegralDiff[i] > -88 && !skipThisEvent)
           hChSum.at(i)->Add(&hCh, 1); //Dont sum empty waveforms into your sum histogram
       }
+
+      // andrea
+      float cartX;  // cartesian x value
+      float cartY;  // cartesian y value
+      float sumCartX; // sum of cart. x values
+      float sumCartY; // sum of cart. y values
+      Double_t pi = TMath::Pi();
+
+      for (int i=0; i<9; i++) { // do loop 9 times, omit every channel once, omit no channel once
+        sumCartX = 0;
+        sumCartY = 0;
+
+        for (int k=0; k<8; k++) { // sum weighted cart values from channels
+          if (k != i) { // omits channel j everytime, when j=8, no channel omitted
+            int kk = channelOrder[k]; // take corresponding angle value for each channel
+            cartX = TMath::Cos(angles[kk] * (pi/180.0)) * Integral[k];
+            cartY = TMath::Sin(angles[kk] * (pi/180.0)) * Integral[k];
+            sumCartY += cartY;
+            sumCartX += cartX;
+          }
+        }
+
+        // now to convert sumCartY and sumCartX back to polar coordinates, minding ATan periodicity
+        if (sumCartX > 0 && sumCartY >= 0) {
+          phi_ew[i] = (TMath::ATan(sumCartY / sumCartX) * 180.0 / pi);
+        } 
+        else if (sumCartX < 0) {
+          phi_ew[i] = (TMath::ATan(sumCartY / sumCartX)  + pi) * 180.0 / pi;
+        } 
+        else if (sumCartX > 0 && sumCartY < 0) {
+          phi_ew[i] = (TMath::ATan(sumCartY / sumCartX)  + 2*pi) * 180.0 / pi;
+        } 
+        else if (sumCartX = 0 && sumCartY > 0) {
+          phi_ew[i] = 0.5 * 180.0;
+        }
+        else if (sumCartX = 0 && sumCartY < 0) {
+          phi_ew[i] = -1.5* 180.0;
+        }
+      }
+
+
+
+
+      //end andrea
 
       
 
@@ -1362,23 +1431,6 @@ void read(map<string, string> readParameters)
   }
 
   
-  // andrea
-      // after event loop!
-      // for (int i = 0; i < 8; i++) {
-      //   cIntegralsWOM.cd(i+1);
-      //   TString name("");
-      //   name.Form("integral_hist_%d", i);
-      //   gStyle->SetOptStat(1111);
-      //   tree->Draw(name);
-      //   cIntegralsWOM.Update();
-        
-      // }
-      //cIntegralsWOM.SaveAs((TString)(plotSaveFolder + "/integrals.pdf"));
-
-      
-      //cIntegralsWOM.SaveAs((TString)(plotSaveFolder + "/integrals.pdf"));
-
-      // cout << "integrals WOM channels print" << endl;
 
   if (print)
   {
@@ -1388,16 +1440,14 @@ void read(map<string, string> readParameters)
     if (numberOfBinaryFiles != 1 || forcePrintEvents > 0)
     {
       cWaves.Print((TString)(plotSaveFolder + "/waveforms.pdf)"), "pdf");
-      //cWaves.Print((TString)(plotSaveFolder + "/waveforms2.pdf)"), "pdf");
+
 
       womCanvas.Print((TString)(plotSaveFolder + "/waveforms_womSum.pdf)"), "pdf");
-      //cIntegralsWOM.Print((TString)(plotSaveFolder + "/integrals.pdf"), "pdf");
-      
-      // cout << "print in if numberOfBinaryFiles" << endl;
+
     }
     cWaves.Clear();
     womCanvas.Clear();
-    //cIntegralsWOM.Clear();
+
     for (int i = 0; i < runChannelNumberWC; i++)
     {
       cChSum.cd(i + 1);
@@ -1411,21 +1461,8 @@ void read(map<string, string> readParameters)
       //   hChSum.at(i)->SetFillColorAlpha(4, 0.8);
     }
     cChSum.Print((TString)(plotSaveFolder + "/waveforms_chSum.pdf"), "pdf");
-    //cChSum.Print((TString)(plotSaveFolder + "/waveforms_chSum2.pdf"), "pdf");
 
-    // andrea
-    // after event loop!
-    for (int i = 0; i < 8; i++) {
-      cIntegralsWOM.cd(i+1);
-      TString name("");
-      name.Form("integral_hist_%d", i);
-      gStyle->SetOptStat(1111);
-      tree->Draw(name);      
-    }
-    //cIntegralsWOM.Update();
-    // cIntegralsWOM.Print((TString)(plotSaveFolder + "/integrals.pdf"), "pdf");
-    // cIntegralsWOM.Clear();
-    // cout << "print after if filecounter" << endl;
+
   }
 
   gErrorIgnoreLevel = kWarning;
@@ -1438,6 +1475,16 @@ void read(map<string, string> readParameters)
   rootFile->Write();
   rootFile->Close();
 
+  // andrea
+  FILE* cut_log = fopen("/mnt/d/Programme/RootReader/RootReader-master/runlogs/cut_log.txt", "w");
+
+  fprintf(cut_log, "#Run log of timing cuts \n");
+  fprintf(cut_log, "#Runname: \n");
+  fprintf(cut_log, "%s", runName.c_str());
+  fprintf(cut_log, "\nPosition cuts: %s\nAngle cuts: %s", POSITIONCUTS ? "true" : "false", ANGLECUTS ? "true" : "false");
+  fprintf(cut_log, "\n#POS interval left\tPOS interval right\tANGLE interval left\tANGLE interval right\n");
+  fprintf(cut_log, "%f\t%f\t%f\t%f", diffTopIntervalBot, diffTopIntervalTop, dTintervalBot, dTintervalTop);
+  fclose(cut_log);
 /*   
   TFile *rootFileCut = new TFile("cuts.root", "RECREATE");
   if (rootFileCut->IsZombie())

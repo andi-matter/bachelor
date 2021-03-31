@@ -54,40 +54,48 @@ int main(int argc, char *argv[]) {
   // find out run file name, assuming it ends in .root
   // std::cout << "2 " << directory << endl;
 
-  string runName = "";
-  for (int i = rootfileStr.size()-5; i >= 0; i--) {
+  string runNameRaw;
+  cout << rootfileStr.size()-6 << endl;
+  for (int i = rootfileStr.size()-6; i >= 0; i--) {
     if (rootfileStr.at(i) == '/' || rootfileStr.at(i) == '\\') {
-      if (i == rootfileStr.size()-5) {
-        runName = "default_name_CHANGE";
+      if (i == rootfileStr.size()-6) {
+        runNameRaw = "EGNAHC_eman_tluafed"; //"default_name_CHANGE";
+        cout << 21 << endl;
       }
+      cout << 23 << endl;
       break;
     }
-    runName[i] = rootfileStr[i];
+    cout << rootfileStr[i] << endl;
+    cout << rootfileStr.at(i) << endl;
+    runNameRaw += rootfileStr.at(i);
+    cout << runNameRaw << endl;
+    cout << 22 << endl;
   }
   printf("Hello world");
-  std::cout << "3 " << runName << "\n" << endl;
+  std::cout << "3 " << runNameRaw << "\n" << endl;
 
+  string runName = "";
+  for (int i=0; i<runNameRaw.size(); i++) {
+    cout << runNameRaw.at(runNameRaw.size()-1-i) << endl;
+    runName += runNameRaw.at(runNameRaw.size()-1-i);
+  }
+  cout << "finished runName " << runName << endl;
 
   // if not otherwise specified, files will be save to ../RootAnalysis/integralAnalysis/runName
   // HARDCODED PATH
-  string saveFolder = "";
+  string saveFolder;
   if (argc < 3) { // || (string(argv[2])).empty() ) {
-    saveFolder = Form("/mnt/d/Programme/RootAnalysis/RootAnalysis/integralAnalysis/%s", runName.c_str());
-    std::cout << " argc < 3 " << endl;
+    saveFolder = "/mnt/d/Programme/RootAnalysis/RootAnalysis/integralAnalysis/" + runName;
+    std::cout << " argc < 3 " << saveFolder <<"DUB" << endl;
   } else {
     std::cout << "argc not <3  " << argc << endl;
     string saveFolder = argv[2]; // path specified when analysis is called (makeIntegralsPDF.sh)
     std::cout << saveFolder << endl;
   }
 
-  // char* rootfile;
-  // char* rootdir;
-  // string str_obj_file(rootfileStr);
-  // rootfile = &str_obj_file[0];
-  // std::cout << rootfile << endl;
-  // string str_obj_dir(rootfileStr);
-  // rootdir = &str_obj_dir[0];
-  // std::cout << rootdir << endl;
+  const Int_t nCh = 8;
+  Int_t angles[nCh] = { 0,45,90,135,180,225,270,315 };
+  Int_t channelOrder[nCh] = { 0,1,2,3,4,5,6,7 }; // XXX //0 deg --> channel 6, 45 deg --> channel 5, 90 deg --> channel 4, ... , 315 deg --> channel 7
 
   int runNumber = 18; // DUMMY
 
@@ -96,7 +104,7 @@ int main(int argc, char *argv[]) {
   float runEnergy;
   float photonCountPerEvent;
   int nEntries;
-  const Int_t nCh = 8;                    //eight channels for WOM in COSMICS
+                      //eight channels for WOM in COSMICS
   
   //Style Settings:
   gStyle->SetOptStat(0);
@@ -106,9 +114,13 @@ int main(int argc, char *argv[]) {
   gStyle->SetGridColor(16);
   gStyle->SetLineScalePS(1);
 
-
-  FILE* integralMeans = fopen((saveFolder + "integralMeans.txt").c_str(), "w");
+  
+  std::string location = saveFolder + "/integralMeans.txt";
+  cout << location << endl;
+  FILE* integralMeans = fopen(location.c_str(), "w");
+  cout << "pointer file" << integralMeans << endl;
   TLine* meanLineVec[nCh];                //array of lines for mean values
+  
 
 
   std::cout << " \n hello rootfile \n" << rootfileStr << "\n" << endl;
@@ -143,11 +155,14 @@ int main(int argc, char *argv[]) {
   xMax = 5000;
 
   //Retrieve light yield data for all channels
+  Float_t integralMeanSum = 0; // sum of all mean values to normalise
   TH1F* histVec[nCh];                     //array of histograms
   Float_t histMeanVec[nCh];               //array of mean values
   Float_t histMeanErrVec[nCh];            //array of mean value errors
   Float_t histStdDevVec[nCh];             //array of standard deviations
   Float_t histStdDevErrVec[nCh];          //array of standard deviation errors
+  Float_t propagatedMean[nCh];             //array of normalised Mean values
+  Float_t propagatedMeanErr[nCh];         //array of propagated error for normalised Mean values
   Float_t histMaxY[nCh];
 
   std::cout << "2" << endl;
@@ -280,6 +295,7 @@ int main(int argc, char *argv[]) {
     histMeanErrVec[i] = histVec[i]->GetMeanError();
     histStdDevVec[i] = histVec[i]->GetStdDev();
     histStdDevErrVec[i] = histVec[i]->GetStdDevError();
+    integralMeanSum += histMeanVec[i];
 
     std::cout << "6 " << i << endl;
 
@@ -342,10 +358,40 @@ int main(int argc, char *argv[]) {
   // save integral hist mean values & errors & stdev in integralsMeans
   std::fprintf(integralMeans, "#integralMeans\tintegralMeanErr\tStdDev\tStdDevErr\n");
   for (int i=0; i<8; i++) {
-  std::fprintf(integralMeans, "%f\t%f\t%f\t%f", histMeanVec[i], histMeanErrVec[i], histStdDevVec[i], histStdDevErrVec[i]);
-  std::fprintf(integralMeans, "\n");
+    int j = channelOrder[i];
+    std::fprintf(integralMeans, "%f\t%f\t%f\t%f", histMeanVec[j], histMeanErrVec[j], histStdDevVec[j], histStdDevErrVec[j]);
+    std::fprintf(integralMeans, "\n");
   }
   fclose(integralMeans);
+
+  float sumOfIntegralMeans = 0;
+  float sumOfSquMeansErr = 0;
+  for (int i=0; i<nCh; i++) {
+    sumOfIntegralMeans += histMeanVec[i];
+    sumOfSquMeansErr += histMeanErrVec[i] * histMeanErrVec[i];
+  }
+
+  float N_i;
+  float dN_i;
+  float sum_N = sumOfIntegralMeans;
+
+  for (int i=0; i<nCh; i++) {
+    propagatedMean[i] = histMeanVec[i]/sumOfIntegralMeans;
+    N_i = histMeanVec[i];
+    dN_i = histMeanErrVec[i];
+
+    propagatedMeanErr[i] = TMath::Sqrt( TMath::Power(dN_i*(1/sum_N - N_i/(sum_N*sum_N)), 2) + TMath::Power(N_i/(sum_N*sum_N), 2) *(sumOfSquMeansErr - dN_i*dN_i));
+  }
+  std::string prop_location = saveFolder + "/propagatedIntegralMeans.txt";
+  FILE* propagatedIntegralMeans = fopen(prop_location.c_str(), "w");
+
+  fprintf(propagatedIntegralMeans, "#Channel angle\tprop. Mean\tprop.Mean Err\n");
+  for (int i=0; i<nCh; i++) {
+    int j = channelOrder[i];
+    fprintf(propagatedIntegralMeans, "%d\t%f\t%f", angles[j], propagatedMean[j], propagatedMeanErr[j]);   
+    fprintf(propagatedIntegralMeans, "\n"); 
+  }
+  fclose(propagatedIntegralMeans);
   
   // string location = rootdir;
   string loc_name = saveFolder + "/integrals.pdf";

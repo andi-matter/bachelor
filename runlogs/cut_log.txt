@@ -1,0 +1,7 @@
+#Run log of timing cuts 
+#Runname: 
+17_cosmics_vb58_50k_2808
+Position cuts: true
+Angle cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right
+-2.000000	2.000000	-2.000000	2.000000

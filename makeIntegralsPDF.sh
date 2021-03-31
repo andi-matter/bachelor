@@ -3,6 +3,7 @@
 for file in "/mnt/d/Programme/RootAnalysis/RootAnalysis/finishedRootfiles/*";do
     echo $file 
 done
+saveFolder=mnt/d/Programme/RootAnalysis/RootAnalysis/integralAnalysis
 running=true
 # Ask user, which file(s) should get analysed
 while $running; do
@@ -41,7 +42,16 @@ file=$(find /mnt/d/Programme/RootAnalysis/RootAnalysis/finishedRootfiles -name "
 echo "file here!"
 echo $file
 
+filename=$(basename -- "$file")
+filename="${filename%.*}"
+echo $filename
+saveFolder=/mnt/d/Programme/RootAnalysis/RootAnalysis/integralAnalysis/$filename
+mkdir $saveFolder
+echo $saveFolder
+
 ./src/makeIntegralsPDF "$file"
+
+python3 plotIntegralMeans.py "${saveFolder}/propagatedintegralMeans.txt" "$saveFolder"
 
 
 
