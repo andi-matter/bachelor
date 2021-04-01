@@ -43,12 +43,17 @@
 #include <linux/limits.h>
 
 // andrea
+#include "meanAngleFuncs.h"
+
+// andrea
 bool ANGLECUTS = true;
 bool POSITIONCUTS = true;
-float dTintervalTop = 2.0;
-float dTintervalBot = -2.0;
-float diffTopIntervalTop = 2;
-float diffTopIntervalBot = -2;
+float dTintervalTop = 1.0; // angle cut upper limit (PMT)
+float dTintervalBot = -1.0; // angle cut lower limit (PMT)
+float diffTopIntervalTop = 1; // position cut upper limit (PMT)
+float diffTopIntervalBot = -1;  // position cut lower limit (PMT)
+
+
 
 Int_t angles[8] = { 0,45,90,135,180,225,270,315 };
 Int_t channelOrder[8] = { 0,1,2,3,4,5,6,7 }; // XXX //0 deg --> channel 6, 45 deg --> channel 5, 90 deg --> channel 4, ... , 315 deg --> channel 7
@@ -170,6 +175,16 @@ void read(map<string, string> readParameters)
  *    |    /~~\ |  \ /~~\  |  | |___  |  |___ |  \ .__/ 
  *     paramaters                                                 
  */
+
+  // andrea
+  if (!ANGLECUTS) {
+    dTintervalTop = 999;
+    dTintervalBot = 999;
+  }
+  if (!POSITIONCUTS) {
+    diffTopIntervalTop = 999;
+    diffTopIntervalBot = 999;
+  } // end andrea
 
   gErrorIgnoreLevel = defaultErrorLevel;
   std::string runName = readParameters["runName"];
@@ -354,6 +369,8 @@ void read(map<string, string> readParameters)
 
   float integral_hist[8]; // save signal integrals for SiPM channels (COSMICs)
 
+  // end andrea
+
 
 
 
@@ -384,13 +401,13 @@ void read(map<string, string> readParameters)
   std::vector<TH1F> hChtemp;
   std::vector<TH1F *> hChShift;
 
-  // andrea
-  // std::vector<TH1F *> histChannelIntegral;
+
 
   Float_t amplitudeChannelSumWOM[womCount];
   Float_t chargeChannelSumWOM[womCount];
   Float_t chargeChannelSumWOMErrorP[womCount];
   Float_t chargeChannelSumWOMErrorM[womCount];
+
 
   std::vector<TH1F *> histChannelSumWOM;
   int binNumber = 1024; //Default: 1024, change with caution
@@ -526,7 +543,7 @@ void read(map<string, string> readParameters)
   tree->Branch("amplitudeMeanTop", &amplitudeMeanTop, "amplitudeMeanTop/F");
   tree->Branch("amplitudeMeanBot", &amplitudeMeanBot, "amplitudeMeanBot/F");
   tree->Branch("meanFlightTime", &meanFlightTime, "meanFlightTime/F");
-  //andrea
+ 
   for (int i=0; i<8; i++) {
     tree->Branch(Form("integral_hist_%d", i), &(integral_hist[i]), Form("integral_hist_%d/F", i));
   }
@@ -536,6 +553,11 @@ void read(map<string, string> readParameters)
   tree->Branch("Phi_ew_all_ch", &(phi_ew[8]), "Phi_ew_all_ch/F");
   // tree->Branch("integral_hist_0", &integral_hist[0], "integral_hist_0/F");
   
+  tree->Branch("angleIntTop", &dTintervalTop, "angleIntTop/F");
+  tree->Branch("angleIntBot", &dTintervalBot, "angleIntBot/F");
+  tree->Branch("posIntTop", &diffTopIntervalTop, "posIntTop/F");
+  tree->Branch("posIntBot", &diffTopIntervalBot, "posIntBot/F");
+  // end andrea
 
 
 
@@ -1278,6 +1300,17 @@ void read(map<string, string> readParameters)
         else if (sumCartX = 0 && sumCartY < 0) {
           phi_ew[i] = -1.5* 180.0;
         }
+
+        // translate angles from [0, 360] range to (-180, 180] range centered around omitted channel (channel 2 for no omissions):
+        // COSMICS specific!
+        int k;
+
+        if (i > 3 && 8 != i) k = (i + 4) % (4);
+        else if (8 != i) k = i + 4;
+        else k = 2;
+
+        phi_ew[i] = translateAngle(phi_ew[i], angles[k]);
+
       }
 
 

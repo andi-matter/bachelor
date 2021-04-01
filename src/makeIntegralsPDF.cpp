@@ -1,3 +1,7 @@
+// reads finished Rootfile from (input) folder. Prints Integral histograms for each channel to pdf. Collects Mean Integral values.
+// Calculates normalised integral men = integral mean/sum of all means & errors.
+// lists all these in .txt file propagatedIntegralMeans in Order of angles!
+
 
 //Including root functionalities:
 #include <TGraph.h>
@@ -37,18 +41,13 @@
 #include <numeric>
 #include <tuple>
 #include <map>
-//specific
-#include "geometry.h"
-#include "analysis.h"
-#include "misc.h"
-#include "read.h"
+
 
 
 using namespace std;
 
 int main(int argc, char *argv[]) {
   string rootfileStr = argv[1]; // takes in format e.g. ../RootAnalysis/finishedRootfiles/18_cosmics_vb58_50k_2808_PARTS.root
-  std::cout << "1 " << rootfileStr << endl;
   
   // string directory = "" + (string) argv[2];
   // find out run file name, assuming it ends in .root
@@ -60,44 +59,38 @@ int main(int argc, char *argv[]) {
     if (rootfileStr.at(i) == '/' || rootfileStr.at(i) == '\\') {
       if (i == rootfileStr.size()-6) {
         runNameRaw = "EGNAHC_eman_tluafed"; //"default_name_CHANGE";
-        cout << 21 << endl;
       }
-      cout << 23 << endl;
       break;
     }
-    cout << rootfileStr[i] << endl;
-    cout << rootfileStr.at(i) << endl;
     runNameRaw += rootfileStr.at(i);
-    cout << runNameRaw << endl;
-    cout << 22 << endl;
   }
-  printf("Hello world");
-  std::cout << "3 " << runNameRaw << "\n" << endl;
 
   string runName = "";
   for (int i=0; i<runNameRaw.size(); i++) {
-    cout << runNameRaw.at(runNameRaw.size()-1-i) << endl;
     runName += runNameRaw.at(runNameRaw.size()-1-i);
   }
   cout << "finished runName " << runName << endl;
+
+  string runNumberString = "";
+  for (int i=0; i<runName.size(); i++) {
+    if (runName.at(i) == '_') break;
+    runNumberString += runName.at(i);
+  }
 
   // if not otherwise specified, files will be save to ../RootAnalysis/integralAnalysis/runName
   // HARDCODED PATH
   string saveFolder;
   if (argc < 3) { // || (string(argv[2])).empty() ) {
     saveFolder = "/mnt/d/Programme/RootAnalysis/RootAnalysis/integralAnalysis/" + runName;
-    std::cout << " argc < 3 " << saveFolder <<"DUB" << endl;
   } else {
-    std::cout << "argc not <3  " << argc << endl;
     string saveFolder = argv[2]; // path specified when analysis is called (makeIntegralsPDF.sh)
-    std::cout << saveFolder << endl;
   }
 
   const Int_t nCh = 8;
   Int_t angles[nCh] = { 0,45,90,135,180,225,270,315 };
   Int_t channelOrder[nCh] = { 0,1,2,3,4,5,6,7 }; // XXX //0 deg --> channel 6, 45 deg --> channel 5, 90 deg --> channel 4, ... , 315 deg --> channel 7
 
-  int runNumber = 18; // DUMMY
+  int runNumber = stoi(runNumberString); //18; // DUMMY
 
   //Creating variables to read data from the TTree stored in the .file into our own TTree:
   int runPosition;
@@ -116,14 +109,14 @@ int main(int argc, char *argv[]) {
 
   
   std::string location = saveFolder + "/integralMeans.txt";
-  cout << location << endl;
-  FILE* integralMeans = fopen(location.c_str(), "w");
-  cout << "pointer file" << integralMeans << endl;
+
+  FILE* integralMeans = fopen(location.c_str(), "w"); // file to save unpropagated integral means
+
   TLine* meanLineVec[nCh];                //array of lines for mean values
   
 
 
-  std::cout << " \n hello rootfile \n" << rootfileStr << "\n" << endl;
+  // OPEN ROOTFILE
   printf("Analysing    file: %s\n", rootfileStr.c_str());
   TFile file(rootfileStr.c_str());
  
@@ -140,14 +133,44 @@ int main(int argc, char *argv[]) {
   file.GetObject("T", tree);
   tree->GetEntry(1);
 
-  std::cout << "1" << endl;
+  float rawAngleLimitLower, rawAngleLimitUpper;
+  float rawPositionLimitLower, rawPositionLimitUpper;
+
+  tree->SetBranchAddress("angleIntTop", &rawAngleLimitUpper);
+  tree->GetEntry(1);
+  tree->SetBranchAddress("angleIntBot", &rawAngleLimitLower);
+  tree->GetEntry(1);
+  tree->SetBranchAddress("posIntTop", &rawPositionLimitUpper);
+  tree->GetEntry(1);
+  tree->SetBranchAddress("posIntBot", &rawPositionLimitLower);
+  tree->GetEntry(1);
+
+
+  float angleUpperLimit; // angle interval right (from normal) deg
+  float angleLowerLimit; // angle interval left (from normal) deg
+  float posLeftLimit; // left position limit upper plastic scint, in cm from 0
+  float posRightLimit; // right position limit upper plastic scint, in cm from 0
   
-  // char rootDir[] = rootfile;
-  // std::cout << " before " << rootdir << endl;
-  // *(strrchr(rootdir, '/') + 1) = 0; 
-  // std::cout << "after " << rootdir << endl;
-  // std::cout << " after rootfile " << rootfile << endl;
-  // put extra NULL check before if path can have 0 '\' also
+  if (rawAngleLimitUpper == 999) {
+    angleUpperLimit = 90.0;
+    angleLowerLimit = -90.0;
+  } 
+  else {
+    angleUpperLimit = 90.0 - TMath::ATan(0.66 * 2 / (0.2998 * rawAngleLimitUpper)) / TMath::Pi() * 180.0;
+    angleLowerLimit = -90.0 - TMath::ATan(0.66 * 2 / (0.2998 * rawAngleLimitLower)) / TMath::Pi() * 180.0;
+  }
+
+  if (rawPositionLimitLower == 999) {
+    posLeftLimit = -100;
+    posRightLimit = 100;
+  }
+  else {
+    posLeftLimit = 0.2998 * 0.5 * rawPositionLimitLower * 100.0;
+    posRightLimit = 0.2998 * 0.5 * rawPositionLimitUpper * 100.0;
+  }
+
+  cout << " maybe raw angle limit upper " << TMath::ATan(0.66 * 2 / (0.2998 * rawAngleLimitUpper)) / TMath::Pi() * 180.0 << endl;
+
 
   //Drawing range for histograms:
   Int_t xMin, xMax;
@@ -172,8 +195,8 @@ int main(int argc, char *argv[]) {
 
   //Setting up the canvas:
   TCanvas canvas("canvas", "Light yield for Channels", 1557, 2000);
-  TPaveLabel title(0.1, 0.96, 0.9, 0.99, Form("Light yield for different Channels, Run %d, Angles, Position", runNumber));
-  TPaveLabel xTitle(0, 0.01, 1, 0.03, "Signal integral [mV*ns]");
+  TPaveLabel title(0.1, 0.96, 0.9, 0.99, Form("Light yield for different Channels, Run %s, [%f, %f] deg., [%f, %f]cm", runNumberString.c_str(), angleLowerLimit, angleUpperLimit, posLeftLimit, posRightLimit));
+  TPaveLabel xTitle(0, 0.01, 1, 0.03, "N_pe (estimate)");
   TPaveLabel yTitle(0.01, 0, 0.03, 1, "Number of Entries");
   title.SetTextSize(.7);
   xTitle.SetTextSize(.7);
@@ -201,7 +224,7 @@ int main(int argc, char *argv[]) {
 
   for (int nPad = 1; nPad < 9; nPad++) {
       graphPad.cd(nPad);
-      gPad->SetLeftMargin(.065); //.18
+      gPad->SetLeftMargin(.08); //.18
       gPad->SetBottomMargin(.052); //.15
       gPad->SetRightMargin(0.065);
       gPad->SetGrid();
@@ -353,7 +376,7 @@ int main(int argc, char *argv[]) {
     histLeg->Draw();
   }   //END OF LOOP OVER CHANNELS  
 
-  title.SetLabel(Form("Light yield for different Channels, Run %d, Angle XXX, Position XXX", runNumber));
+  title.SetLabel(Form("Light yield for different Channels, Run %s, [%.1f, %.1f] deg., [%.1f, %.1f]cm", runNumberString.c_str(), angleLowerLimit, angleUpperLimit, posLeftLimit, posRightLimit));
 
   // save integral hist mean values & errors & stdev in integralsMeans
   std::fprintf(integralMeans, "#integralMeans\tintegralMeanErr\tStdDev\tStdDevErr\n");
