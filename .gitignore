@@ -46,3 +46,7 @@ RootReader2.sh
 /src/MeanAngles.sh
 /src/PercentageValues.txt
 /src/PhotonCountDistribution
+src/PlastScintPlots.cpp
+src/meanAnglePlots
+src/makeIntegralsPDF
+src/makeIntegralsPDF

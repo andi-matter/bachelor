@@ -48,6 +48,8 @@
 // andrea
 bool ANGLECUTS = true;
 bool POSITIONCUTS = true;
+bool INTEGRALCUT = true;
+float integralCut = 5.0;
 float dTintervalTop = 1.0; // angle cut upper limit (PMT)
 float dTintervalBot = -1.0; // angle cut lower limit (PMT)
 float diffTopIntervalTop = 1; // position cut upper limit (PMT)
@@ -59,6 +61,7 @@ Int_t angles[8] = { 0,45,90,135,180,225,270,315 };
 Int_t channelOrder[8] = { 0,1,2,3,4,5,6,7 }; // XXX //0 deg --> channel 6, 45 deg --> channel 5, 90 deg --> channel 4, ... , 315 deg --> channel 7
 
 Float_t phi_ew[9];
+float phiStd; // Standard deviation of phi_ew (no omission) for each event
 // end andrea
 
 
@@ -551,12 +554,14 @@ void read(map<string, string> readParameters)
     tree->Branch(Form("Phi_ew_omit_ch%d", i), &(phi_ew[i]), Form("Phi_ew_omit_ch%d/F", i));
   }
   tree->Branch("Phi_ew_all_ch", &(phi_ew[8]), "Phi_ew_all_ch/F");
+  tree->Branch("Std_Phi_ew_all", &phiStd, "Std_Phi_ew_all/F");
   // tree->Branch("integral_hist_0", &integral_hist[0], "integral_hist_0/F");
   
   tree->Branch("angleIntTop", &dTintervalTop, "angleIntTop/F");
   tree->Branch("angleIntBot", &dTintervalBot, "angleIntBot/F");
   tree->Branch("posIntTop", &diffTopIntervalTop, "posIntTop/F");
   tree->Branch("posIntBot", &diffTopIntervalBot, "posIntBot/F");
+  tree->Branch("integralCut", &integralCut, "integralCut/F");
   // end andrea
 
 
@@ -1067,6 +1072,8 @@ void read(map<string, string> readParameters)
         if (POSITIONCUTS && !(timeDifferenceTop <= diffTopIntervalTop && timeDifferenceTop >= diffTopIntervalBot)) {
           skipThisEvent = true; // Dt top and Dt bot in interval [-interval, interval]
         }
+
+        
         //end andrea
 
           
@@ -1117,6 +1124,11 @@ void read(map<string, string> readParameters)
        
         // andrea
         if (i < 8) integral_hist[i] = Integral[i];
+        // cout << Integral[i] << endl;
+
+        if (INTEGRALCUT && i<8 && (Integral[i] < integralCut)) {
+          skipThisEvent = true;
+        }
         // end andrea
 
 
@@ -1261,7 +1273,7 @@ void read(map<string, string> readParameters)
 
         if (IntegralDiff[i] > -88 && !skipThisEvent)
           hChSum.at(i)->Add(&hCh, 1); //Dont sum empty waveforms into your sum histogram
-      }
+      } // end of channel loop
 
       // andrea
       float cartX;  // cartesian x value
@@ -1270,36 +1282,63 @@ void read(map<string, string> readParameters)
       float sumCartY; // sum of cart. y values
       Double_t pi = TMath::Pi();
 
+      
+
       for (int i=0; i<9; i++) { // do loop 9 times, omit every channel once, omit no channel once
         sumCartX = 0;
         sumCartY = 0;
+        float cartXarray[8];
+        float cartYarray[8];
+        float individualPhi[8];
 
         for (int k=0; k<8; k++) { // sum weighted cart values from channels
-          if (k != i) { // omits channel j everytime, when j=8, no channel omitted
+          if (k != i) { // omits channel i. when i=8, no channel omitted
             int kk = channelOrder[k]; // take corresponding angle value for each channel
             cartX = TMath::Cos(angles[kk] * (pi/180.0)) * Integral[k];
             cartY = TMath::Sin(angles[kk] * (pi/180.0)) * Integral[k];
+            
             sumCartY += cartY;
             sumCartX += cartX;
+          }
+          if (8==i) {
+            cartXarray[k] = cartX;
+            cartYarray[k] = cartY;
           }
         }
 
         // now to convert sumCartY and sumCartX back to polar coordinates, minding ATan periodicity
-        if (sumCartX > 0 && sumCartY >= 0) {
-          phi_ew[i] = (TMath::ATan(sumCartY / sumCartX) * 180.0 / pi);
-        } 
-        else if (sumCartX < 0) {
-          phi_ew[i] = (TMath::ATan(sumCartY / sumCartX)  + pi) * 180.0 / pi;
-        } 
-        else if (sumCartX > 0 && sumCartY < 0) {
-          phi_ew[i] = (TMath::ATan(sumCartY / sumCartX)  + 2*pi) * 180.0 / pi;
-        } 
-        else if (sumCartX = 0 && sumCartY > 0) {
-          phi_ew[i] = 0.5 * 180.0;
+        // if (sumCartX > 0 && sumCartY >= 0) {
+        //   phi_ew[i] = (TMath::ATan(sumCartY / sumCartX) * 180.0 / pi);
+        // } 
+        // else if (sumCartX < 0) {
+        //   phi_ew[i] = (TMath::ATan(sumCartY / sumCartX)  + pi) * 180.0 / pi;
+        // } 
+        // else if (sumCartX > 0 && sumCartY < 0) {
+        //   phi_ew[i] = (TMath::ATan(sumCartY / sumCartX)  + 2*pi) * 180.0 / pi;
+        // } 
+        // else if (sumCartX = 0 && sumCartY > 0) {
+        //   phi_ew[i] = 0.5 * 180.0;
+        // }
+        // else if (sumCartX = 0 && sumCartY < 0) {
+        //   phi_ew[i] = -1.5* 180.0;
+        // }
+
+        // now to convert sumCartY and sumCartX back to polar coordinates, minding ATan periodicity
+        phi_ew[i] = cartesianToPolar(sumCartX, sumCartY);
+
+
+        if (8 == i) {
+          // also convert indivudual weighted angles to cartesian again
+          cartesianToPolar(8, cartXarray, cartYarray, individualPhi);
+
+          // calculate the standard deviation of phi_ew for each event, only when no channel was omitted:
+          float sigma_raw = 0;
+          for (int m=0; m<8; m++) {
+            sigma_raw += (sigma_raw - individualPhi[i]) * (sigma_raw - individualPhi[i]); // XXX
+          }
+          phiStd = TMath::Sqrt(1/8.0 * sigma_raw);
         }
-        else if (sumCartX = 0 && sumCartY < 0) {
-          phi_ew[i] = -1.5* 180.0;
-        }
+        
 
         // translate angles from [0, 360] range to (-180, 180] range centered around omitted channel (channel 2 for no omissions):
         // COSMICS specific!
@@ -1455,7 +1494,7 @@ void read(map<string, string> readParameters)
       {
         skippedCount = skippedCount + 1;
       }
-    }
+    } // end of event loop
     auto nevent = tree->GetEntries();
 
     cout << "Events in Tree:  " << nevent << " Skipped:  " << skippedCount << endl;
@@ -1515,8 +1554,8 @@ void read(map<string, string> readParameters)
   fprintf(cut_log, "#Runname: \n");
   fprintf(cut_log, "%s", runName.c_str());
   fprintf(cut_log, "\nPosition cuts: %s\nAngle cuts: %s", POSITIONCUTS ? "true" : "false", ANGLECUTS ? "true" : "false");
-  fprintf(cut_log, "\n#POS interval left\tPOS interval right\tANGLE interval left\tANGLE interval right\n");
-  fprintf(cut_log, "%f\t%f\t%f\t%f", diffTopIntervalBot, diffTopIntervalTop, dTintervalBot, dTintervalTop);
+  fprintf(cut_log, "\n#POS interval left\tPOS interval right\tANGLE interval left\tANGLE interval right\tmin. N_pe\n");
+  fprintf(cut_log, "%f\t%f\t%f\t%f\t%f", diffTopIntervalBot, diffTopIntervalTop, dTintervalBot, dTintervalTop, integralCut);
   fclose(cut_log);
 /*   
   TFile *rootFileCut = new TFile("cuts.root", "RECREATE");

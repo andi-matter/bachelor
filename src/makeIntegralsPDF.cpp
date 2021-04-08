@@ -42,6 +42,9 @@
 #include <tuple>
 #include <map>
 
+//andrea
+#include "plastScintPlots.h"
+
 // git test
 
 using namespace std;
@@ -54,7 +57,7 @@ int main(int argc, char *argv[]) {
   // std::cout << "2 " << directory << endl;
 
   string runNameRaw;
-  cout << rootfileStr.size()-6 << endl;
+  // cout << rootfileStr.size()-6 << endl;
   for (int i = rootfileStr.size()-6; i >= 0; i--) {
     if (rootfileStr.at(i) == '/' || rootfileStr.at(i) == '\\') {
       if (i == rootfileStr.size()-6) {
@@ -69,7 +72,7 @@ int main(int argc, char *argv[]) {
   for (int i=0; i<runNameRaw.size(); i++) {
     runName += runNameRaw.at(runNameRaw.size()-1-i);
   }
-  cout << "finished runName " << runName << endl;
+  // cout << "finished runName " << runName << endl;
 
   string runNumberString = "";
   for (int i=0; i<runName.size(); i++) {
@@ -126,7 +129,7 @@ int main(int argc, char *argv[]) {
         std::cout << "Problem with file " << rootfileStr << "; check if file path is correct!" << endl;
         exit(-1);
     }
-  std::cout << file.IsZombie() << endl;
+  // std::cout << file.IsZombie() << endl;
 
 
   TTree* tree = new TTree;
@@ -169,8 +172,14 @@ int main(int argc, char *argv[]) {
     posRightLimit = 0.2998 * 0.5 * rawPositionLimitUpper * 100.0;
   }
 
-  cout << " maybe raw angle limit upper " << TMath::ATan(0.66 * 2 / (0.2998 * rawAngleLimitUpper)) / TMath::Pi() * 180.0 << endl;
+  // cout << " maybe raw angle limit upper " << TMath::ATan(0.66 * 2 / (0.2998 * rawAngleLimitUpper)) / TMath::Pi() * 180.0 << endl;
 
+  cout << "Writing ..." << endl;
+
+  //print Histograms of incidence times in Plastic Scintillators to PDF
+  float positionInfo[] = {(float) runNumber, angleLowerLimit, angleUpperLimit, posLeftLimit, posRightLimit};
+  plasticScintPlots(rootfileStr, saveFolder, positionInfo);
+  cout << "- plasticScintPlots.pdf" << endl;
 
   //Drawing range for histograms:
   Int_t xMin, xMax;
@@ -188,14 +197,14 @@ int main(int argc, char *argv[]) {
   Float_t propagatedMeanErr[nCh];         //array of propagated error for normalised Mean values
   Float_t histMaxY[nCh];
 
-  std::cout << "2" << endl;
+  // std::cout << "2" << endl;
 
   TString histName, histTitle, histDraw;  //name and title for histogram; as well as the command to draw it which will be formatted later
   Int_t histEntries;                      //number of entries in each histogram
 
   //Setting up the canvas:
   TCanvas canvas("canvas", "Light yield for Channels", 1557, 2000);
-  TPaveLabel title(0.1, 0.96, 0.9, 0.99, Form("Light yield for different Channels, Run %s, [%f, %f] deg., [%f, %f]cm", runNumberString.c_str(), angleLowerLimit, angleUpperLimit, posLeftLimit, posRightLimit));
+  TPaveLabel title(0.1, 0.96, 0.9, 0.99, Form("Light yield for different Channels, Run %s, [%.1f, %.1f] deg., [%.1f, %.1f]cm", runNumberString.c_str(), angleLowerLimit, angleUpperLimit, posLeftLimit, posRightLimit));
   TPaveLabel xTitle(0, 0.01, 1, 0.03, "N_pe (estimate)");
   TPaveLabel yTitle(0.01, 0, 0.03, 1, "Number of Entries");
   title.SetTextSize(.7);
@@ -220,7 +229,7 @@ int main(int argc, char *argv[]) {
   //graphPad.SetLeftMargin(0.2);
   //graphPad.SetBottomMargin(0.15);
 
-  std::cout << "3" << endl;
+  // std::cout << "3" << endl;
 
   for (int nPad = 1; nPad < 9; nPad++) {
       graphPad.cd(nPad);
@@ -230,7 +239,7 @@ int main(int argc, char *argv[]) {
       gPad->SetGrid();
   }
 
-  std::cout << "4" << endl;
+  // std::cout << "4" << endl;
 
   for (int i = 0; i < nCh; i++) {
     graphPad.cd(i + 1);
@@ -239,14 +248,14 @@ int main(int argc, char *argv[]) {
     histTitle.Form("Channel %d (XXX degrees)", i);
     histName.Form("Hist%d", i);
     histDraw.Form("integral_hist_%d>>Hist%d", i, i);
-    std::cout << "5 " << i << endl;
-    std::cout << histDraw << endl;
+    // std::cout << "5 " << i << endl;
+    // std::cout << histDraw << endl;
 
 
 
     //Drawing the Histogram:
     histVec[i] = new TH1F(histName, histTitle, (xMax - xMin), xMin, xMax);
-    std::cout << "5.1 " << i << endl;
+    // std::cout << "5.1 " << i << endl;
     gStyle->SetTitleSize(0.08, "t"); 
     //histVec[i]->SetTitleSize(0.25, "t");
     //histVec[i]->GetXaxis()->SetTitle("Number of photoelectrons");
@@ -260,11 +269,11 @@ int main(int argc, char *argv[]) {
     histVec[i]->SetMarkerStyle(8);
     histVec[i]->SetMarkerSize(0.2);
     histVec[i]->SetMarkerColorAlpha(kBlack, 0.6);
-    std::cout << "5.2 " << i << endl;
+    // std::cout << "5.2 " << i << endl;
 
     tree->Draw(histDraw, "", "HIST");
 
-    std::cout << "5.3 " << i << endl;
+    // std::cout << "5.3 " << i << endl;
 
     //Getting histogram maximum (how high to draw the lines):
     histMaxY[i] = histVec[i]->GetBinContent(histVec[i]->GetMaximumBin());
@@ -320,7 +329,7 @@ int main(int argc, char *argv[]) {
     histStdDevErrVec[i] = histVec[i]->GetStdDevError();
     integralMeanSum += histMeanVec[i];
 
-    std::cout << "6 " << i << endl;
+    // std::cout << "6 " << i << endl;
 
     //Getting histogram sum (total number of photons, for light yield vs f_{max}/f_{min} plot):
     int nCells = histVec[i]->GetNcells();
@@ -335,7 +344,7 @@ int main(int argc, char *argv[]) {
 
     //Drawing mean lines:
 
-    std::cout << "7 " << i << endl;
+    // std::cout << "7 " << i << endl;
 
     meanLineVec[i] = new TLine(histMeanVec[i], 0, histMeanVec[i], histMaxY[i] * 1.01);
     meanLineVec[i]->SetLineColor(4);
@@ -378,6 +387,8 @@ int main(int argc, char *argv[]) {
 
   title.SetLabel(Form("Light yield for different Channels, Run %s, [%.1f, %.1f] deg., [%.1f, %.1f]cm", runNumberString.c_str(), angleLowerLimit, angleUpperLimit, posLeftLimit, posRightLimit));
 
+  
+
   // save integral hist mean values & errors & stdev in integralsMeans
   std::fprintf(integralMeans, "#integralMeans\tintegralMeanErr\tStdDev\tStdDevErr\n");
   for (int i=0; i<8; i++) {
@@ -386,6 +397,8 @@ int main(int argc, char *argv[]) {
     std::fprintf(integralMeans, "\n");
   }
   fclose(integralMeans);
+
+  cout << "- integralMeans.txt" << endl;
 
   float sumOfIntegralMeans = 0;
   float sumOfSquMeansErr = 0;
@@ -406,6 +419,7 @@ int main(int argc, char *argv[]) {
     propagatedMeanErr[i] = TMath::Sqrt( TMath::Power(dN_i*(1/sum_N - N_i/(sum_N*sum_N)), 2) + TMath::Power(N_i/(sum_N*sum_N), 2) *(sumOfSquMeansErr - dN_i*dN_i));
   }
   std::string prop_location = saveFolder + "/propagatedIntegralMeans.txt";
+  cout << "henlo world" << endl;
   FILE* propagatedIntegralMeans = fopen(prop_location.c_str(), "w");
 
   fprintf(propagatedIntegralMeans, "#Channel angle\tprop. Mean\tprop.Mean Err\n");
@@ -415,11 +429,14 @@ int main(int argc, char *argv[]) {
     fprintf(propagatedIntegralMeans, "\n"); 
   }
   fclose(propagatedIntegralMeans);
+
+  cout << "- propagatedIntegralMeans.txt" << endl;
   
   // string location = rootdir;
   string loc_name = saveFolder + "/integrals.pdf";
-  std::cout << loc_name << endl;
+  // std::cout << loc_name << endl;
   canvas.SaveAs(loc_name.c_str());
+  cout << "- integrals.pdf" << endl;
   //cIntegralsWOM.Clear();
 
   // FILE* MeanList = fopen(Form("%sMeanList.txt", outPath.c_str(), runNumber[arg]), "w");

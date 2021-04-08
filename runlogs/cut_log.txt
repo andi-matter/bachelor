@@ -3,5 +3,5 @@
 17_cosmics_vb58_50k_2808
 Position cuts: true
 Angle cuts: true
-#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right
--1.000000	1.000000	-1.000000	1.000000
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe
+-1.000000	1.000000	-1.000000	1.000000	5.000000

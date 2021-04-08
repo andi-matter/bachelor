@@ -104,7 +104,7 @@ int main(int argc, char *argv[]) {
         std::cout << "Problem with file " << rootfileStr << "; check if file path is correct!" << endl;
         exit(-1);
     }
-  std::cout << file.IsZombie() << endl;
+  // std::cout << file.IsZombie() << endl;
 
   TTree* tree = new TTree;
   file.GetObject("T", tree);
@@ -202,8 +202,9 @@ int main(int argc, char *argv[]) {
 title.SetLabel(Form("Phi_ew omitting different Channel; 0deg. = opposite omitted Ch."));
 
 string loc_name = saveFolder + "/phi_ew_omitting.pdf";
-std::cout << loc_name << endl;
+// std::cout << loc_name << endl;
 canvas.SaveAs(loc_name.c_str());
+cout << "- phi_ew_omitting.pdf" << endl;
 
 canvas.Clear();
 
@@ -216,13 +217,13 @@ TString histTitle2;
 TString histName2;
 TString histDraw2;
 histTitle2.Form("Phi_ew from all channels, centered around channel 2");
-histName2.Form("Hist2");
-histDraw2.Form("Phi_ew_all_ch>>Hist2");
-cout << 2 << endl;
-TH1F* allChannels = new TH1F(histName2, histTitle2, (xMax - xMin), xMin, xMax);
-cout << 3 << endl;
+histName2.Form("HistAll");
+histDraw2.Form("Phi_ew_all_ch>>HistAll");
+// cout << 2 << endl;
+TH1F* allChannels = new TH1F(histName2, histTitle2, (xMax - xMin)/10, xMin, xMax);
+// cout << 3 << endl;
 
-cout << 1 << endl;
+// cout << 1 << endl;
 TCanvas canvas2("canvas", "Phi_ew from all channels, centered around channel 2", 2000, 1557);
 TPaveLabel xTitle2(0, 0.01, 1, 0.03, "Phi_ew (deg.)");
 TPaveLabel yTitle2(0.01, 0, 0.03, 1, "Number of Entries");
@@ -279,6 +280,7 @@ histLeg2->Draw();
 
 string loc_name2 = saveFolder + "/phi_ew_all.pdf";
 canvas2.SaveAs(loc_name2.c_str());
+cout << "- phi_ew_all.pdf" << endl;
 
 return 0;
 

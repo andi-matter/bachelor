@@ -14,8 +14,8 @@ import sys
 meansFile = sys.argv[1]
 saveFolder = sys.argv[2]
 
-print(meansFile)
-print(saveFolder)
+# print(meansFile)
+# print(saveFolder)
 
 file = open(meansFile)
 integralMeans = np.loadtxt(meansFile, skiprows=1)[:, 1]
