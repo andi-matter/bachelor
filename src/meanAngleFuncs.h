@@ -19,6 +19,21 @@ float translateAngle(float inputAngle, float zeroAngle);
 void translateAngle(float *inputAngles ,int sizeAngles, float zeroAngle);
 void cartesianToPolar(int numberEntries, float* inputX, float* inputY, float* outputAngles);
 float cartesianToPolar(float inputX, float inputY);
+void printArray(float *array, int arraySize);
+
+
+/**
+ * @brief print array, one line no commas
+ * 
+ * @param array 
+ * @param arraySize 
+ */
+void printArray(float *array, int arraySize) {
+    for (int i=0; i<arraySize; i++) {
+        cout << array[i] << " ";
+    }
+    cout << endl;
+}
 
 /**
  * @brief Convert cartesian coordinates to polar angle [0, 360)
@@ -59,38 +74,34 @@ float cartesianToPolar(float inputX, float inputY) {
 void cartesianToPolar(int numberEntries, float* inputX, float* inputY, float* outputAngles) {
     float pi = TMath::Pi();
     for (int i=0; i<numberEntries; i++) {
+        // cout << "x = " << inputX[i] << " y = " << inputY[i] << endl;
         if (inputX[i] > 0 && inputY[i] >= 0) {
           outputAngles[i] = (TMath::ATan(inputY[i] / inputX[i]) * 180.0 / pi);
+        //   cout << "case 1" << endl;
         } 
-        else if (inputX < 0) {
+        else if (inputX[i] < 0) {
           outputAngles[i] = (TMath::ATan(inputY[i] / inputX[i])  + pi) * 180.0 / pi;
+        //   cout << "case 2" << endl;
         } 
-        else if (inputX > 0 && inputY < 0) {
+        else if (inputX[i] > 0 && inputY[i] < 0) {
           outputAngles[i] = (TMath::ATan(inputY[i] / inputX[i])  + 2*pi) * 180.0 / pi;
+        //   cout << "case 3" << endl;
         } 
         else if (inputX[i] == 0 && inputY[i] > 0) {
           outputAngles[i] = 0.5 * 180.0;
+        //   cout << "case 4" << endl;
         }
         else if (inputX[i] == 0 && inputY[i] < 0) {
           outputAngles[i] = -1.5* 180.0;
-        }
+        //   cout << "case 5" << endl;
+        } else cout << "no case" << endl;
+        // printArray(outputAngles, numberEntries);
     }
 }
 
 
-void printArray(float *array, int arraySize);
-/**
- * @brief print array, one line no commas
- * 
- * @param array 
- * @param arraySize 
- */
-void printArray(float *array, int arraySize) {
-    for (int i=0; i<arraySize; i++) {
-        cout << array[i] << " ";
-    }
-    cout << endl;
-}
+
+
 
 /**
  * @brief projects angle into (-180, 180] range, where the zeroAngle is the new 0

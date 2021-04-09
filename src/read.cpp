@@ -46,8 +46,8 @@
 #include "meanAngleFuncs.h"
 
 // andrea
-bool ANGLECUTS = true;
-bool POSITIONCUTS = true;
+bool ANGLECUTS = false;
+bool POSITIONCUTS = false;
 bool INTEGRALCUT = true;
 float integralCut = 5.0;
 float dTintervalTop = 1.0; // angle cut upper limit (PMT)
@@ -58,7 +58,7 @@ float diffTopIntervalBot = -1;  // position cut lower limit (PMT)
 
 
 Int_t angles[8] = { 0,45,90,135,180,225,270,315 };
-Int_t channelOrder[8] = { 0,1,2,3,4,5,6,7 }; // XXX //0 deg --> channel 6, 45 deg --> channel 5, 90 deg --> channel 4, ... , 315 deg --> channel 7
+Int_t channelOrder[8] = { 0,1,2,3,4,5,6,7 }; // XXX //e.g. 0 deg --> channel 6, 45 deg --> channel 5, 90 deg --> channel 4, ... , 315 deg --> channel 7
 
 Float_t phi_ew[9];
 float phiStd; // Standard deviation of phi_ew (no omission) for each event
@@ -1328,20 +1328,30 @@ void read(map<string, string> readParameters)
 
 
         if (8 == i) {
+          // cout << " xes " << endl;
+          // printArray(cartXarray, 8);
+          // cout << " ys " << endl;
+          // printArray(cartYarray, 8);
+          // cout << "convert " << endl;
+
           // also convert indivudual weighted angles to cartesian again
+          // this is equivalent to making another angle list that is ordered according to which angle is assigned to which detector
           cartesianToPolar(8, cartXarray, cartYarray, individualPhi);
+
+          // printArray(individualPhi, 8);
 
           // calculate the standard deviation of phi_ew for each event, only when no channel was omitted:
           float sigma_raw = 0;
           for (int m=0; m<8; m++) {
-            sigma_raw += (sigma_raw - individualPhi[i]) * (sigma_raw - individualPhi[i]); // XXX
+            sigma_raw += (phi_ew[i] - individualPhi[m]) * (phi_ew[i] - individualPhi[m]); // XXX
+            // cout << sigma_raw << endl;
           }
-          phiStd = TMath::Sqrt(1/8.0 * sigma_raw);
+          phiStd = sqrt(1/8.0 * sigma_raw);
         }
         
 
-        // translate angles from [0, 360] range to (-180, 180] range centered around omitted channel (channel 2 for no omissions):
-        // COSMICS specific!
+        // translate angles from [0, 360) range to (-180, 180] range centered around omitted channel (channel 2 for no omissions):
+        // COSMICS specific! like everything else too basically
         int k;
 
         if (i > 3 && 8 != i) k = (i + 4) % (4);
