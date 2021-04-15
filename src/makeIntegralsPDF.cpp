@@ -168,8 +168,8 @@ int main(int argc, char *argv[]) {
     posRightLimit = 100;
   }
   else {
-    posLeftLimit = 0.2998 * 0.5 * rawPositionLimitLower * 100.0;
-    posRightLimit = 0.2998 * 0.5 * rawPositionLimitUpper * 100.0;
+    posLeftLimit = 0.2998 * 0.5 * 0.5 * rawPositionLimitLower * 100.0;
+    posRightLimit = 0.2998 * 0.5 * 0.5 * rawPositionLimitUpper * 100.0;
   }
 
   // cout << " maybe raw angle limit upper " << TMath::ATan(0.66 * 2 / (0.2998 * rawAngleLimitUpper)) / TMath::Pi() * 180.0 << endl;
@@ -419,7 +419,7 @@ int main(int argc, char *argv[]) {
     propagatedMeanErr[i] = TMath::Sqrt( TMath::Power(dN_i*(1/sum_N - N_i/(sum_N*sum_N)), 2) + TMath::Power(N_i/(sum_N*sum_N), 2) *(sumOfSquMeansErr - dN_i*dN_i));
   }
   std::string prop_location = saveFolder + "/propagatedIntegralMeans.txt";
-  cout << "henlo world" << endl;
+  // cout << "henlo world" << endl;
   FILE* propagatedIntegralMeans = fopen(prop_location.c_str(), "w");
 
   fprintf(propagatedIntegralMeans, "#Channel angle\tprop. Mean\tprop.Mean Err\n");

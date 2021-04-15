@@ -204,7 +204,7 @@ title.SetLabel(Form("Phi_ew omitting different Channel; 0deg. = opposite omitted
 string loc_name = saveFolder + "/phi_ew_omitting.pdf";
 // std::cout << loc_name << endl;
 canvas.SaveAs(loc_name.c_str());
-cout << "- phi_ew_omitting.pdf" << endl;
+std::cout << "- phi_ew_omitting.pdf" << endl;
 
 canvas.Clear();
 
@@ -213,20 +213,39 @@ canvas.Clear();
 // save phi ew histogram with no omissions too
 
 //Naming the histogram and setting upt the draw command:
+TString histTitle2Shift;
+TString histName2Shift;
+TString histDraw2Shift;
+histTitle2Shift.Form("#splitline{Phi_ew from all channels, centered around channel 2}{Shifted by + and -360 deg.}");
+histName2Shift.Form("HistAllShift");
+histDraw2Shift.Form("Phi_ew_shifted>>HistAllShift");
 TString histTitle2;
 TString histName2;
 TString histDraw2;
 histTitle2.Form("Phi_ew from all channels, centered around channel 2");
 histName2.Form("HistAll");
 histDraw2.Form("Phi_ew_all_ch>>HistAll");
+TString histTitle3;
+TString histName3;
+TString histDraw3;
+histTitle3.Form("Standard deviation Phi_ew");
+histName3.Form("HistStd");
+histDraw3.Form("Std_Phi_ew_all>>HistStd");
+
+TString histNamesPhi[] = {histName2Shift, histName2, histName3};
+TString histTitlesPhi[] = {histTitle2Shift, histTitle2, histTitle3};
+TString histDrawsPhi[] = {histDraw2Shift, histDraw2, histDraw3};
 // cout << 2 << endl;
+TH1F* phiShifted = new TH1F(histName2Shift, histTitle2Shift, 3*(xMax - xMin)/10, 3*xMin, 3*xMax);
 TH1F* allChannels = new TH1F(histName2, histTitle2, (xMax - xMin)/10, xMin, xMax);
+TH1F* stdPhiew = new TH1F(histName3, histTitle3, (1200)/10, 0, 250);
+TH1F* phiEwStuff[] = {phiShifted, allChannels, stdPhiew};
 // cout << 3 << endl;
 
 // cout << 1 << endl;
-TCanvas canvas2("canvas", "Phi_ew from all channels, centered around channel 2", 2000, 1557);
+TCanvas canvas2("canvas", "Phi_ew from all channels", 1000, 1000);
 TPaveLabel xTitle2(0, 0.01, 1, 0.03, "Phi_ew (deg.)");
-TPaveLabel yTitle2(0.01, 0, 0.03, 1, "Number of Entries");
+TPaveLabel yTitle2(0.03, 0, 0.03, 1, "#splitline{Number of Entries}{ }");
 
 xTitle2.SetTextSize(1.2);
 yTitle2.SetTextAngle(90);
@@ -240,20 +259,15 @@ yTitle2.SetBorderSize(0);
 xTitle2.SetFillColor(0);
 yTitle2.SetFillColor(0);
 
-xTitle2.Draw();
-yTitle2.Draw();
-TPad graphPad2("Graphs", "Graphs", 0.03, 0.03, 1, 0.96);
+// xTitle2.Draw();
+// yTitle2.Draw();
+TPad graphPad2("Graphs", "Graphs", 0.01, 0.03, 1, 0.96);
 graphPad2.Draw();
+graphPad2.Divide(2, 2);
 graphPad2.cd();
+TString xAxesPhiAll[] = {"Phi_ew in (deg.)", "Phi_ew in (deg.)", "Std. dev. of Phi_ew (deg.)"};
 
-gPad->SetLeftMargin(.065); //.18
-gPad->SetBottomMargin(.052); //.15
-gPad->SetRightMargin(0.065);
-gPad->SetGrid();
 
-graphPad2.cd();
-
-gStyle->SetTitleSize(0.05, "t"); 
 //histVec[i]->SetTitleSize(0.25, "t");
 //histVec[i]->GetXaxis()->SetTitle("Number of photoelectrons");
 //histVec[i]->GetXaxis()->SetTitleSize(.07);
@@ -261,26 +275,53 @@ gStyle->SetTitleSize(0.05, "t");
 //histVec[i]->GetYaxis()->SetTitle("Number of entries");
 //histVec[i]->GetYaxis()->SetTitleSize(.07);
 // allChannels->GetYaxis()->SetLabelSize(.06);
-allChannels->SetLineColorAlpha(kBlack, 0.7);
-allChannels->SetFillColorAlpha(kBlack, 0.5);
-allChannels->SetMarkerStyle(8);
-allChannels->SetMarkerSize(0.2);
-allChannels->SetMarkerColorAlpha(kBlack, 0.6);
+int is[] = {1, 3, 4};
+for (int i=0; i<3; i++) {
+  graphPad2.cd(is[i]);
 
-tree->Draw(histDraw2, "", "HIST");
+  gPad->SetLeftMargin(.12); //.18
+  gPad->SetBottomMargin(.152); //.15
+  gPad->SetRightMargin(0.065);
+  gPad->SetGrid();
 
-TLegend* histLeg2 = new TLegend(0.1, 0.78, 0.32, 0.85);
-histLeg2->SetFillColorAlpha(kWhite, 0); //translucent legend
-histLeg2->SetBorderSize(1);
-histLeg2->AddEntry((TObject*)0, Form("Entries = %d", (int) allChannels->GetEntries()));
-// histLeg->AddEntry((TObject*)0, Form("Mean = %1.2f #pm %1.2f", histMeanVec[i], histMeanErrVec[i]), "");
-gStyle->SetLegendTextSize(0.03);
+  // gStyle->SetTitleSize(0.05, "t"); 
+  // gStyle->SetTitleFontSize(13);
+  // gStyle->SetTitleFont(70, "t");
+  gStyle->SetTitleOffset(3, "t");
 
-histLeg2->Draw();
+  phiEwStuff[i]->SetLineColorAlpha(kBlack, 0.7);
+  phiEwStuff[i]->SetFillColorAlpha(kBlack, 0.5);
+  phiEwStuff[i]->SetMarkerStyle(8);
+  phiEwStuff[i]->SetMarkerSize(0.2);
+  phiEwStuff[i]->SetMarkerColorAlpha(kBlack, 0.6);
+  phiEwStuff[i]->GetXaxis()->SetTitle(xAxesPhiAll[i]);
+  phiEwStuff[i]->GetXaxis()->SetTitleOffset(1);
+  phiEwStuff[i]->GetXaxis()->SetTitleSize(0.04);
+  phiEwStuff[i]->GetYaxis()->SetTitle("Counts");
+  phiEwStuff[i]->GetYaxis()->SetTitleOffset(1.4);
+  phiEwStuff[i]->GetYaxis()->SetTitleSize(0.04);
+
+  
+
+  tree->Draw(histDrawsPhi[i], "", "HIST");
+
+  TLegend* histLeg2 = new TLegend(0.15, 0.58, 0.52, 0.65);
+  histLeg2->SetFillColorAlpha(kWhite, 0.7); //translucent legend
+  histLeg2->SetBorderSize(1);
+  histLeg2->AddEntry((TObject*)0, Form("Entries = %d", (int) phiEwStuff[i]->GetEntries()));
+  // histLeg->AddEntry((TObject*)0, Form("Mean = %1.2f #pm %1.2f", histMeanVec[i], histMeanErrVec[i]), "");
+  gStyle->SetLegendTextSize(0.03);
+  histLeg2->Draw();
+
+}
+
+
+
+
 
 string loc_name2 = saveFolder + "/phi_ew_all.pdf";
 canvas2.SaveAs(loc_name2.c_str());
-cout << "- phi_ew_all.pdf" << endl;
+std::cout << "- phi_ew_all.pdf" << endl;
 
 return 0;
 

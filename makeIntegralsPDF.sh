@@ -47,7 +47,7 @@ filename=$(basename -- "$file")
 filename="${filename%.*}"
 # echo $filename
 saveFolder=/mnt/d/Programme/RootAnalysis/RootAnalysis/integralAnalysis/$filename
-# mkdir $saveFolder
+mkdir $saveFolder
 # echo $saveFolder
 
 ./src/makeIntegralsPDF "$file"

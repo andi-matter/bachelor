@@ -52,8 +52,8 @@ bool INTEGRALCUT = true;
 float integralCut = 5.0;
 float dTintervalTop = 1.0; // angle cut upper limit (PMT)
 float dTintervalBot = -1.0; // angle cut lower limit (PMT)
-float diffTopIntervalTop = 1; // position cut upper limit (PMT)
-float diffTopIntervalBot = -1;  // position cut lower limit (PMT)
+float diffTopIntervalTop = -2.5; // position cut upper limit (PMT)
+float diffTopIntervalBot = -3.3;  // position cut lower limit (PMT)
 
 
 
@@ -62,6 +62,7 @@ Int_t channelOrder[8] = { 0,1,2,3,4,5,6,7 }; // XXX //e.g. 0 deg --> channel 6, 
 
 Float_t phi_ew[9];
 float phiStd; // Standard deviation of phi_ew (no omission) for each event
+Float_t threePhiEw[3];
 // end andrea
 
 
@@ -555,6 +556,7 @@ void read(map<string, string> readParameters)
   }
   tree->Branch("Phi_ew_all_ch", &(phi_ew[8]), "Phi_ew_all_ch/F");
   tree->Branch("Std_Phi_ew_all", &phiStd, "Std_Phi_ew_all/F");
+  tree->Branch("Phi_ew_shifted", threePhiEw, "Phi_ew_shifted[3]/F");
   // tree->Branch("integral_hist_0", &integral_hist[0], "integral_hist_0/F");
   
   tree->Branch("angleIntTop", &dTintervalTop, "angleIntTop/F");
@@ -1295,14 +1297,19 @@ void read(map<string, string> readParameters)
           if (k != i) { // omits channel i. when i=8, no channel omitted
             int kk = channelOrder[k]; // take corresponding angle value for each channel
             cartX = TMath::Cos(angles[kk] * (pi/180.0)) * Integral[k];
-            cartY = TMath::Sin(angles[kk] * (pi/180.0)) * Integral[k];
-            
+            cartY = TMath::Sin(angles[kk] * (pi/180.0)) * Integral[k];           
             sumCartY += cartY;
             sumCartX += cartX;
-          }
-          if (8==i) {
-            cartXarray[k] = cartX;
-            cartYarray[k] = cartY;
+          }        
+        }
+
+        if (8==i) {
+          for (int j=0; j<8; j++) {
+            int kk = channelOrder[j]; // take corresponding angle value for each channel
+            cartX = TMath::Cos(angles[kk] * (pi/180.0)) * Integral[j];
+            cartY = TMath::Sin(angles[kk] * (pi/180.0)) * Integral[j];
+            cartXarray[j] = cartX;
+            cartYarray[j] = cartY;
           }
         }
 
@@ -1359,7 +1366,9 @@ void read(map<string, string> readParameters)
         else k = 2;
 
         phi_ew[i] = translateAngle(phi_ew[i], angles[k]);
-
+        threePhiEw[0] = phi_ew[i] - 360.0;
+        threePhiEw[1] = phi_ew[i];
+        threePhiEw[2] = phi_ew[i] + 360.0;
       }
 
 
