@@ -243,7 +243,7 @@ TH1F* phiEwStuff[] = {phiShifted, allChannels, stdPhiew};
 // cout << 3 << endl;
 
 // cout << 1 << endl;
-TCanvas canvas2("canvas", "Phi_ew from all channels", 1000, 1000);
+TCanvas canvas2("canvas", "Phi_ew from all channels", 1500, 1000);
 TPaveLabel xTitle2(0, 0.01, 1, 0.03, "Phi_ew (deg.)");
 TPaveLabel yTitle2(0.03, 0, 0.03, 1, "#splitline{Number of Entries}{ }");
 
@@ -268,6 +268,18 @@ graphPad2.cd();
 TString xAxesPhiAll[] = {"Phi_ew in (deg.)", "Phi_ew in (deg.)", "Std. dev. of Phi_ew (deg.)"};
 
 
+// fit stuff
+TF1* g1 = new TF1("m1", "gaus", -540, -180);
+TF1* g2 = new TF1("m2", "gaus", -180, 180);
+TF1* g3 = new TF1("m3", "gaus", 180, 540);
+
+TF1* total = new TF1("mstotal", "gaus(0)+gaus(3)+gaus(6)", -540,540);
+Double_t parameters[9];
+
+
+
+
+
 //histVec[i]->SetTitleSize(0.25, "t");
 //histVec[i]->GetXaxis()->SetTitle("Number of photoelectrons");
 //histVec[i]->GetXaxis()->SetTitleSize(.07);
@@ -282,12 +294,14 @@ for (int i=0; i<3; i++) {
   gPad->SetLeftMargin(.12); //.18
   gPad->SetBottomMargin(.152); //.15
   gPad->SetRightMargin(0.065);
+  gPad->SetTopMargin(.152);
   gPad->SetGrid();
 
   // gStyle->SetTitleSize(0.05, "t"); 
   // gStyle->SetTitleFontSize(13);
   // gStyle->SetTitleFont(70, "t");
   gStyle->SetTitleOffset(3, "t");
+  gStyle->SetTitleY(1.01);
 
   phiEwStuff[i]->SetLineColorAlpha(kBlack, 0.7);
   phiEwStuff[i]->SetFillColorAlpha(kBlack, 0.5);
@@ -301,9 +315,39 @@ for (int i=0; i<3; i++) {
   phiEwStuff[i]->GetYaxis()->SetTitleOffset(1.4);
   phiEwStuff[i]->GetYaxis()->SetTitleSize(0.04);
 
-  
 
   tree->Draw(histDrawsPhi[i], "", "HIST");
+
+  // fit triple gauss
+  if (0==i) {
+    
+    phiEwStuff[i]->Fit(g1, "R");
+    phiEwStuff[i]->Fit(g2, "R+");
+    phiEwStuff[i]->Fit(g3, "R+");
+
+    g1->GetParameters(&parameters[0]);
+    g2->GetParameters(&parameters[3]);
+    g3->GetParameters(&parameters[6]);
+
+    total->SetParameters(parameters);
+    phiEwStuff[i]->Fit(total, "R+");
+
+    TF1* finishedFit = phiEwStuff[i]->GetFunction("mstotal");
+    Double_t chi2 = finishedFit->GetChisquare();
+    Double_t fitParams[9];
+    Double_t fitParamErrs[9];
+    for (int k=0; k<9; k++) {
+      fitParams[i] = finishedFit->GetParameter(i);
+      fitParamErrs[9] = finishedFit->GetParError(i);
+    }
+
+    gStyle->SetOptFit(0111);
+  }
+
+  tree->Draw(histDrawsPhi[i]); //, "", "HIST");
+  
+
+  
 
   TLegend* histLeg2 = new TLegend(0.15, 0.58, 0.52, 0.65);
   histLeg2->SetFillColorAlpha(kWhite, 0.7); //translucent legend
