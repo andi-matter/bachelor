@@ -1349,8 +1349,12 @@ void read(map<string, string> readParameters)
 
           // calculate the standard deviation of phi_ew for each event, only when no channel was omitted:
           float sigma_raw = 0;
+          float difference = 0;
           for (int m=0; m<8; m++) {
-            sigma_raw += (phi_ew[i] - individualPhi[m]) * (phi_ew[i] - individualPhi[m]); // XXX
+            difference = phi_ew[i] - individualPhi[m];
+            if (difference > 180) difference -= 180;
+            else if (difference < -180) difference += 180;
+            sigma_raw += difference * difference; // XXX
             // cout << sigma_raw << endl;
           }
           phiStd = sqrt(1/8.0 * sigma_raw);
