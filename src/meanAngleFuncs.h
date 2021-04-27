@@ -1,3 +1,30 @@
+//Including root functionalities:
+#include <TGraph.h>
+#include <TGraphErrors.h>
+#include <TMultiGraph.h>
+#include <TLine.h>
+#include <TH1F.h>
+#include <TH2D.h>
+#include <TStyle.h>
+#include <TString.h>
+#include <TCanvas.h>
+#include <TPaveLabel.h>
+#include <TPad.h>
+#include <TFile.h>
+#include <TTree.h>
+#include <TH1D.h>
+#include <TMath.h>
+#include <TLegend.h>
+#include <TCut.h>
+#include <THStack.h>
+#include <TGaxis.h>
+#include <TF1.h>
+#include <TError.h> // root verbosity level
+#include <TApplication.h>
+#include <TNtuple.h>
+#include <TImage.h>
+#include <TAttImage.h>
+
 //C, C++
 #include <stdio.h>
 #include <assert.h>
@@ -20,6 +47,28 @@ void translateAngle(float *inputAngles ,int sizeAngles, float zeroAngle);
 void cartesianToPolar(int numberEntries, float* inputX, float* inputY, float* outputAngles);
 float cartesianToPolar(float inputX, float inputY);
 void printArray(float *array, int arraySize);
+Double_t fitf(Double_t *x, Double_t *par);
+
+
+/**
+ * @brief Fitfunction for three fold gaussian with same mean, std dev, height
+ * 
+ * @param x 
+ * @param par - p0 height, p1 mean, p2 std dev, p3 base
+ * @return Double_t 
+ */
+Double_t fitf(Double_t *x, Double_t *par) {
+    Double_t p0 = par[0];
+    Double_t p1 = par[1];
+    Double_t p2 = par[2];
+    Double_t p3 = par[3];
+    Double_t val = 0;
+
+    val = p0 * (TMath::Exp(-0.5 * (x[0] - p1 - 360)/p2 * (x[0] - p1 - 360)/p2) + TMath::Exp(-0.5 * (x[0] - p1 + 360)/p2 * (x[0] - p1 + 360)/p2) + TMath::Exp(-0.5 * (x[0] - p1)/p2 * (x[0] - p1)/p2)) + p3;
+
+    return val;
+
+}
 
 
 /**
@@ -29,6 +78,13 @@ void printArray(float *array, int arraySize);
  * @param arraySize 
  */
 void printArray(float *array, int arraySize) {
+    for (int i=0; i<arraySize; i++) {
+        cout << array[i] << " ";
+    }
+    cout << endl;
+}
+
+void printArray(Double_t *array, int arraySize) {
     for (int i=0; i<arraySize; i++) {
         cout << array[i] << " ";
     }

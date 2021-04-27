@@ -47,8 +47,11 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-  string rootfileStr = argv[1]; // takes in format e.g. ../RootAnalysis/finishedRootfiles/18_cosmics_vb58_50k_2808_PARTS.root
+  // string rootfileStr;
+  // rootfileStr = argv[1]; // takes in format e.g. ../RootAnalysis/finishedRootfiles/18_cosmics_vb58_50k_2808_PARTS.root
   // std::cout << "1 " << rootfileStr << endl;
+
+  string rootfileStr = "/mnt/d/Programme/RootAnalysis/RootAnalysis/finishedRootfiles/17_cosmics_vb58_50k_2808.root";
   
   string runNameRaw;
   // cout << rootfileStr.size()-6 << endl;
@@ -77,6 +80,13 @@ int main(int argc, char *argv[]) {
   }
   // cout << "finished runName " << runName << endl;
 
+  string runNumberString = "";
+  for (int i=0; i<runName.size(); i++) {
+    if (runName.at(i) == '_') break;
+    runNumberString += runName.at(i);
+  }
+  int runNumber = stoi(runNumberString);
+
   // if not otherwise specified, files will be save to ../RootAnalysis/integralAnalysis/runName
   // HARDCODED PATH
   string saveFolder;
@@ -97,9 +107,9 @@ int main(int argc, char *argv[]) {
 
 
   // open rootfile:
-  TFile file(rootfileStr.c_str());
+  TFile* file = new TFile(rootfileStr.c_str());
  
-  if (file.IsZombie())
+  if (file->IsZombie())
     {
         std::cout << "Problem with file " << rootfileStr << "; check if file path is correct!" << endl;
         exit(-1);
@@ -107,8 +117,48 @@ int main(int argc, char *argv[]) {
   // std::cout << file.IsZombie() << endl;
 
   TTree* tree = new TTree;
-  file.GetObject("T", tree);
+  file->GetObject("T", tree);
   tree->GetEntry(1);
+
+  //find out run parameters
+  float rawAngleLimitLower, rawAngleLimitUpper;
+  float rawPositionLimitLower, rawPositionLimitUpper;
+
+  tree->SetBranchAddress("angleIntTop", &rawAngleLimitUpper);
+  tree->GetEntry(1);
+  tree->SetBranchAddress("angleIntBot", &rawAngleLimitLower);
+  tree->GetEntry(1);
+  tree->SetBranchAddress("posIntTop", &rawPositionLimitUpper);
+  tree->GetEntry(1);
+  tree->SetBranchAddress("posIntBot", &rawPositionLimitLower);
+  tree->GetEntry(1);
+
+
+  float angleUpperLimit; // angle interval right (from normal) deg
+  float angleLowerLimit; // angle interval left (from normal) deg
+  float posLeftLimit; // left position limit upper plastic scint, in cm from 0
+  float posRightLimit; // right position limit upper plastic scint, in cm from 0
+  
+  if (rawAngleLimitUpper == 999) {
+    angleUpperLimit = 90.0;
+    angleLowerLimit = -90.0;
+  } 
+  else {
+    angleUpperLimit = 90.0 - TMath::ATan(0.66 * 2 / (0.2998 * rawAngleLimitUpper)) / TMath::Pi() * 180.0;
+    angleLowerLimit = -90.0 - TMath::ATan(0.66 * 2 / (0.2998 * rawAngleLimitLower)) / TMath::Pi() * 180.0;
+  }
+
+  if (rawPositionLimitLower == 999) {
+    posLeftLimit = -100;
+    posRightLimit = 100;
+  }
+  else {
+    posLeftLimit = 0.2998 * 0.5 * 0.5 * rawPositionLimitLower * 100.0;
+    posRightLimit = 0.2998 * 0.5 * 0.5 * rawPositionLimitUpper * 100.0;
+  }
+
+  float positionInfo[] = {(float) runNumber, angleLowerLimit, angleUpperLimit, posLeftLimit, posRightLimit};
+
 
   // declare stuff to access data
   int nCh = 8;
@@ -122,10 +172,11 @@ int main(int argc, char *argv[]) {
   gStyle->SetLineScalePS(1);
 
   TCanvas canvas("canvas", "Phi_ew for channels", 1557, 2000);
-  TPaveLabel title(0.1, 0.96, 0.9, 0.99, "Phi_ew omitting different channels; centered opposite omitted channel");
+  TPaveLabel title(0.1, 0.96, 0.9, 0.99, Form("Phi_ew omitting different channels; centered opposite omitted channel, Run %s, [%.1f, %.1f] deg., [%.1f, %.1f]cm", runNumberString.c_str(), angleLowerLimit, angleUpperLimit, posLeftLimit, posRightLimit));
+  // TPaveLabel title(0.1, 0.96, 0.9, 0.99, "Phi_ew omitting different channels; centered opposite omitted channel");
   TPaveLabel xTitle(0, 0.01, 1, 0.03, "Phi_ew (deg.)");
   TPaveLabel yTitle(0.01, 0, 0.03, 1, "Number of Entries");
-  title.SetTextSize(.7);
+  title.SetTextSize(.6);
   xTitle.SetTextSize(.7);
   yTitle.SetTextAngle(90);
   yTitle.SetTextSize(.017);
@@ -199,7 +250,7 @@ int main(int argc, char *argv[]) {
 
   }
 
-title.SetLabel(Form("Phi_ew omitting different Channel; 0deg. = opposite omitted Ch."));
+title.SetLabel(Form("#splitline{Phi_ew omitting different channels; centered opposite omitted channel,}{Run %s, [%.1f, %.1f] deg., [%.1f, %.1f]cm}", runNumberString.c_str(), angleLowerLimit, angleUpperLimit, posLeftLimit, posRightLimit));
 
 string loc_name = saveFolder + "/phi_ew_omitting.pdf";
 // std::cout << loc_name << endl;
@@ -232,18 +283,22 @@ histTitle3.Form("Standard deviation Phi_ew");
 histName3.Form("HistStd");
 histDraw3.Form("Std_Phi_ew_all>>HistStd");
 
-TString histNamesPhi[] = {histName2Shift, histName2, histName3};
-TString histTitlesPhi[] = {histTitle2Shift, histTitle2, histTitle3};
-TString histDrawsPhi[] = {histDraw2Shift, histDraw2, histDraw3};
+TString histNamesPhi[] = {histName2, histName3, histName2Shift};
+TString histTitlesPhi[] = {histTitle2, histTitle3, histTitle2Shift};
+TString histDrawsPhi[] = {histDraw2, histDraw3, histDraw2Shift};
 // cout << 2 << endl;
 TH1F* phiShifted = new TH1F(histName2Shift, histTitle2Shift, 3*(xMax - xMin)/10, 3*xMin, 3*xMax);
 TH1F* allChannels = new TH1F(histName2, histTitle2, (xMax - xMin)/10, xMin, xMax);
 TH1F* stdPhiew = new TH1F(histName3, histTitle3, (1200)/10, 0, 250);
-TH1F* phiEwStuff[] = {phiShifted, allChannels, stdPhiew};
+
+TH1F* phiEwStuff[3] = {allChannels, stdPhiew, phiShifted};
 // cout << 3 << endl;
+
+
 
 // cout << 1 << endl;
 TCanvas canvas2("canvas", "Phi_ew from all channels", 1500, 1000);
+TPaveLabel title2(0.1, 0.96, 0.9, 0.99, Form("Phi_ew centered opposite omitted channel, Run %s, [%.1f, %.1f] deg., [%.1f, %.1f]cm", runNumberString.c_str(), angleLowerLimit, angleUpperLimit, posLeftLimit, posRightLimit));
 TPaveLabel xTitle2(0, 0.01, 1, 0.03, "Phi_ew (deg.)");
 TPaveLabel yTitle2(0.03, 0, 0.03, 1, "#splitline{Number of Entries}{ }");
 
@@ -261,6 +316,7 @@ yTitle2.SetFillColor(0);
 
 // xTitle2.Draw();
 // yTitle2.Draw();
+title2.Draw();
 TPad graphPad2("Graphs", "Graphs", 0.01, 0.03, 1, 0.96);
 graphPad2.Draw();
 graphPad2.Divide(2, 2);
@@ -269,13 +325,15 @@ TString xAxesPhiAll[] = {"Phi_ew in (deg.)", "Phi_ew in (deg.)", "Std. dev. of P
 
 
 // fit stuff
-TF1* g1 = new TF1("m1", "gaus", -540, -180);
-TF1* g2 = new TF1("m2", "gaus", -180, 180);
-TF1* g3 = new TF1("m3", "gaus", 180, 540);
+// TF1* g1 = new TF1("m1", "gaus", -540, -180);
+// TF1* g2 = new TF1("m2", "gaus", -180, 180);
+// TF1* g3 = new TF1("m3", "gaus", 180, 540);
 
-TF1* total = new TF1("mstotal", "gaus(0)+gaus(3)+gaus(6)", -540,540);
-Double_t parameters[9];
+TF1 *func = new TF1("tripleGauss", fitf, -540, 540, 4);
 
+
+// TF1* total = new TF1("mstotal", "gaus(0)+gaus(3)+gaus(6)", -540,540);
+// Double_t parameters[9];
 
 
 
@@ -287,7 +345,7 @@ Double_t parameters[9];
 //histVec[i]->GetYaxis()->SetTitle("Number of entries");
 //histVec[i]->GetYaxis()->SetTitleSize(.07);
 // allChannels->GetYaxis()->SetLabelSize(.06);
-int is[] = {1, 3, 4};
+int is[] = {1, 2, 3};
 for (int i=0; i<3; i++) {
   graphPad2.cd(is[i]);
 
@@ -316,48 +374,70 @@ for (int i=0; i<3; i++) {
   phiEwStuff[i]->GetYaxis()->SetTitleSize(0.04);
 
 
-  tree->Draw(histDrawsPhi[i], "", "HIST");
+  
 
   // fit triple gauss
-  if (0==i) {
-    
-    phiEwStuff[i]->Fit(g1, "R");
-    phiEwStuff[i]->Fit(g2, "R+");
-    phiEwStuff[i]->Fit(g3, "R+");
+  if (i==2) {
+    tree->Draw(histDrawsPhi[i]);
+    func->SetParameters(phiEwStuff[i]->GetMaximum(), phiEwStuff[0]->GetMean(), phiEwStuff[0]->GetRMS(), phiEwStuff[0]->GetMinimum());
+    cout << "here" << endl;
+    cout << phiEwStuff[0]->GetMaximum() << endl;
+    cout << phiEwStuff[0]->GetMean() << endl;
+    cout << phiEwStuff[0]->GetRMS() << endl;
+    cout << phiEwStuff[0]->GetMinimum() << endl;
+    func->SetParNames("Maximum", "Mean", "Sigma", "Base");
+    func->SetParLimits(0, 0, 10000);   //Making sure the gauss function is positive
+    func->SetParLimits(1, -180, 180); //Making sure the central fit peak is in the histogram range
+    func->SetParLimits(2, 0, 10000);   //Making sure the standard deviation is positive (could also just use absolute value); upper limits are arbitrary but should cover everything
+    func->SetLineWidth(5);
+    phiEwStuff[i]->Fit("tripleGauss");
 
-    g1->GetParameters(&parameters[0]);
-    g2->GetParameters(&parameters[3]);
-    g3->GetParameters(&parameters[6]);
+    tree->Draw(histDrawsPhi[i]); //, "", "HIST");
+    func->Draw("same");
 
-    total->SetParameters(parameters);
-    phiEwStuff[i]->Fit(total, "R+");
-
-    TF1* finishedFit = phiEwStuff[i]->GetFunction("mstotal");
-    Double_t chi2 = finishedFit->GetChisquare();
-    Double_t fitParams[9];
-    Double_t fitParamErrs[9];
-    for (int k=0; k<9; k++) {
-      fitParams[i] = finishedFit->GetParameter(i);
-      fitParamErrs[9] = finishedFit->GetParError(i);
+    // TF1* finishedFit = phiEwStuff[i]->GetFunction("fit");
+    Double_t chi2 = func->GetChisquare();
+    Double_t ndf = func->GetNDF();
+    Double_t fitParams[4];
+    Double_t fitParamErrs[4];
+    for (int k=0; k<4; k++) {
+      fitParams[k] = func->GetParameter(k);
+      cout << func->GetParameter(k) << endl;
+      fitParamErrs[k] = func->GetParError(k);
+      printArray(fitParams, 4);
+      printArray(fitParamErrs, 4);
     }
+    
 
-    gStyle->SetOptFit(0111);
+    TLegend* histLeg2 = new TLegend(0.8, 0.3, 1.0, 0.7);
+    histLeg2->SetFillColorAlpha(kWhite, 0.9); //translucent legend
+    histLeg2->SetBorderSize(1);
+
+    histLeg2->AddEntry((TObject*)0, Form("Entries = %d", (int) phiEwStuff[i]->GetEntries()), "");
+    histLeg2->AddEntry((TObject*)0, Form("Mean = %.2f", fitParams[1]), "");
+    histLeg2->AddEntry((TObject*)0, Form("Mean err = %.2f", fitParamErrs[1]), "");
+    histLeg2->AddEntry((TObject*)0, Form("Sigma = %.2f", fitParams[2]), "");
+    histLeg2->AddEntry((TObject*)0, Form("Sigma err = %.2f", fitParamErrs[2]), "");
+    histLeg2->AddEntry((TObject*)0, Form("Plateau = %.2f", fitParams[3]), "");
+    histLeg2->AddEntry((TObject*)0, Form("Plateau err = %.2f", fitParamErrs[3]), "");
+    histLeg2->AddEntry((TObject*)0, Form("Chi2/dof = %.2f", chi2/ndf), "");
+    // histLeg->AddEntry((TObject*)0, Form("Mean = %1.2f #pm %1.2f", histMeanVec[i], histMeanErrVec[i]), "");
+    gStyle->SetLegendTextSize(0.03);
+    histLeg2->Draw();
   }
-
-  tree->Draw(histDrawsPhi[i]); //, "", "HIST");
-  
-
-  
-
-  TLegend* histLeg2 = new TLegend(0.15, 0.58, 0.52, 0.65);
-  histLeg2->SetFillColorAlpha(kWhite, 0.7); //translucent legend
-  histLeg2->SetBorderSize(1);
-  histLeg2->AddEntry((TObject*)0, Form("Entries = %d", (int) phiEwStuff[i]->GetEntries()));
-  // histLeg->AddEntry((TObject*)0, Form("Mean = %1.2f #pm %1.2f", histMeanVec[i], histMeanErrVec[i]), "");
-  gStyle->SetLegendTextSize(0.03);
-  histLeg2->Draw();
-
+  else {
+    tree->Draw(histDrawsPhi[i]); //, "", "HIST");
+    TLegend* histLeg2 = new TLegend(0.15, 0.58, 0.52, 0.65);
+    histLeg2->SetFillColorAlpha(kWhite, 0.7); //translucent legend
+    histLeg2->SetBorderSize(1);
+    histLeg2->AddEntry((TObject*)0, Form("Entries = %d", (int) phiEwStuff[i]->GetEntries()));
+    // histLeg->AddEntry((TObject*)0, Form("Mean = %1.2f #pm %1.2f", histMeanVec[i], histMeanErrVec[i]), "");
+    gStyle->SetLegendTextSize(0.03);
+    histLeg2->Draw();
+  }
 }
+
+title2.SetLabel(Form("Phi_ew centered opposite omitted channel, Run %s, [%.1f, %.1f] deg., [%.1f, %.1f]cm", runNumberString.c_str(), angleLowerLimit, angleUpperLimit, posLeftLimit, posRightLimit));
 
 
 

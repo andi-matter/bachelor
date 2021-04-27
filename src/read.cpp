@@ -373,6 +373,15 @@ void read(map<string, string> readParameters)
 
   float integral_hist[8]; // save signal integrals for SiPM channels (COSMICs)
 
+  // cartesian values for phiew calculations 
+  float cartX;  // cartesian x value
+  float cartY;  // cartesian y value
+  float sumCartX; // sum of cart. x values
+  float sumCartY; // sum of cart. y values
+  float sigmaX; //std dev cart x values
+  float sigmaY; //std dev cart y values
+  float cartXarray[8]; // array of individual weighted x values
+  float cartYarray[8]; // array of individual weighted y values
   // end andrea
 
 
@@ -564,6 +573,15 @@ void read(map<string, string> readParameters)
   tree->Branch("posIntTop", &diffTopIntervalTop, "posIntTop/F");
   tree->Branch("posIntBot", &diffTopIntervalBot, "posIntBot/F");
   tree->Branch("integralCut", &integralCut, "integralCut/F");
+
+  tree->Branch("sumCartX", &sumCartX, "sumCartX/F");
+  tree->Branch("sumCartY", &sumCartY, "sumCartY/F");
+  tree->Branch("sigmaSumCartY", &sigmaY, "sigmaSumCartY/F");
+  tree->Branch("sigmaSumCartX", &sigmaX, "sigmaSumCartX/F");
+  for (int i=0; i<8; i++) {
+    tree->Branch("cartXi", &cartXarray[i], "cartXi/F");
+    tree->Branch("cartYi", &cartYarray[i], "cartYi/F");
+  }
   // end andrea
 
 
@@ -1278,10 +1296,6 @@ void read(map<string, string> readParameters)
       } // end of channel loop
 
       // andrea
-      float cartX;  // cartesian x value
-      float cartY;  // cartesian y value
-      float sumCartX; // sum of cart. x values
-      float sumCartY; // sum of cart. y values
       Double_t pi = TMath::Pi();
 
       
@@ -1289,8 +1303,7 @@ void read(map<string, string> readParameters)
       for (int i=0; i<9; i++) { // do loop 9 times, omit every channel once, omit no channel once
         sumCartX = 0;
         sumCartY = 0;
-        float cartXarray[8];
-        float cartYarray[8];
+        
         float individualPhi[8];
 
         for (int k=0; k<8; k++) { // sum weighted cart values from channels
@@ -1310,7 +1323,17 @@ void read(map<string, string> readParameters)
             cartY = TMath::Sin(angles[kk] * (pi/180.0)) * Integral[j];
             cartXarray[j] = cartX;
             cartYarray[j] = cartY;
+            sumCartY += 1/8.0 * cartY;
+            sumCartX += 1/8.0 * cartX;
           }
+          float sigmaX_raw;
+          float sigmaY_raw;
+          for (int j=0; j<8; j++) {
+            sigmaX_raw += (sumCartX - cartXarray[j])*(sumCartX - cartXarray[j]);
+            sigmaX_raw += (sumCartY - cartYarray[j])*(sumCartY - cartYarray[j]);
+          }
+          sigmaX = TMath::Sqrt(sigmaX_raw * 1/8.0);
+          sigmaY = TMath::Sqrt(sigmaY_raw * 1/8.0);
         }
 
         // now to convert sumCartY and sumCartX back to polar coordinates, minding ATan periodicity
