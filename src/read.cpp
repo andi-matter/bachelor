@@ -48,7 +48,7 @@
 // andrea
 bool ANGLECUTS = false;
 bool POSITIONCUTS = false;
-bool INTEGRALCUT = true;
+bool INTEGRALCUT = false;
 float integralCut = 5.0;
 float dTintervalTop = 1.0; // angle cut upper limit (PMT)
 float dTintervalBot = -1.0; // angle cut lower limit (PMT)
@@ -71,7 +71,7 @@ float pe = 47.46;  //mV*ns
 
 vector<float> calibrationCharges = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};      // dummy
 vector<float> calibrationChargeErrors = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // dummy
-string calibrationRunName = "7_calib_vb58_tune8700_pcbd";
+string calibrationRunName = "dummy"; // "7_calib_vb58_tune8700_pcbd";
 string dcIntegrationWindow = "";
 
 vector<float> BL_const = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};                       // dummy
@@ -822,6 +822,9 @@ void read(map<string, string> readParameters)
 
       for (int i = 0; i < nCh; i++)
       {
+        // start old version
+        // use for 17_cosmics_vb58_50k_2808!!!
+        /*
         nitem = fread(&ChannelNr[i], sizeof(int), 1, pFILE);
         nitem = fread(&EventIDsamIndex[i], sizeof(int), 1, pFILE);
         nitem = fread(&FirstCellToPlotsamIndex[i], sizeof(int), 1, pFILE);
@@ -839,6 +842,15 @@ void read(map<string, string> readParameters)
         nitem = fread(&floatR, 1, 4, pFILE);
         RawTriggerRate[i] = floatR;
         ChannelNr[i] = i;
+        */ 
+        // end old version
+
+        //new version
+        // use for measurements 04/2021 onward
+        nitem = fread(&ChannelNr[i], sizeof(int), 1, pFILE);
+        nitem = fread(&EventIDsamIndex[i], sizeof(int), 1, pFILE);
+        nitem = fread(&FirstCellToPlotsamIndex[i], sizeof(int), 1, pFILE);
+        // end new version
 
         /***
  *          __              __  
@@ -1296,6 +1308,8 @@ void read(map<string, string> readParameters)
       } // end of channel loop
 
       // andrea
+      // ATTENTION HERE
+      /*
       Double_t pi = TMath::Pi();
 
       
@@ -1356,7 +1370,7 @@ void read(map<string, string> readParameters)
         // now to convert sumCartY and sumCartX back to polar coordinates, minding ATan periodicity
         phi_ew[i] = cartesianToPolar(sumCartX, sumCartY);
 
-
+        
         if (8 == i) {
           // cout << " xes " << endl;
           // printArray(cartXarray, 8);
@@ -1400,7 +1414,8 @@ void read(map<string, string> readParameters)
 
 
 
-
+      */
+     // ATTENTION HERE
       //end andrea
 
       
