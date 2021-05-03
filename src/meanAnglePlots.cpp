@@ -48,10 +48,10 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
   // string rootfileStr;
-  // rootfileStr = argv[1]; // takes in format e.g. ../RootAnalysis/finishedRootfiles/18_cosmics_vb58_50k_2808_PARTS.root
-  // std::cout << "1 " << rootfileStr << endl;
+  string rootfileStr = argv[1]; // takes in format e.g. ../RootAnalysis/finishedRootfiles/18_cosmics_vb58_50k_2808_PARTS.root
+  std::cout << "1 " << rootfileStr << endl;
 
-  string rootfileStr = "/mnt/d/Programme/RootAnalysis/RootAnalysis/finishedRootfiles/17_cosmics_vb58_50k_2808.root";
+  // string rootfileStr = "/mnt/d/Programme/RootAnalysis/RootAnalysis/finishedRootfiles/17_cosmics_vb58_50k_2808.root";
   
   string runNameRaw;
   // cout << rootfileStr.size()-6 << endl;
@@ -123,6 +123,7 @@ int main(int argc, char *argv[]) {
   //find out run parameters
   float rawAngleLimitLower, rawAngleLimitUpper;
   float rawPositionLimitLower, rawPositionLimitUpper;
+  int centerChannel;
 
   tree->SetBranchAddress("angleIntTop", &rawAngleLimitUpper);
   tree->GetEntry(1);
@@ -131,6 +132,8 @@ int main(int argc, char *argv[]) {
   tree->SetBranchAddress("posIntTop", &rawPositionLimitUpper);
   tree->GetEntry(1);
   tree->SetBranchAddress("posIntBot", &rawPositionLimitLower);
+  tree->GetEntry(1);
+  tree->SetBranchAddress("CenterChannelPhiEw", &centerChannel);
   tree->GetEntry(1);
 
 
@@ -267,13 +270,13 @@ canvas.Clear();
 TString histTitle2Shift;
 TString histName2Shift;
 TString histDraw2Shift;
-histTitle2Shift.Form("#splitline{Phi_ew from all channels, centered around channel 2}{Shifted by + and -360 deg.}");
+histTitle2Shift.Form("#splitline{Phi_ew from all channels, centered around channel %d}{Shifted by + and -360 deg.}", centerChannel);
 histName2Shift.Form("HistAllShift");
 histDraw2Shift.Form("Phi_ew_shifted>>HistAllShift");
 TString histTitle2;
 TString histName2;
 TString histDraw2;
-histTitle2.Form("Phi_ew from all channels, centered around channel 2");
+histTitle2.Form("Phi_ew from all channels, centered around channel %d", centerChannel);
 histName2.Form("HistAll");
 histDraw2.Form("Phi_ew_all_ch>>HistAll");
 TString histTitle3;

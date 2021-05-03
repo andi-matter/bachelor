@@ -46,6 +46,7 @@
 #include "meanAngleFuncs.h"
 
 // andrea
+int firstTrigger = 8; // first of 4 trigger channels. COSMICS
 bool ANGLECUTS = false;
 bool POSITIONCUTS = false;
 bool INTEGRALCUT = false;
@@ -63,6 +64,7 @@ Int_t channelOrder[8] = { 0,1,2,3,4,5,6,7 }; // XXX //e.g. 0 deg --> channel 6, 
 Float_t phi_ew[9];
 float phiStd; // Standard deviation of phi_ew (no omission) for each event
 Float_t threePhiEw[3];
+int centerChannel = 1; // channel to center phi_ew around for no omissions
 // end andrea
 
 
@@ -244,6 +246,7 @@ void read(map<string, string> readParameters)
   string calib_path_bl = workingDir + baseline_file;
   string integrationWindowFile = workingDir + integrationWindowPath;
   string correctionValueFile = workingDir + correctionFactorPath;
+  cout << "correctionvaluefile" << correctionValueFile << endl;
 
   if (useConstCalibValues)
   {
@@ -342,10 +345,11 @@ void read(map<string, string> readParameters)
   float IntegralSumErrorM[runChannelNumberWC];
   
   //andrea
-  Float_t IncidenceTime[4]; // for ch 10-13 save time of signal incidence for coincidence cuts
+  Float_t IncidenceTime[4]; // for trig channels save time of signal incidence for coincidence cuts
   Float_t timeDifferenceTop; // calculate time differences between PMTs
   Float_t timeDifferenceBot;
   Float_t timeDifference; // time difference of top bottom time difference
+  // these are old names, translates to the four trigger channels, in order
   Float_t Incidence10; // incidence time channel 10
   Float_t Incidence11; // incidence time channel 11
   Float_t Incidence12; // incidence time channel 12
@@ -357,7 +361,7 @@ void read(map<string, string> readParameters)
   Float_t amplitudeMeanTop; // geometric mean
   Float_t amplitudeMeanBot;
   Float_t meanFlightTime;
-
+  // these are old names, translates to the four trigger channels, in order
   Float_t Invert_Incidence10; // incidence time channel 10, calc by CFDInvert
   Float_t Invert_Incidence11; // incidence time channel 11, calc by CFDInvert
   Float_t Invert_Incidence12;
@@ -566,6 +570,7 @@ void read(map<string, string> readParameters)
   tree->Branch("Phi_ew_all_ch", &(phi_ew[8]), "Phi_ew_all_ch/F");
   tree->Branch("Std_Phi_ew_all", &phiStd, "Std_Phi_ew_all/F");
   tree->Branch("Phi_ew_shifted", threePhiEw, "Phi_ew_shifted[3]/F");
+  tree->Branch("CenterChannelPhiEw", &centerChannel, "CenterChannelPhiEw/I");
   // tree->Branch("integral_hist_0", &integral_hist[0], "integral_hist_0/F");
   
   tree->Branch("angleIntTop", &dTintervalTop, "angleIntTop/F");
@@ -998,22 +1003,28 @@ void read(map<string, string> readParameters)
  *     |  |  |  | | | \| \__>    .__/ | |     |  | .__/ 
  *                               timing sipms                       
  */
-
+        /* Deactivated for COSMICS from 04/2021 since four trigger channels now
         if (i == triggerChannel)
         {                                //trigger
           t[i] = CFDNegative(&hCh, 0.5); //Negative Trigger
         }
-		    else if ((i==10 || i==11 || i==12 || i==13)){ //andrea
+        */
+
+        // andrea
+		    if ((i==firstTrigger || i==firstTrigger+1 || i==firstTrigger+2 || i==firstTrigger+3)){ 
           float threshold = 0.5;
-          int offset = 90;
+          int offset = 120;
           if (EventNumber % 10000 == 0) {
             cout << "Threshold for CFD in timing: " << threshold << "Offset: " << offset << endl;
           }
 
           // andrea
           Float_t inc = CFDNegativeCustom(&hChtemp.at(i), threshold, offset); // search half peak from peak - offset up
+
+          // cout << "channel number inc time" << i << endl;
+
           Float_t invert_inc = CFDNegativeInvert(&hChtemp.at(i), threshold); // search half peak from peak down
-			    IncidenceTime[i-10] = inc; // want to record signal time from PMTs
+			    IncidenceTime[i-8] = inc; // want to record signal time from PMTs
           
           
           
@@ -1026,7 +1037,7 @@ void read(map<string, string> readParameters)
           
           // cout << "minimum signal " << signalMinimum << endl;
           // bla bla blaaa
-          if (10 == i) {
+          if (firstTrigger == i) {
             Incidence10 = inc;
             Invert_Incidence10 = invert_inc;
             minCh10 = signalMinimum;
@@ -1037,17 +1048,17 @@ void read(map<string, string> readParameters)
               cout << inc << minCh10 << endl;
             }
           }   
-          if (11 == i) {
+          if (firstTrigger+1 == i) {
             Incidence11 = inc;
             Invert_Incidence11 = invert_inc;
             minCh11 = signalMinimum;
           }
-          if (12 == i) {
+          if (firstTrigger+2 == i) {
             Incidence12 = inc;
             Invert_Incidence12 = invert_inc;
             minCh12 = signalMinimum;
           }
-          if (13 == i) {
+          if (firstTrigger+3 == i) {
             Incidence13 = inc;
             Invert_Incidence13 = invert_inc;
             minCh13 = signalMinimum;           
@@ -1065,7 +1076,7 @@ void read(map<string, string> readParameters)
         }
 
 		//andrea
-        if (11 == i) {
+        if (firstTrigger+1 == i) {
           timeDifferenceTop = Incidence11 - Incidence10;
           timeMeanTop = 0.5*(Incidence11 + Incidence10);
           amplitudeMeanTop = sqrtf(fabs(minCh10 * minCh11));
@@ -1073,7 +1084,7 @@ void read(map<string, string> readParameters)
           inv_timeDifferenceTop = Invert_Incidence11 - Invert_Incidence10;
         }	
 
-        if (13 == i) {
+        if (firstTrigger+3 == i) {
           timeDifferenceBot = Incidence13 - Incidence12;
           inv_timeDifferenceBot = Invert_Incidence13 - Invert_Incidence12;
           inv_timeDifference = inv_timeDifferenceTop - inv_timeDifferenceBot;
@@ -1152,7 +1163,7 @@ void read(map<string, string> readParameters)
         float effectivFactor = correctionValues[shiftedIndex] / calibrationCharges.at(shiftedIndex);
         float effectivFactorError = sqrt(pow((correctionValueError / calibrationCharges.at(shiftedIndex)), 2) + pow((correctionValues[shiftedIndex] * calibrationError / pow(calibrationCharges.at(shiftedIndex), 2)), 2));
 
-        Integral[i] = IntegralHist(&hCh, integralStartShifted, integralEndShifted, 0) * effectivFactor;
+        Integral[i] = IntegralHist(&hCh, integralStartShifted, integralEndShifted, 0) ; //* effectivFactor;
        
         // andrea
         if (i < 8) integral_hist[i] = Integral[i];
@@ -1309,7 +1320,7 @@ void read(map<string, string> readParameters)
 
       // andrea
       // ATTENTION HERE
-      /*
+      
       Double_t pi = TMath::Pi();
 
       
@@ -1398,13 +1409,14 @@ void read(map<string, string> readParameters)
         }
         
 
-        // translate angles from [0, 360) range to (-180, 180] range centered around omitted channel (channel 2 for no omissions):
+        // translate angles from [0, 360) range to (-180, 180] range centered around omitted channel (channel k for no omissions):
         // COSMICS specific! like everything else too basically
         int k;
 
         if (i > 3 && 8 != i) k = (i + 4) % (4);
         else if (8 != i) k = i + 4;
-        else k = 2;
+        else k = centerChannel; // no channels omitted
+
 
         phi_ew[i] = translateAngle(phi_ew[i], angles[k]);
         threePhiEw[0] = phi_ew[i] - 360.0;
@@ -1414,7 +1426,7 @@ void read(map<string, string> readParameters)
 
 
 
-      */
+      
      // ATTENTION HERE
       //end andrea
 
