@@ -15,6 +15,7 @@
 #include <TPaveLabel.h>
 #include <TPad.h>
 #include <TFile.h>
+#include <TFitResult.h>
 #include <TTree.h>
 #include <TH1D.h>
 #include <TMath.h>
@@ -381,19 +382,31 @@ for (int i=0; i<3; i++) {
 
   // fit triple gauss
   if (i==2) {
+    string fitLog_loc = saveFolder + "/.." + "/fitlog.txt";
+    FILE* fitLog = fopen(fitLog_loc.c_str(), "a");
     tree->Draw(histDrawsPhi[i]);
     func->SetParameters(phiEwStuff[i]->GetMaximum(), phiEwStuff[0]->GetMean(), phiEwStuff[0]->GetRMS(), phiEwStuff[0]->GetMinimum());
-    cout << "here" << endl;
-    cout << phiEwStuff[0]->GetMaximum() << endl;
-    cout << phiEwStuff[0]->GetMean() << endl;
-    cout << phiEwStuff[0]->GetRMS() << endl;
-    cout << phiEwStuff[0]->GetMinimum() << endl;
+    // cout << "here" << endl;
+    // cout << phiEwStuff[0]->GetMaximum() << endl;
+    // cout << phiEwStuff[0]->GetMean() << endl;
+    // cout << phiEwStuff[0]->GetRMS() << endl;
+    // cout << phiEwStuff[0]->GetMinimum() << endl;
     func->SetParNames("Maximum", "Mean", "Sigma", "Base");
     func->SetParLimits(0, 0, 10000);   //Making sure the gauss function is positive
     func->SetParLimits(1, -180, 180); //Making sure the central fit peak is in the histogram range
     func->SetParLimits(2, 0, 10000);   //Making sure the standard deviation is positive (could also just use absolute value); upper limits are arbitrary but should cover everything
     func->SetLineWidth(5);
     phiEwStuff[i]->Fit("tripleGauss");
+    TFitResultPtr resultPtr = phiEwStuff[i]->Fit(func,"S");
+    TMatrixDSym cov = resultPtr->GetCovarianceMatrix();
+    cout << "covariance" << endl;
+    cov.Print();
+    // cov.Write((saveFolder+"/covarianceMatrix.txt").c_str());
+    // resultPtr->Print("V") >> fitLog;
+    // resultPtr->Write();
+
+    
+
 
     tree->Draw(histDrawsPhi[i]); //, "", "HIST");
     func->Draw("same");
@@ -405,12 +418,56 @@ for (int i=0; i<3; i++) {
     Double_t fitParamErrs[4];
     for (int k=0; k<4; k++) {
       fitParams[k] = func->GetParameter(k);
-      cout << func->GetParameter(k) << endl;
+      // cout << func->GetParameter(k) << endl;
       fitParamErrs[k] = func->GetParError(k);
-      printArray(fitParams, 4);
-      printArray(fitParamErrs, 4);
+      // printArray(fitParams, 4);
+      // printArray(fitParamErrs, 4);
     }
+
+    Double_t covMatrixSave[4][4];
     
+    for (int m=0; m<4; m++) {
+      for (int n=0; n<4; n++) {
+        covMatrixSave[m][n] = cov(m,n);
+      }
+    }
+
+
+    // fprintf(fitLog, "#Max\tPeak\tSigma\tOffset\n");
+    fprintf(fitLog, "\n##Run %s, [%.1f, %.1f] deg., [%.1f, %.1f]cm\n", runNumberString.c_str(), angleLowerLimit, angleUpperLimit, posLeftLimit, posRightLimit);
+    fprintf(fitLog, "%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\n", fitParams[0], fitParamErrs[0], fitParams[1], fitParamErrs[1], fitParams[2], fitParamErrs[2], fitParams[3], fitParamErrs[3], chi2/ndf);
+    fprintf(fitLog, "#Covariance Matrix\n");
+    for (int m=0; m<4; m++) {
+      fprintf(fitLog, "%f\t%f\t%f\t%f\n", cov(m,0), cov(m,1), cov(m,2), cov(m,3));
+    }
+
+    //Ratio of the y values of the central fit maximum and the minimum between the central and the left maximum:
+    float fitMax = func->GetMaximum(func->GetParameter(1) - 1, func->GetParameter(1) + 1); //Searches for maximum in the region around the central peak
+    float fitMin = func->Eval(func->GetParameter(1) - 180.0); //Two maxima are 360 deg apart and the minimum is in the middle
+    float peakValleyRatio = fitMax / fitMin;
+
+    float sigma = fitParams[2];
+    float scaling = fitParams[0];
+    float offset = fitParams[3];
+    float sigma2 = sigma*sigma;
+    float sigmaError = fitParamErrs[2];
+    float scalingError = fitParamErrs[0];
+    float offsetError = fitParamErrs[3];
+
+    // yanked this from joscha, will check over later
+    //Derivatives of f_max / f_min with respect to parameters (calculated by Mathematica, which is great for symbolic calculations but nothing else:
+    float scalingDerivative = (1 + 2 * TMath::Exp(-32400.0 / sigma2)) / ((TMath::Exp(-72900.0 / sigma2) + 2 * TMath::Exp(-8100.0 / sigma2)) * scaling + offset)
+        - ((TMath::Exp(-72900.0 / sigma2) + 2 * TMath::Exp(-8100.0 / sigma2)) * ((1 + 2 * TMath::Exp(-32400.0 / sigma2)) * scaling + offset)) / TMath::Power(((TMath::Exp(-72900.0 / sigma2) + 2 * TMath::Exp(-8100.0 / sigma2)) * scaling + offset), 2);
+    float sigmaDerivative = 129600.0 * TMath::Exp(-32400.0 / sigma2) * scaling / (TMath::Power(sigma, 3) * ((TMath::Exp(-72900.0 / sigma2) + 2 * TMath::Exp(-8100.0 / sigma2)) * scaling + offset))
+        - scaling * ((145800 * TMath::Exp(-72900.0 / sigma2) + 32400.0 * TMath::Exp(-8100.0 / sigma2)) / TMath::Power(sigma, 3)) * ((1 + 2 * TMath::Exp(-32400.0 / sigma2)) * scaling + offset)
+        / TMath::Power((TMath::Exp(-72900.0 / sigma2) + 2 * TMath::Exp(-8100.0 / sigma2)) * scaling + offset, 2);
+    float offsetDerivative = 1 / ((TMath::Exp(-72900.0 / sigma2) + 2 * TMath::Exp(-8100.0 / sigma2)) * scaling + offset)
+        - ((1 + 2 * TMath::Exp(-32400.0 / sigma2)) * scaling + offset) / TMath::Power((TMath::Exp(-72900.0 / sigma2) + 2 * TMath::Exp(-8100 / sigma2)) * scaling + offset, 2);
+
+    float peakValleyRatioErrors = TMath::Sqrt(TMath::Power(scalingDerivative * scalingError, 2) + TMath::Power(sigmaDerivative * sigmaError, 2) + TMath::Power(offsetDerivative * offsetError, 2)); // ADD COVARIANCE STUFF
+    
+    fprintf(fitLog, "#Peak Valley Ratio\n");
+    fprintf(fitLog, "%f\t%f\n", peakValleyRatio, peakValleyRatioErrors);
 
     TLegend* histLeg2 = new TLegend(0.8, 0.3, 1.0, 0.7);
     histLeg2->SetFillColorAlpha(kWhite, 0.9); //translucent legend

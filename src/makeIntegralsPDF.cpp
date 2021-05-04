@@ -205,7 +205,7 @@ int main(int argc, char *argv[]) {
   //Setting up the canvas:
   TCanvas canvas("canvas", "Light yield for Channels", 1557, 2000);
   TPaveLabel title(0.1, 0.96, 0.9, 0.99, Form("Light yield for different Channels, Run %s, [%.1f, %.1f] deg., [%.1f, %.1f]cm", runNumberString.c_str(), angleLowerLimit, angleUpperLimit, posLeftLimit, posRightLimit));
-  TPaveLabel xTitle(0, 0.01, 1, 0.03, "N_pe (estimate)");
+  TPaveLabel xTitle(0, 0.01, 1, 0.03, "Integral (mV*ns)");
   TPaveLabel yTitle(0.01, 0, 0.03, 1, "Number of Entries");
   title.SetTextSize(.7);
   xTitle.SetTextSize(.7);

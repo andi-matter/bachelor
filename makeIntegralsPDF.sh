@@ -1,7 +1,8 @@
 #!/bin/bash
 
-for file in "/mnt/d/Programme/RootAnalysis/RootAnalysis/finishedRootfiles/*";do
-    echo $file 
+FILES="/mnt/d/Programme/RootAnalysis/RootAnalysis/finishedRootfiles/*"
+for file in $FILES;do
+    echo $file
 done
 saveFolder=mnt/d/Programme/RootAnalysis/RootAnalysis/integralAnalysis
 running=true
