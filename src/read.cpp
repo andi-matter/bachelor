@@ -47,14 +47,15 @@
 
 // andrea
 int firstTrigger = 8; // first of 4 trigger channels. COSMICS
-bool ANGLECUTS = true;
-bool POSITIONCUTS = true;
+bool ANGLECUTS = false;
+bool POSITIONCUTS = false;
 bool INTEGRALCUT = true;
-float integralCut = 400.0;
+float integralCut = 2000.;
+float integralCutTop = 5000.0;
 float dTintervalTop = 1.0; // angle cut upper limit (PMT)
 float dTintervalBot = -1.0; // angle cut lower limit (PMT)
-float diffTopIntervalTop = 3.2; // position cut upper limit (PMT)
-float diffTopIntervalBot = 2.5;  // position cut lower limit (PMT)
+float diffTopIntervalTop = -2.5; // position cut upper limit (PMT)
+float diffTopIntervalBot = -3.3;  // position cut lower limit (PMT)
 
 
 
@@ -578,6 +579,7 @@ void read(map<string, string> readParameters)
   tree->Branch("posIntTop", &diffTopIntervalTop, "posIntTop/F");
   tree->Branch("posIntBot", &diffTopIntervalBot, "posIntBot/F");
   tree->Branch("integralCut", &integralCut, "integralCut/F");
+  tree->Branch("integralCutTop", &integralCutTop, "integralCutTop/F");
 
   tree->Branch("sumCartX", &sumCartX, "sumCartX/F");
   tree->Branch("sumCartY", &sumCartY, "sumCartY/F");
@@ -1169,7 +1171,7 @@ void read(map<string, string> readParameters)
         if (i < 8) integral_hist[i] = Integral[i];
         // cout << Integral[i] << endl;
 
-        if (INTEGRALCUT && i<8 && (Integral[i] < integralCut)) {
+        if (INTEGRALCUT && i<8 && ((Integral[i] < integralCut) || (Integral[i] > integralCutTop))) { // (Integral[i] < integralCut) ||
           skipThisEvent = true;
         }
         // end andrea
@@ -1621,14 +1623,14 @@ void read(map<string, string> readParameters)
   rootFile->Close();
 
   // andrea
-  FILE* cut_log = fopen("/mnt/d/Programme/RootReader/RootReader-master/runlogs/cut_log.txt", "w");
+  FILE* cut_log = fopen("/mnt/d/Programme/RootReader/RootReader-master/runlogs/cut_log.txt", "a");
 
   fprintf(cut_log, "#Run log of timing cuts \n");
   fprintf(cut_log, "#Runname: \n");
   fprintf(cut_log, "%s", runName.c_str());
   fprintf(cut_log, "\nPosition cuts: %s\nAngle cuts: %s", POSITIONCUTS ? "true" : "false", ANGLECUTS ? "true" : "false");
-  fprintf(cut_log, "\n#POS interval left\tPOS interval right\tANGLE interval left\tANGLE interval right\tmin. N_pe\n");
-  fprintf(cut_log, "%f\t%f\t%f\t%f\t%f", diffTopIntervalBot, diffTopIntervalTop, dTintervalBot, dTintervalTop, integralCut);
+  fprintf(cut_log, "\n#POS interval left\tPOS interval right\tANGLE interval left\tANGLE interval right\tmin. N_pe\tmax. N_pre\n");
+  fprintf(cut_log, "%f\t%f\t%f\t%f\t%f\t%f", diffTopIntervalBot, diffTopIntervalTop, dTintervalBot, dTintervalTop, integralCut, integralCutTop);
   fclose(cut_log);
 /*   
   TFile *rootFileCut = new TFile("cuts.root", "RECREATE");
