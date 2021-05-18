@@ -183,8 +183,8 @@ int main(int argc, char *argv[]) {
 
   //Drawing range for histograms:
   Int_t xMin, xMax;
-  xMin = -10;
-  xMax = 5000;
+  xMin = 1900;
+  xMax = 8000;
 
   //Retrieve light yield data for all channels
   Float_t integralMeanSum = 0; // sum of all mean values to normalise
@@ -252,9 +252,9 @@ int main(int argc, char *argv[]) {
     // std::cout << histDraw << endl;
 
 
-
+    Int_t nbinsx = xMax - xMin;
     //Drawing the Histogram:
-    histVec[i] = new TH1F(histName, histTitle, (xMax - xMin), xMin, xMax);
+    histVec[i] = new TH1F(histName, histTitle, nbinsx, xMin, xMax);
     // std::cout << "5.1 " << i << endl;
     gStyle->SetTitleSize(0.08, "t"); 
     //histVec[i]->SetTitleSize(0.25, "t");

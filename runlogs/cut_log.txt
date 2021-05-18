@@ -3364,4 +3364,2604 @@ Angle cuts: false
 Position cuts: false
 Angle cuts: false
 #POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+10_12to21_night
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000#Run log of timing cuts 
+#Runname: 
+06_1504_day
+Position cuts: false
+Angle cuts: false
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
 999.000000	999.000000	999.000000	999.000000	2000.000000	5000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000
+#Run log of timing cuts 
+#Runname: 
+00_12to18_day
+Position cuts: false
+Angle cuts: false
+Integral cuts: true
+#POS interval left	POS interval right	ANGLE interval left	ANGLE interval right	min. N_pe	max. N_pre
+999.000000	999.000000	999.000000	999.000000	2000.000000	50000.000000

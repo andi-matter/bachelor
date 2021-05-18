@@ -74,8 +74,8 @@ void plasticScintPlots(string rootFilename, string saveFolder, float* positionIn
   file.GetObject("T", tree);
   tree->GetEntry(1);
 
-	string histNames[] = {"Time_diff_top", "Time_diff_bot", "Time_diff_all", "meanFlightTime", "Incidence_time_ch10", "Incidence_time_ch11", "Incidence_time_ch12", "Incidence_time_ch13"};
-	string histTitles[] = {"Time Difference Top PS", "Time Difference Low PS", "Total Time Difference", "Mean Flight Time", "Incidence Time Ch10", "Incidence Time Ch11", "Incidence Time Ch12", "Incidence Time Ch13"};
+	string histNames[] = {"Time_diff_top", "Time_diff_bot", "Time_diff_all", "timeMeanTop", "Incidence_time_ch10", "Incidence_time_ch11", "Incidence_time_ch12", "Incidence_time_ch13"};
+	string histTitles[] = {"Time Difference Top PS", "Time Difference Low PS", "Total Time Difference", "(t1 + t2)/2", "Incidence Time Ch10", "Incidence Time Ch11", "Incidence Time Ch12", "Incidence Time Ch13"};
 	TString histDraw[8];
 	TString xlabel = "time [ns]";
 	TString ylabel = "Number of Entries";
@@ -110,8 +110,8 @@ void plasticScintPlots(string rootFilename, string saveFolder, float* positionIn
 
   // std::cout << "3" << endl;
 
-  Int_t xMin[] = {-50, -50, -50, -50, 0,0,0,0};
-  Int_t xMax[] = {50, 50, 50, 50, 200, 200, 200, 200};
+  Int_t xMin[] = {-50, -50, -50, 80, 80,80,80,80};
+  Int_t xMax[] = {50, 50, 50, 140, 140, 140, 140, 140};
 
   for (int nPad = 1; nPad < 9; nPad++) {
 		graphPad.cd(nPad);
@@ -126,7 +126,7 @@ void plasticScintPlots(string rootFilename, string saveFolder, float* positionIn
 
 		histDraw[i] = Form("%s>>%s", histNames[i].c_str(), histNames[i].c_str());
 
-    histVec[i] = new TH1F(histNames[i].c_str(), histTitles[i].c_str(), (xMax[i] - xMin[i]), xMin[i], xMax[i]);
+    histVec[i] = new TH1F(histNames[i].c_str(), histTitles[i].c_str(), (xMax[i] - xMin[i])*5, xMin[i], xMax[i]);
 
 		gStyle->SetTitleSize(0.08, "t"); 
 		
@@ -138,15 +138,60 @@ void plasticScintPlots(string rootFilename, string saveFolder, float* positionIn
     histVec[i]->SetMarkerSize(0.2);
     histVec[i]->SetMarkerColorAlpha(kBlack, 0.6);
 
-		tree->Draw(histDraw[i], "", "HIST");
+		
+
+    Double_t chi2;
+    Double_t dof;
+    Double_t red_chi2 ;
+    Double_t max ;
+    Double_t maxErr;
+    Double_t mean ;
+    Double_t meanErr;
+    Double_t sigma ;
+    Double_t sigmaErr;
+
+    if (i>2) {
+      int lowFit = 80;
+      int highFit = 140;
+      cout << "oi " << i << endl;
+      tree->Draw(histDraw[i], "", "HIST");
+      TF1 *fitfunc = new TF1("fit", "gaus", lowFit, highFit);
+      histVec[i]->Fit("fit", "R");
+      // TF1 *fit = histVec[i]->GetFunction("fit");
+      chi2 = fitfunc->GetChisquare();
+      dof = fitfunc->GetNDF();
+      red_chi2 = chi2/dof;
+      max = fitfunc->GetParameter(0);
+      maxErr = fitfunc->GetParError(0);
+      mean = fitfunc->GetParameter(1);
+      meanErr = fitfunc->GetParError(1);
+      sigma = fitfunc->GetParameter(2);
+      sigmaErr = fitfunc->GetParError(2);
+      tree->Draw(histDraw[i], "", "HIST");
+      fitfunc->Draw("same");
+    } 
+    else {
+      cout << "io "<< i<< endl;
+      tree->Draw(histDraw[i], "", "HIST");
+    }
 		gPad->Update();
 
 		// Customizing the legend:
-    TLegend* histLeg = new TLegend(0.64, 0.68, 0.92, 0.85);
+    TLegend* histLeg = new TLegend(0.64, 0.58, 0.92, 0.87);
     // histLeg->SetFillColorAlpha(kWhite, 0); //translucent legend
     histLeg->SetBorderSize(1);
     histLeg->AddEntry((TObject*)0, Form("Entries = %d", (int) histVec[i]->GetEntries()));
-		histLeg->AddEntry((TObject*)0, Form("Mean = %.2f", histVec[i]->GetMean()));
+		
+    if (i>2) {
+      histLeg->AddEntry((TObject*)0, Form("Mean = %.2f", mean));
+      histLeg->AddEntry((TObject*)0, Form("Mean err = %.2f", meanErr));
+      histLeg->AddEntry((TObject*)0, Form("Sigma = %.2f", sigma));
+      histLeg->AddEntry((TObject*)0, Form("Sigma err = %.2f", sigmaErr));
+      histLeg->AddEntry((TObject*)0, Form("chi2/dof = %.2f", red_chi2));
+    } else {
+      histLeg->AddEntry((TObject*)0, Form("Mean = %.2f", histVec[i]->GetMean()));
+    }
+
     // histLeg->AddEntry((TObject*)0, Form("Mean = %1.2f #pm %1.2f", histMeanVec[i], histMeanErrVec[i]), "");
     gStyle->SetLegendTextSize(0.05);
 		histLeg->Draw();

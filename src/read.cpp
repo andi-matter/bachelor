@@ -50,12 +50,13 @@ int firstTrigger = 8; // first of 4 trigger channels. COSMICS
 bool ANGLECUTS = false;
 bool POSITIONCUTS = false;
 bool INTEGRALCUT = true;
-float integralCut = 2000.;
-float integralCutTop = 5000.0;
+float integralCut = 2000.0;
+float integralCutTop = 50000.0;
 float dTintervalTop = 1.0; // angle cut upper limit (PMT)
 float dTintervalBot = -1.0; // angle cut lower limit (PMT)
 float diffTopIntervalTop = -2.5; // position cut upper limit (PMT)
 float diffTopIntervalBot = -3.3;  // position cut lower limit (PMT)
+int entriesChannelSum = 0;
 
 
 
@@ -1316,8 +1317,12 @@ void read(map<string, string> readParameters)
           // End of loop over inividual channels
         }
 
-        if (IntegralDiff[i] > -88 && !skipThisEvent)
+        if (IntegralDiff[i] > -88 && !skipThisEvent) {
+          entriesChannelSum += 1;
+          // cout << "added in channel sum" << endl;
+          // cout << entriesChannelSum << endl;
           hChSum.at(i)->Add(&hCh, 1); //Dont sum empty waveforms into your sum histogram
+        }
       } // end of channel loop
 
       // andrea
@@ -1625,10 +1630,10 @@ void read(map<string, string> readParameters)
   // andrea
   FILE* cut_log = fopen("/mnt/d/Programme/RootReader/RootReader-master/runlogs/cut_log.txt", "a");
 
-  fprintf(cut_log, "#Run log of timing cuts \n");
+  fprintf(cut_log, "\n#Run log of timing cuts \n");
   fprintf(cut_log, "#Runname: \n");
   fprintf(cut_log, "%s", runName.c_str());
-  fprintf(cut_log, "\nPosition cuts: %s\nAngle cuts: %s", POSITIONCUTS ? "true" : "false", ANGLECUTS ? "true" : "false");
+  fprintf(cut_log, "\nPosition cuts: %s\nAngle cuts: %s\nIntegral cuts: %s", POSITIONCUTS ? "true" : "false", ANGLECUTS ? "true" : "false", INTEGRALCUT ? "true" : "false");
   fprintf(cut_log, "\n#POS interval left\tPOS interval right\tANGLE interval left\tANGLE interval right\tmin. N_pe\tmax. N_pre\n");
   fprintf(cut_log, "%f\t%f\t%f\t%f\t%f\t%f", diffTopIntervalBot, diffTopIntervalTop, dTintervalBot, dTintervalTop, integralCut, integralCutTop);
   fclose(cut_log);

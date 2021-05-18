@@ -10,6 +10,7 @@
 
 using namespace std;
 TH1F *sumHistList[32]; //Declare it here to not get lost in the pointer parameter passing
+int numberOfEntries;
 
 int numberOfSumHistograms = 9;
 void removeSubstring(char *s, const char *toremove)
@@ -45,6 +46,8 @@ void addToSumHistogram(int counter, string token)
 			string name = Form("hChSum_%d", (i));
 			file->GetObject(name.c_str(), tempHist);
 			 sumHistList[i]->Add(tempHist);
+			 numberOfEntries += 1;
+			 cout << "number of entries " << numberOfEntries << endl;
 		}
 	}
 }
@@ -120,6 +123,7 @@ int main(int argc, char const *argv[])
 
 	std::cout << "MERGER FINISHED-> Number of Events in the final File: " << chain->GetEntries() << std::endl;
 	std::cout << "MERGER FINISHED-> Number of Events in the final SumHistogram[0]: " << (sumHistList[0]->GetEntries()) / 1024 << std::endl;
+	std::cout << "MERGER FINISHED-> Number of Events in the final SumHistogram[0] with counter " << numberOfEntries << std::endl;
 
 	return 0;
 }

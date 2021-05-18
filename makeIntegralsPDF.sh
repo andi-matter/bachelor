@@ -40,7 +40,7 @@ else
 	exit
 fi
 
-file=$(find /mnt/d/Programme/RootAnalysis/RootAnalysis/finishedRootfiles -name "*${runNumber}*" )
+file=$(find /mnt/d/Programme/RootAnalysis/RootAnalysis/finishedRootfiles -name "${runNumber}*" )
 # echo "file here!"
 # echo $file
 
@@ -50,6 +50,8 @@ filename="${filename%.*}"
 saveFolder=/mnt/d/Programme/RootAnalysis/RootAnalysis/integralAnalysis/$filename
 mkdir $saveFolder
 # echo $saveFolder
+
+# echo $file
 
 ./src/makeIntegralsPDF "$file"
 ./src/meanAnglePlots "$file"
