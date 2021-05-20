@@ -39,9 +39,9 @@
 
 using namespace std;
 
-void plasticScintPlots(string rootFilename, string saveFolder, float* positionInfo);
+void plasticScintTimes(TTree* tree, string rootFilename, string saveFolder, float* positionInfo);
 
-void plasticScintPlots(string rootFilename, string saveFolder, float* positionInfo) {
+void plasticScintTimes(TTree* tree, string rootFilename, string saveFolder, float* positionInfo) {
 
 	int runNumber = positionInfo[0];
 	float angleLowerLimit = positionInfo[1];
@@ -60,8 +60,9 @@ void plasticScintPlots(string rootFilename, string saveFolder, float* positionIn
 	// gStyle->SetOptStat(210);
 	// gStyle->SetStatFontSize(0.32);
 
-	std::string location = saveFolder + "/plasticScintPlots.pdf";
+	std::string locationTimes = saveFolder + "/plasticScintTimes.pdf";
 
+  /**
 	TFile file(rootFilename.c_str());
 	if (file.IsZombie())
     {
@@ -73,9 +74,10 @@ void plasticScintPlots(string rootFilename, string saveFolder, float* positionIn
 	TTree* tree = new TTree;
   file.GetObject("T", tree);
   tree->GetEntry(1);
+  **/
 
-	string histNames[] = {"Time_diff_top", "Time_diff_bot", "Time_diff_all", "timeMeanTop", "Incidence_time_ch10", "Incidence_time_ch11", "Incidence_time_ch12", "Incidence_time_ch13"};
-	string histTitles[] = {"Time Difference Top PS", "Time Difference Low PS", "Total Time Difference", "(t1 + t2)/2", "Incidence Time Ch10", "Incidence Time Ch11", "Incidence Time Ch12", "Incidence Time Ch13"};
+	string histNames[] = {"Time_diff_top", "Time_diff_bot", "Time_diff_all", "timeResApprox", "Incidence_time_ch10", "Incidence_time_ch11", "Incidence_time_ch12", "Incidence_time_ch13"};
+	string histTitles[] = {"Time Difference Top PS", "Time Difference Low PS", "Total Time Difference", "(t1 + t2 - t3 - t4)/4", "Incidence Time Ch10", "Incidence Time Ch11", "Incidence Time Ch12", "Incidence Time Ch13"};
 	TString histDraw[8];
 	TString xlabel = "time [ns]";
 	TString ylabel = "Number of Entries";
@@ -110,8 +112,9 @@ void plasticScintPlots(string rootFilename, string saveFolder, float* positionIn
 
   // std::cout << "3" << endl;
 
-  Int_t xMin[] = {-50, -50, -50, 80, 80,80,80,80};
-  Int_t xMax[] = {50, 50, 50, 140, 140, 140, 140, 140};
+  Int_t xMin[] = {-50, -50, -50, -10, 80,80,80,80};
+  Int_t xMax[] = {50, 50, 50, 10, 140, 140, 140, 140};
+  Int_t binFactor[] = {5, 5, 5, 10, 5, 5, 5, 5};
 
   for (int nPad = 1; nPad < 9; nPad++) {
 		graphPad.cd(nPad);
@@ -126,7 +129,7 @@ void plasticScintPlots(string rootFilename, string saveFolder, float* positionIn
 
 		histDraw[i] = Form("%s>>%s", histNames[i].c_str(), histNames[i].c_str());
 
-    histVec[i] = new TH1F(histNames[i].c_str(), histTitles[i].c_str(), (xMax[i] - xMin[i])*5, xMin[i], xMax[i]);
+    histVec[i] = new TH1F(histNames[i].c_str(), histTitles[i].c_str(), (xMax[i] - xMin[i])*binFactor[i], xMin[i], xMax[i]);
 
 		gStyle->SetTitleSize(0.08, "t"); 
 		
@@ -151,9 +154,9 @@ void plasticScintPlots(string rootFilename, string saveFolder, float* positionIn
     Double_t sigmaErr;
 
     if (i>2) {
-      int lowFit = 80;
-      int highFit = 140;
-      cout << "oi " << i << endl;
+      int lowFit = xMin[i];
+      int highFit = xMax[i];
+      // cout << "oi " << i << endl;
       tree->Draw(histDraw[i], "", "HIST");
       TF1 *fitfunc = new TF1("fit", "gaus", lowFit, highFit);
       histVec[i]->Fit("fit", "R");
@@ -167,6 +170,7 @@ void plasticScintPlots(string rootFilename, string saveFolder, float* positionIn
       meanErr = fitfunc->GetParError(1);
       sigma = fitfunc->GetParameter(2);
       sigmaErr = fitfunc->GetParError(2);
+
       tree->Draw(histDraw[i], "", "HIST");
       fitfunc->Draw("same");
     } 
@@ -177,16 +181,16 @@ void plasticScintPlots(string rootFilename, string saveFolder, float* positionIn
 		gPad->Update();
 
 		// Customizing the legend:
-    TLegend* histLeg = new TLegend(0.64, 0.58, 0.92, 0.87);
+    TLegend* histLeg = new TLegend(0.64, 0.55, 0.94, 0.91);
     // histLeg->SetFillColorAlpha(kWhite, 0); //translucent legend
     histLeg->SetBorderSize(1);
     histLeg->AddEntry((TObject*)0, Form("Entries = %d", (int) histVec[i]->GetEntries()));
 		
     if (i>2) {
       histLeg->AddEntry((TObject*)0, Form("Mean = %.2f", mean));
-      histLeg->AddEntry((TObject*)0, Form("Mean err = %.2f", meanErr));
+      histLeg->AddEntry((TObject*)0, Form("Mean err = %.3f", meanErr));
       histLeg->AddEntry((TObject*)0, Form("Sigma = %.2f", sigma));
-      histLeg->AddEntry((TObject*)0, Form("Sigma err = %.2f", sigmaErr));
+      histLeg->AddEntry((TObject*)0, Form("Sigma err = %.3f", sigmaErr));
       histLeg->AddEntry((TObject*)0, Form("chi2/dof = %.2f", red_chi2));
     } else {
       histLeg->AddEntry((TObject*)0, Form("Mean = %.2f", histVec[i]->GetMean()));
@@ -195,13 +199,7 @@ void plasticScintPlots(string rootFilename, string saveFolder, float* positionIn
     // histLeg->AddEntry((TObject*)0, Form("Mean = %1.2f #pm %1.2f", histMeanVec[i], histMeanErrVec[i]), "");
     gStyle->SetLegendTextSize(0.05);
 		histLeg->Draw();
-
-
-
 	}
 
-	canvas.SaveAs(location.c_str());
-
-
-
+	canvas.SaveAs(locationTimes.c_str());
 }

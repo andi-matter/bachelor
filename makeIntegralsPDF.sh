@@ -28,7 +28,7 @@ done
 
 # compile makeIntegralsPDF.cpp with libraries
 echo "Compiling!"
-g++ ./src/makeIntegralsPDF.cpp `root-config --libs --cflags` -o ./src/makeIntegralsPDF
+g++ ./src/integralAnalysisMain.cpp `root-config --libs --cflags` -o ./src/integralAnalysisMain
 g++ ./src/meanAnglePlots.cpp `root-config --libs --cflags` -o ./src/meanAnglePlots
 
 # Check if the file was successfully compiled:
@@ -53,7 +53,7 @@ mkdir $saveFolder
 
 # echo $file
 
-./src/makeIntegralsPDF "$file"
+./src/integralAnalysisMain "$file"
 ./src/meanAnglePlots "$file"
 
 python3 plotIntegralMeans.py "${saveFolder}/propagatedintegralMeans.txt" "$saveFolder"

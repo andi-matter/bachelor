@@ -47,11 +47,11 @@
 
 // andrea
 int firstTrigger = 8; // first of 4 trigger channels. COSMICS
-bool ANGLECUTS = false;
+bool ANGLECUTS = true;
 bool POSITIONCUTS = false;
 bool INTEGRALCUT = true;
-float integralCut = 2000.0;
-float integralCutTop = 50000.0;
+float integralCut = 500;
+float integralCutTop = 1500.0;
 float dTintervalTop = 1.0; // angle cut upper limit (PMT)
 float dTintervalBot = -1.0; // angle cut lower limit (PMT)
 float diffTopIntervalTop = -2.5; // position cut upper limit (PMT)
