@@ -24,6 +24,7 @@
 #include <TNtuple.h>
 #include <TImage.h>
 #include <TAttImage.h>
+#include <TSpectrum.h>
 
 //C, C++
 #include <stdio.h>

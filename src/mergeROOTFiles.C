@@ -123,7 +123,7 @@ int main(int argc, char const *argv[])
 
 	std::cout << "MERGER FINISHED-> Number of Events in the final File: " << chain->GetEntries() << std::endl;
 	std::cout << "MERGER FINISHED-> Number of Events in the final SumHistogram[0]: " << (sumHistList[0]->GetEntries()) / 1024 << std::endl;
-	std::cout << "MERGER FINISHED-> Number of Events in the final SumHistogram[0] with counter " << numberOfEntries << std::endl;
+	// std::cout << "MERGER FINISHED-> Number of Events in the final SumHistogram[0] with counter " << numberOfEntries << std::endl;
 
 	return 0;
 }

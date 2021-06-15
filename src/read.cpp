@@ -47,16 +47,21 @@
 
 // andrea
 int firstTrigger = 8; // first of 4 trigger channels. COSMICS
-bool ANGLECUTS = true;
+bool ANGLECUTS = false;
 bool POSITIONCUTS = false;
 bool INTEGRALCUT = true;
-float integralCut = 500;
-float integralCutTop = 1500.0;
+bool SCINTCUT = false;
+bool FILTERWEIRD = false; // filter "weird" (2021) PMT signals by cutting PMT amp over 5mV
+float lowAmpScint = -2000; // lowest amplitude in ch10 still counted
+float highAmpScint = -60; // highest amplitude in ch10 still counted
+float integralCut = -20000; // 300 standard
+float integralCutTop = 2000; // 1500.0 standard
 float dTintervalTop = 1.0; // angle cut upper limit (PMT)
 float dTintervalBot = -1.0; // angle cut lower limit (PMT)
 float diffTopIntervalTop = -2.5; // position cut upper limit (PMT)
 float diffTopIntervalBot = -3.3;  // position cut lower limit (PMT)
 int entriesChannelSum = 0;
+float SiPMMaximumAverage;
 
 
 
@@ -134,9 +139,9 @@ int triggerChannel = 8; //starting from 0 -> Calib: 8?, Testbeam '18: 15, Import
 
 int plotGrid = 3;
 
-int maximalExtraPrintEvents = 0;
+int maximalExtraPrintEvents = 10;
 int printedExtraEvents = 0;
-bool printExtraEvents = false;
+bool printExtraEvents = true;
 //Event Skipping
 bool skipThisEvent = false;
 int skippedCount = 0;
@@ -160,7 +165,7 @@ bool enableBaselineCorrection = true;
 //Allow Force Printing individual events
 bool allowForcePrintEvents = false;
 bool forcePrintThisEvent = false;
-int maximalForcePrintEvents = 1;
+int maximalForcePrintEvents = 0;
 int forcePrintEvents = 0;
 
 struct rusage r_usage;
@@ -581,6 +586,8 @@ void read(map<string, string> readParameters)
   tree->Branch("posIntBot", &diffTopIntervalBot, "posIntBot/F");
   tree->Branch("integralCut", &integralCut, "integralCut/F");
   tree->Branch("integralCutTop", &integralCutTop, "integralCutTop/F");
+  tree->Branch("lowAmpScint", &lowAmpScint, "lowAmpScint/F");
+  tree->Branch("highAmpScint", &highAmpScint, "highAmpScint/F");
 
   tree->Branch("sumCartX", &sumCartX, "sumCartX/F");
   tree->Branch("sumCartY", &sumCartY, "sumCartY/F");
@@ -590,6 +597,9 @@ void read(map<string, string> readParameters)
     tree->Branch("cartXi", &cartXarray[i], "cartXi/F");
     tree->Branch("cartYi", &cartYarray[i], "cartYi/F");
   }
+
+  int multiPeaks = 0;
+  tree->Branch("multiPeaks", &multiPeaks, "multiPeaks/I");
   // end andrea
 
 
@@ -1032,11 +1042,24 @@ void read(map<string, string> readParameters)
           
           
           Float_t signalMinimum = hChtemp.at(i).GetMinimum();
-
+          Float_t signalMaximum = hChtemp.at(i).GetMaximum();
+          
           if (signalMinimum > (-20.0)) {
             // skipThisEvent = true;
             // continue;
           } 
+          if (SCINTCUT && (signalMinimum < lowAmpScint || signalMinimum > highAmpScint) ) { //&& (i==firstTrigger || i==firstTrigger+1)) {
+              skipThisEvent = true;
+          }
+
+          if (FILTERWEIRD && (signalMaximum > 5)) {
+            skipThisEvent = true;
+          }
+
+          // if (!skipThisEvent) {
+          //   cout<< "signalMaximum" << signalMaximum << endl;
+          // }
+
           
           // cout << "minimum signal " << signalMinimum << endl;
           // bla bla blaaa
@@ -1044,6 +1067,7 @@ void read(map<string, string> readParameters)
             Incidence10 = inc;
             Invert_Incidence10 = invert_inc;
             minCh10 = signalMinimum;
+            
             if (inc > 350 || inc < 0) { 
               //forcePrintThisEvent = true;
               skipThisEvent = true;
@@ -1169,12 +1193,37 @@ void read(map<string, string> readParameters)
         Integral[i] = IntegralHist(&hCh, integralStartShifted, integralEndShifted, 0) ; //* effectivFactor;
        
         // andrea
-        if (i < 8) integral_hist[i] = Integral[i];
+        // Integral stuff only for the 8 SiPM channels
+        if (i < 8) {
+          integral_hist[i] = Integral[i];
         // cout << Integral[i] << endl;
 
-        if (INTEGRALCUT && i<8 && ((Integral[i] < integralCut) || (Integral[i] > integralCutTop))) { // (Integral[i] < integralCut) ||
-          skipThisEvent = true;
+          if (INTEGRALCUT && i<8 && ((Integral[i] < integralCut) || (Integral[i] > integralCutTop))) { // (Integral[i] < integralCut) ||
+            skipThisEvent = true;
+          }
+
+          float SiPMMaximum = hChtemp.at(i).GetMaximum();
+          // cout << SiPMMaximum << endl;
+          if (0==i) {
+            SiPMMaximumAverage = 0;
+            bool manyPeaks = false;
+          }
+         
+          SiPMMaximumAverage += SiPMMaximum;
+
+          if (0==i && !skipThisEvent){
+            TSpectrum *s = new TSpectrum(2*5);
+            Int_t nfound = s->Search(&hChtemp.at(i),2,"",0.80);
+            // cout << "nfound " << nfound << endl;
+            if (nfound != 1) multiPeaks += 1;
+            }
+
+          if (FILTERWEIRD && i == 7 && (SiPMMaximumAverage/8.0 < 10)) {
+
+            skipThisEvent = true;
+          }
         }
+
         // end andrea
 
 
@@ -1192,6 +1241,11 @@ void read(map<string, string> readParameters)
             //forcePrintEvent=true;
           }
         }
+
+        // if (!skipThisEvent && (maximalForcePrintEvents >= forcePrintEvents)) {
+        //   forcePrintThisEvent = true;
+        //   forcePrintEvents++;
+        // }
 
         // cout<<"DD: "<<IntegralDiff[i]<<"  "<<i<<endl;
         // skipThisEvent=true;
@@ -1211,7 +1265,7 @@ void read(map<string, string> readParameters)
           //  if(!skipThisEvent || (skipThisEvent && (forcePrintThisEvent || (printedExtraEvents < maximalExtraPrintEvents)))){
           //  if ((forcePrintThisEvent && (forcePrintEvents < maximalForcePrintEvents)) || ((currentPrint != fileCounter) || (printedExtraEvents < maximalExtraPrintEvents)))
 
-          if (allowForcePrintEvents || ((currentPrint != fileCounter) || (printedExtraEvents < maximalExtraPrintEvents)))
+          if ((allowForcePrintEvents || ((currentPrint != fileCounter) || (printedExtraEvents < maximalExtraPrintEvents)))) // !skipThisEvent && 
           {
 
             cWaves.cd(i + 1);
@@ -1633,9 +1687,9 @@ void read(map<string, string> readParameters)
   fprintf(cut_log, "\n#Run log of timing cuts \n");
   fprintf(cut_log, "#Runname: \n");
   fprintf(cut_log, "%s", runName.c_str());
-  fprintf(cut_log, "\nPosition cuts: %s\nAngle cuts: %s\nIntegral cuts: %s", POSITIONCUTS ? "true" : "false", ANGLECUTS ? "true" : "false", INTEGRALCUT ? "true" : "false");
-  fprintf(cut_log, "\n#POS interval left\tPOS interval right\tANGLE interval left\tANGLE interval right\tmin. N_pe\tmax. N_pre\n");
-  fprintf(cut_log, "%f\t%f\t%f\t%f\t%f\t%f", diffTopIntervalBot, diffTopIntervalTop, dTintervalBot, dTintervalTop, integralCut, integralCutTop);
+  fprintf(cut_log, "\nPosition cuts: %s\nAngle cuts: %s\nIntegral cuts: %s\nPMT amp cuts: %s", POSITIONCUTS ? "true" : "false", ANGLECUTS ? "true" : "false", INTEGRALCUT ? "true" : "false", SCINTCUT ? "true" : "false");
+  fprintf(cut_log, "\n#POS interval left\tPOS interval right\tANGLE interval left\tANGLE interval right\tmin. N_pe\tmax. N_pre\tmin PMT amp\tmax PMT amp\n");
+  fprintf(cut_log, "%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f", diffTopIntervalBot, diffTopIntervalTop, dTintervalBot, dTintervalTop, integralCut, integralCutTop, lowAmpScint, highAmpScint);
   fclose(cut_log);
 /*   
   TFile *rootFileCut = new TFile("cuts.root", "RECREATE");
