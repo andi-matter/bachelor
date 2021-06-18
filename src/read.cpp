@@ -49,9 +49,9 @@
 int firstTrigger = 8; // first of 4 trigger channels. COSMICS
 bool ANGLECUTS = false;
 bool POSITIONCUTS = false;
-bool INTEGRALCUT = true;
+bool INTEGRALCUT = false;
 bool SCINTCUT = false;
-bool FILTERWEIRD = false; // filter "weird" (2021) PMT signals by cutting PMT amp over 5mV
+bool FILTERWEIRD = true; // filter "weird" (2021) PMT signals by cutting PMT amp over 5mV
 float lowAmpScint = -2000; // lowest amplitude in ch10 still counted
 float highAmpScint = -60; // highest amplitude in ch10 still counted
 float integralCut = -20000; // 300 standard
@@ -163,9 +163,9 @@ bool zoomedInWaves = false; //Zoom in the waves.pdf on the signal range
 
 bool enableBaselineCorrection = true;
 //Allow Force Printing individual events
-bool allowForcePrintEvents = false;
+bool allowForcePrintEvents = true;
 bool forcePrintThisEvent = false;
-int maximalForcePrintEvents = 0;
+int maximalForcePrintEvents = 50;
 int forcePrintEvents = 0;
 
 struct rusage r_usage;
@@ -1054,7 +1054,9 @@ void read(map<string, string> readParameters)
 
           if (FILTERWEIRD && (signalMaximum > 5)) {
             skipThisEvent = true;
-          }
+          } else {
+            if (FILTERWEIRD) forcePrintThisEvent = true; // ATTENTION
+          }  
 
           // if (!skipThisEvent) {
           //   cout<< "signalMaximum" << signalMaximum << endl;
@@ -1220,7 +1222,7 @@ void read(map<string, string> readParameters)
 
           if (FILTERWEIRD && i == 7 && (SiPMMaximumAverage/8.0 < 10)) {
 
-            skipThisEvent = true;
+            // skipThisEvent = true;
           }
         }
 
@@ -1239,7 +1241,7 @@ void read(map<string, string> readParameters)
           {
             skipThisEvent = true;
             //forcePrintEvent=true;
-          }
+          } 
         }
 
         // if (!skipThisEvent && (maximalForcePrintEvents >= forcePrintEvents)) {
