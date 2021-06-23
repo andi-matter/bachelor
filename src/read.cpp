@@ -54,14 +54,15 @@ bool SCINTCUT = false;
 bool FILTERWEIRD = true; // filter "weird" (2021) PMT signals by cutting PMT amp over 5mV
 float lowAmpScint = -2000; // lowest amplitude in ch10 still counted
 float highAmpScint = -60; // highest amplitude in ch10 still counted
-float integralCut = -20000; // 300 standard
-float integralCutTop = 2000; // 1500.0 standard
+float integralCut = 300; // 300 standard
+float integralCutTop = 1500; // 1500.0 standard
 float dTintervalTop = 1.0; // angle cut upper limit (PMT)
 float dTintervalBot = -1.0; // angle cut lower limit (PMT)
 float diffTopIntervalTop = -2.5; // position cut upper limit (PMT)
 float diffTopIntervalBot = -3.3;  // position cut lower limit (PMT)
 int entriesChannelSum = 0;
 float SiPMMaximumAverage;
+int weirdEvents = 0;
 
 
 
@@ -148,6 +149,8 @@ int skippedCount = 0;
 // andrea
 // event skipping cuts
 bool skipThisEventInCut = false;
+// andrea
+bool weirdSkip;
 //Skip events with bad baseline
 bool allowBaselineEventSkipping = false;
 int skipInChannel = 0;
@@ -699,6 +702,8 @@ void read(map<string, string> readParameters)
 
   int fileCounter = 0;
   int currentPrint = -1;
+  int totalWeirdEvents = 0;
+  int totalEvents = 0;
 
   /***
  *     ___         ___          __   __   __  
@@ -707,9 +712,11 @@ void read(map<string, string> readParameters)
  *               file loop                             
  */
 
+
   while (inList >> fileName)
   {
-
+    int eventsInFile = 0;
+    int weirdInFile = 0;
     fileName = inDataFolder + fileName;
     // cout << fileName << endl;
     FILE *pFILE = fopen(fileName.Data(), "rb");
@@ -803,8 +810,11 @@ void read(map<string, string> readParameters)
     while (nitem > 0)
     { //event loop
 
+      eventsInFile += 1;
+
       skipThisEvent = false;
       skipThisEventInCut = false;
+      weirdSkip = false;  // andrea
       forcePrintThisEvent = false;
       std::vector<TObject *> eventTrash;
       whileCounter++;
@@ -1054,8 +1064,10 @@ void read(map<string, string> readParameters)
 
           if (FILTERWEIRD && (signalMaximum > 5)) {
             skipThisEvent = true;
+            weirdSkip = true;
+            
           } else {
-            if (FILTERWEIRD) forcePrintThisEvent = true; // ATTENTION
+            if (FILTERWEIRD && (EventNumber%100 == 0) ) forcePrintThisEvent = true; // ATTENTION
           }  
 
           // if (!skipThisEvent) {
@@ -1267,7 +1279,7 @@ void read(map<string, string> readParameters)
           //  if(!skipThisEvent || (skipThisEvent && (forcePrintThisEvent || (printedExtraEvents < maximalExtraPrintEvents)))){
           //  if ((forcePrintThisEvent && (forcePrintEvents < maximalForcePrintEvents)) || ((currentPrint != fileCounter) || (printedExtraEvents < maximalExtraPrintEvents)))
 
-          if ((allowForcePrintEvents || ((currentPrint != fileCounter) || (printedExtraEvents < maximalExtraPrintEvents)))) // !skipThisEvent && 
+          if (!skipThisEvent && (allowForcePrintEvents || ((currentPrint != fileCounter) || (printedExtraEvents < maximalExtraPrintEvents)))) // !skipThisEvent && 
           {
 
             cWaves.cd(i + 1);
@@ -1630,13 +1642,17 @@ void read(map<string, string> readParameters)
       {
         skippedCount = skippedCount + 1;
       }
+
+      if (weirdSkip) weirdInFile += 1;
     } // end of event loop
     auto nevent = tree->GetEntries();
 
     cout << "Events in Tree:  " << nevent << " Skipped:  " << skippedCount << endl;
     fclose(pFILE);
     fileCounter++;
-  }
+    totalEvents += eventsInFile;
+    totalWeirdEvents += weirdInFile;
+  } // end of file loop
 
   
 
@@ -1686,6 +1702,8 @@ void read(map<string, string> readParameters)
   // andrea
   FILE* cut_log = fopen("/mnt/d/Programme/RootReader/RootReader-master/runlogs/cut_log.txt", "a");
 
+  FILE* weirdEventCounter = fopen("/mnt/d/Programme/RootReader/RootReader-master/runlogs/weirdEvents.txt", "a");
+
   fprintf(cut_log, "\n#Run log of timing cuts \n");
   fprintf(cut_log, "#Runname: \n");
   fprintf(cut_log, "%s", runName.c_str());
@@ -1693,6 +1711,9 @@ void read(map<string, string> readParameters)
   fprintf(cut_log, "\n#POS interval left\tPOS interval right\tANGLE interval left\tANGLE interval right\tmin. N_pe\tmax. N_pre\tmin PMT amp\tmax PMT amp\n");
   fprintf(cut_log, "%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f", diffTopIntervalBot, diffTopIntervalTop, dTintervalBot, dTintervalTop, integralCut, integralCutTop, lowAmpScint, highAmpScint);
   fclose(cut_log);
+
+  fprintf(weirdEventCounter, "%s\t%d\t%d\t%f\n", runName.c_str(), totalWeirdEvents, totalEvents, totalWeirdEvents*1.0/totalEvents);
+  fclose(weirdEventCounter);
 /*   
   TFile *rootFileCut = new TFile("cuts.root", "RECREATE");
   if (rootFileCut->IsZombie())

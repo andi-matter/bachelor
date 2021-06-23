@@ -46,6 +46,7 @@
 #include "plastScintTimes.h"
 #include "plastScintAmps.h"
 #include "integralsSiPM.h"
+#include "timeResDependencies.h"
 
 // git test
 
@@ -186,6 +187,9 @@ int main(int argc, char *argv[]) {
   plasticScintAmps(tree, rootfileStr, saveFolder, positionInfo);
   cout << "- plasticScintAmps.pdf" << endl;
   integralsSiPM(tree, rootfileStr, saveFolder, positionInfo);
+
+  timeResDependencies(tree, rootfileStr, saveFolder, positionInfo);
+  cout << "- timeResDependencies.pdf" << endl;
 
   return 0;
 }
