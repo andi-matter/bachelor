@@ -153,7 +153,7 @@ void plasticScintTimes(TTree* tree, string rootFilename, string saveFolder, floa
     Double_t sigma ;
     Double_t sigmaErr;
 
-    if (i>2) {
+    if (i>= 0) {
       int lowFit = xMin[i];
       int highFit = xMax[i];
       // cout << "oi " << i << endl;
@@ -186,7 +186,7 @@ void plasticScintTimes(TTree* tree, string rootFilename, string saveFolder, floa
     histLeg->SetBorderSize(1);
     histLeg->AddEntry((TObject*)0, Form("Entries = %d", (int) histVec[i]->GetEntries()));
 		
-    if (i>2) {
+    if (i>=0) {
       histLeg->AddEntry((TObject*)0, Form("Mean = %.2f", mean));
       histLeg->AddEntry((TObject*)0, Form("Mean err = %.3f", meanErr));
       histLeg->AddEntry((TObject*)0, Form("Sigma = %.2f", sigma));

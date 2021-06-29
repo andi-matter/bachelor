@@ -47,19 +47,21 @@
 
 // andrea
 int firstTrigger = 8; // first of 4 trigger channels. COSMICS
-bool ANGLECUTS = false;
-bool POSITIONCUTS = false;
-bool INTEGRALCUT = false;
+bool ANGLECUTS = true;
+bool POSITIONCUTS = true;
+bool INTEGRALCUT = true;
 bool SCINTCUT = false;
 bool FILTERWEIRD = true; // filter "weird" (2021) PMT signals by cutting PMT amp over 5mV
 float lowAmpScint = -2000; // lowest amplitude in ch10 still counted
 float highAmpScint = -60; // highest amplitude in ch10 still counted
 float integralCut = 300; // 300 standard
 float integralCutTop = 1500; // 1500.0 standard
-float dTintervalTop = 1.0; // angle cut upper limit (PMT)
-float dTintervalBot = -1.0; // angle cut lower limit (PMT)
-float diffTopIntervalTop = -2.5; // position cut upper limit (PMT)
-float diffTopIntervalBot = -3.3;  // position cut lower limit (PMT)
+
+float dTintervalTop = 1; // ANGLE cut upper limit (PMT)
+float dTintervalBot = -1; // angle cut lower limit (PMT)
+
+float diffTopIntervalTop = 3.3; // POSITION cut upper limit (PMT)
+float diffTopIntervalBot = 2.5;  // position cut lower limit (PMT)
 int entriesChannelSum = 0;
 float SiPMMaximumAverage;
 int weirdEvents = 0;
@@ -98,7 +100,7 @@ Int_t runPosition = -999;
 Float_t runEnergy = -999;
 Int_t runAngle = -999;
 Int_t runNumber = -999;
-Int_t runChannelNumberWC = 32; //maximum
+Int_t runChannelNumberWC = 14; //ANDREA
 /*Declare & define the variables that are to be saved in the root-tree or that are used during the analysis.*/
 Int_t EventNumber = -999;
 Int_t LastEventNumber = -999;
@@ -140,7 +142,7 @@ int triggerChannel = 8; //starting from 0 -> Calib: 8?, Testbeam '18: 15, Import
 
 int plotGrid = 3;
 
-int maximalExtraPrintEvents = 10;
+int maximalExtraPrintEvents = 50;
 int printedExtraEvents = 0;
 bool printExtraEvents = true;
 //Event Skipping
@@ -228,6 +230,10 @@ void read(map<string, string> readParameters)
   {
     // std::cerr <<"Error at runNumber:" <<e.what() << '\n';
   }
+
+  // HERE
+  cout << "RUNCHANNELWNUMBERWC " << runChannelNumberWC << endl;
+
 
   switch_BL = parseBoolean(readParameters["dynamicBL"]);
   isDC = parseBoolean(readParameters["isDC"]);
@@ -832,9 +838,13 @@ void read(map<string, string> readParameters)
 
       nitem = fread(&nCh, sizeof(unsigned int), 1, pFILE); // since V2.8.14 the number of stored channels is written for each event
 
+      
+
       if (EventNumber % 100 == 0)
       {
         printf("Percentage: %lf, EventNr: %d, nCh: %d+   \n", ftell(pFILE) / totFileSizeByte, EventNumber, nCh);
+        // HERE
+        cout << "NCH " << nCh << endl;
       }
 
       float MeasuredBaseline[runChannelNumberWC];
@@ -1067,7 +1077,7 @@ void read(map<string, string> readParameters)
             weirdSkip = true;
             
           } else {
-            if (FILTERWEIRD && (EventNumber%100 == 0) ) forcePrintThisEvent = true; // ATTENTION
+            if (FILTERWEIRD && (EventNumber%5 == 0) ) forcePrintThisEvent = true; // ATTENTION
           }  
 
           // if (!skipThisEvent) {
@@ -1225,12 +1235,13 @@ void read(map<string, string> readParameters)
          
           SiPMMaximumAverage += SiPMMaximum;
 
-          if (0==i && !skipThisEvent){
-            TSpectrum *s = new TSpectrum(2*5);
-            Int_t nfound = s->Search(&hChtemp.at(i),2,"",0.80);
-            // cout << "nfound " << nfound << endl;
-            if (nfound != 1) multiPeaks += 1;
-            }
+          // ATTENTION
+          // if (0==i && !skipThisEvent){
+          //   TSpectrum *s = new TSpectrum(2*5);
+          //   Int_t nfound = s->Search(&hChtemp.at(i),2,"",0.80);
+          //   // cout << "nfound " << nfound << endl;
+          //   if (nfound != 1) multiPeaks += 1;
+          //   }
 
           if (FILTERWEIRD && i == 7 && (SiPMMaximumAverage/8.0 < 10)) {
 
@@ -1279,7 +1290,7 @@ void read(map<string, string> readParameters)
           //  if(!skipThisEvent || (skipThisEvent && (forcePrintThisEvent || (printedExtraEvents < maximalExtraPrintEvents)))){
           //  if ((forcePrintThisEvent && (forcePrintEvents < maximalForcePrintEvents)) || ((currentPrint != fileCounter) || (printedExtraEvents < maximalExtraPrintEvents)))
 
-          if (!skipThisEvent && (allowForcePrintEvents || ((currentPrint != fileCounter) || (printedExtraEvents < maximalExtraPrintEvents)))) // !skipThisEvent && 
+          if ( (allowForcePrintEvents || ((currentPrint != fileCounter) || (printedExtraEvents < maximalExtraPrintEvents)))) // !skipThisEvent && 
           {
 
             cWaves.cd(i + 1);
@@ -1605,7 +1616,8 @@ void read(map<string, string> readParameters)
       if (print)
       {
 
-        if (!skipThisEvent || (skipThisEvent && (forcePrintThisEvent || (printedExtraEvents < maximalExtraPrintEvents))))
+        // if (!skipThisEvent || (skipThisEvent && (forcePrintThisEvent || (printedExtraEvents < maximalExtraPrintEvents))))
+        if (!skipThisEvent && (printedExtraEvents < maximalExtraPrintEvents)) // ANDREA
         {
           if ((forcePrintThisEvent && (forcePrintEvents < maximalForcePrintEvents)) || ((currentPrint != fileCounter) || (printedExtraEvents < maximalExtraPrintEvents)))
           {
@@ -1621,17 +1633,17 @@ void read(map<string, string> readParameters)
               womCanvas.Print((TString)(plotSaveFolder + "/waveforms_womSum.pdf("), "pdf");
               // cout << "print in if filecounter" << endl;
               
-            }
-            else
+            } else
             {
-
-              cWaves.Print((TString)(plotSaveFolder + "/waveforms.pdf"), "pdf");
+              // HERE
+              // cWaves.Print((TString)(plotSaveFolder + "/waveforms.pdf"), "pdf");
               womCanvas.Print((TString)(plotSaveFolder + "/waveforms_womSum.pdf"), "pdf");
               // cout << "print in else" << endl;
             }
           }
         }
       }
+      cWaves.Clear("D");
 
       /*Writing the data for that event to the tree.*/
       if (!skipThisEvent)
@@ -1645,13 +1657,18 @@ void read(map<string, string> readParameters)
 
       if (weirdSkip) weirdInFile += 1;
     } // end of event loop
+
+
     auto nevent = tree->GetEntries();
 
     cout << "Events in Tree:  " << nevent << " Skipped:  " << skippedCount << endl;
     fclose(pFILE);
     fileCounter++;
+    // andrea
     totalEvents += eventsInFile;
     totalWeirdEvents += weirdInFile;
+    // end andrea
+
   } // end of file loop
 
   
@@ -1661,7 +1678,7 @@ void read(map<string, string> readParameters)
     /*Clearing objects and saving files.*/
     inList.close();
 
-    if (numberOfBinaryFiles != 1 || forcePrintEvents > 0)
+    if ((numberOfBinaryFiles != 1 || forcePrintEvents > 0))
     {
       cWaves.Print((TString)(plotSaveFolder + "/waveforms.pdf)"), "pdf");
 
