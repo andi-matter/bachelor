@@ -140,23 +140,34 @@ int main(int argc, char *argv[]) {
   file.GetObject("T", tree);
   tree->GetEntry(1);
 
+  //find out run parameters
   float rawAngleLimitLower, rawAngleLimitUpper;
-  float rawPositionLimitLower, rawPositionLimitUpper;
+  float rawTopPositionLimitLower, rawTopPositionLimitUpper;
+  float rawBotPositionLimitLower, rawBotPositionLimitUpper;
+  int centerChannel;
 
   tree->SetBranchAddress("angleIntTop", &rawAngleLimitUpper);
   tree->GetEntry(1);
   tree->SetBranchAddress("angleIntBot", &rawAngleLimitLower);
   tree->GetEntry(1);
-  tree->SetBranchAddress("posIntTop", &rawPositionLimitUpper);
+  tree->SetBranchAddress("posTopIntTop", &rawTopPositionLimitUpper);
   tree->GetEntry(1);
-  tree->SetBranchAddress("posIntBot", &rawPositionLimitLower);
+  tree->SetBranchAddress("posTopIntBot", &rawTopPositionLimitLower);
+  tree->GetEntry(1);
+  tree->SetBranchAddress("posBotIntTop", &rawBotPositionLimitUpper);
+  tree->GetEntry(1);
+  tree->SetBranchAddress("posBotIntBot", &rawBotPositionLimitLower);
+  tree->GetEntry(1);
+  tree->SetBranchAddress("CenterChannelPhiEw", &centerChannel);
   tree->GetEntry(1);
 
 
   float angleUpperLimit; // angle interval right (from normal) deg
   float angleLowerLimit; // angle interval left (from normal) deg
-  float posLeftLimit; // left position limit upper plastic scint, in cm from 0
-  float posRightLimit; // right position limit upper plastic scint, in cm from 0
+  float posTopLeftLimit; // left position limit upper plastic scint, in cm from 0
+  float posTopRightLimit; // right position limit upper plastic scint, in cm from 0
+  float posBotLeftLimit; // left position limit lower plastic scint, in cm from 0
+  float posBotRightLimit; // right position limit lower plastic scint, in cm from 0
   
   if (rawAngleLimitUpper == 999) {
     angleUpperLimit = 90.0;
@@ -167,21 +178,32 @@ int main(int argc, char *argv[]) {
     angleLowerLimit = -90.0 - TMath::ATan(0.66 * 2 / (0.2998 * rawAngleLimitLower)) / TMath::Pi() * 180.0;
   }
 
-  if (rawPositionLimitLower == 999) {
-    posLeftLimit = -100;
-    posRightLimit = 100;
+  if (rawTopPositionLimitLower == 999) {
+    posTopLeftLimit = -100;
+    posTopRightLimit = 100;
   }
   else {
-    posLeftLimit = 0.2998 * 0.5 * 0.5 * rawPositionLimitLower * 100.0;
-    posRightLimit = 0.2998 * 0.5 * 0.5 * rawPositionLimitUpper * 100.0;
+    posTopLeftLimit = 0.2998 * 0.5 * 0.5 * rawTopPositionLimitLower * 100.0;
+    posTopRightLimit = 0.2998 * 0.5 * 0.5 * rawTopPositionLimitUpper * 100.0;
   }
+
+  if (rawBotPositionLimitLower == 999) {
+    posBotLeftLimit = -100;
+    posBotRightLimit = 100;
+  }
+  else {
+    posBotLeftLimit = 0.2998 * 0.5 * 0.5 * rawBotPositionLimitLower * 100.0;
+    posBotRightLimit = 0.2998 * 0.5 * 0.5 * rawBotPositionLimitUpper * 100.0;
+  }
+
+  float positionInfo[] = {(float) runNumber, posTopLeftLimit, posTopRightLimit, posBotLeftLimit, posBotRightLimit};
 
   // cout << " maybe raw angle limit upper " << TMath::ATan(0.66 * 2 / (0.2998 * rawAngleLimitUpper)) / TMath::Pi() * 180.0 << endl;
 
   cout << "Writing ..." << endl;
 
   //print Histograms of incidence times and amplitudes in Plastic Scintillators to PDF
-  float positionInfo[] = {(float) runNumber, angleLowerLimit, angleUpperLimit, posLeftLimit, posRightLimit};
+
   plasticScintTimes(tree, rootfileStr, saveFolder, positionInfo);
   cout << "- plasticScintTimes.pdf" << endl;
   plasticScintAmps(tree, rootfileStr, saveFolder, positionInfo);

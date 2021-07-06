@@ -44,10 +44,10 @@ void plasticScintTimes(TTree* tree, string rootFilename, string saveFolder, floa
 void plasticScintTimes(TTree* tree, string rootFilename, string saveFolder, float* positionInfo) {
 
 	int runNumber = positionInfo[0];
-	float angleLowerLimit = positionInfo[1];
-	float angleUpperLimit = positionInfo[2];
-	float posLeftLimit = positionInfo[3];
-	float posRightLimit  = positionInfo[4];
+	float posTopLeftLimit = positionInfo[1];
+	float posTopRightLimit = positionInfo[2];
+	float posBotLeftLimit = positionInfo[3];
+	float posBotRightLimit  = positionInfo[4];
 		
 	//Style Settings:
   gStyle->SetOptStat(0);
@@ -85,7 +85,7 @@ void plasticScintTimes(TTree* tree, string rootFilename, string saveFolder, floa
 	TH1F* histVec[8]; 
 
 	TCanvas canvas("canvas", "Plastic Scintillators", 1557, 2000);
-  TPaveLabel title(0.1, 0.96, 0.9, 0.99, Form("Incidence Time; Run %d, [%.1f, %.1f] deg., [%.1f, %.1f]cm", runNumber, angleLowerLimit, angleUpperLimit, posLeftLimit, posRightLimit));
+  TPaveLabel title(0.1, 0.96, 0.9, 0.99, Form("Incidence Time; Run %d, [%.1f, %.1f]cm top., [%.1f, %.1f]cm bot", runNumber, posTopLeftLimit, posTopRightLimit, posBotLeftLimit, posBotRightLimit));
   TPaveLabel xTitle(0, 0.01, 1, 0.03, xlabel);
   TPaveLabel yTitle(0.01, 0, 0.03, 1, ylabel);
   title.SetTextSize(.7);

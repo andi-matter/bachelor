@@ -123,16 +123,21 @@ int main(int argc, char *argv[]) {
 
   //find out run parameters
   float rawAngleLimitLower, rawAngleLimitUpper;
-  float rawPositionLimitLower, rawPositionLimitUpper;
+  float rawTopPositionLimitLower, rawTopPositionLimitUpper;
+  float rawBotPositionLimitLower, rawBotPositionLimitUpper;
   int centerChannel;
 
   tree->SetBranchAddress("angleIntTop", &rawAngleLimitUpper);
   tree->GetEntry(1);
   tree->SetBranchAddress("angleIntBot", &rawAngleLimitLower);
   tree->GetEntry(1);
-  tree->SetBranchAddress("posIntTop", &rawPositionLimitUpper);
+  tree->SetBranchAddress("posTopIntTop", &rawTopPositionLimitUpper);
   tree->GetEntry(1);
-  tree->SetBranchAddress("posIntBot", &rawPositionLimitLower);
+  tree->SetBranchAddress("posTopIntBot", &rawTopPositionLimitLower);
+  tree->GetEntry(1);
+  tree->SetBranchAddress("posBotIntTop", &rawBotPositionLimitUpper);
+  tree->GetEntry(1);
+  tree->SetBranchAddress("posBotIntBot", &rawBotPositionLimitLower);
   tree->GetEntry(1);
   tree->SetBranchAddress("CenterChannelPhiEw", &centerChannel);
   tree->GetEntry(1);
@@ -140,8 +145,10 @@ int main(int argc, char *argv[]) {
 
   float angleUpperLimit; // angle interval right (from normal) deg
   float angleLowerLimit; // angle interval left (from normal) deg
-  float posLeftLimit; // left position limit upper plastic scint, in cm from 0
-  float posRightLimit; // right position limit upper plastic scint, in cm from 0
+  float posTopLeftLimit; // left position limit upper plastic scint, in cm from 0
+  float posTopRightLimit; // right position limit upper plastic scint, in cm from 0
+  float posBotLeftLimit; // left position limit lower plastic scint, in cm from 0
+  float posBotRightLimit; // right position limit lower plastic scint, in cm from 0
   
   if (rawAngleLimitUpper == 999) {
     angleUpperLimit = 90.0;
@@ -152,16 +159,25 @@ int main(int argc, char *argv[]) {
     angleLowerLimit = -90.0 - TMath::ATan(0.66 * 2 / (0.2998 * rawAngleLimitLower)) / TMath::Pi() * 180.0;
   }
 
-  if (rawPositionLimitLower == 999) {
-    posLeftLimit = -100;
-    posRightLimit = 100;
+  if (rawTopPositionLimitLower == 999) {
+    posTopLeftLimit = -100;
+    posTopRightLimit = 100;
   }
   else {
-    posLeftLimit = 0.2998 * 0.5 * 0.5 * rawPositionLimitLower * 100.0;
-    posRightLimit = 0.2998 * 0.5 * 0.5 * rawPositionLimitUpper * 100.0;
+    posTopLeftLimit = 0.2998 * 0.5 * 0.5 * rawTopPositionLimitLower * 100.0;
+    posTopRightLimit = 0.2998 * 0.5 * 0.5 * rawTopPositionLimitUpper * 100.0;
   }
 
-  float positionInfo[] = {(float) runNumber, angleLowerLimit, angleUpperLimit, posLeftLimit, posRightLimit};
+  if (rawBotPositionLimitLower == 999) {
+    posBotLeftLimit = -100;
+    posBotRightLimit = 100;
+  }
+  else {
+    posBotLeftLimit = 0.2998 * 0.5 * 0.5 * rawBotPositionLimitLower * 100.0;
+    posBotRightLimit = 0.2998 * 0.5 * 0.5 * rawBotPositionLimitUpper * 100.0;
+  }
+
+  float positionInfo[] = {(float) runNumber, posTopLeftLimit, posTopRightLimit, posBotLeftLimit, posBotRightLimit};
 
 
   // declare stuff to access data
@@ -176,7 +192,7 @@ int main(int argc, char *argv[]) {
   gStyle->SetLineScalePS(1);
 
   TCanvas canvas("canvas", "Phi_ew for channels", 1557, 2000);
-  TPaveLabel title(0.1, 0.96, 0.9, 0.99, Form("Phi_ew omitting different channels; centered opposite omitted channel, Run %s, [%.1f, %.1f] deg., [%.1f, %.1f]cm", runNumberString.c_str(), angleLowerLimit, angleUpperLimit, posLeftLimit, posRightLimit));
+  TPaveLabel title(0.1, 0.96, 0.9, 0.99, Form("Phi_ew omitting different channels; centered opposite omitted channel, Run %s, [%.1f, %.1f]cm top., [%.1f, %.1f]cm bot", runNumberString.c_str(), posTopLeftLimit, posTopRightLimit, posBotLeftLimit, posBotRightLimit));
   // TPaveLabel title(0.1, 0.96, 0.9, 0.99, "Phi_ew omitting different channels; centered opposite omitted channel");
   TPaveLabel xTitle(0, 0.01, 1, 0.03, "Phi_ew (deg.)");
   TPaveLabel yTitle(0.01, 0, 0.03, 1, "Number of Entries");
@@ -254,7 +270,7 @@ int main(int argc, char *argv[]) {
 
   }
 
-title.SetLabel(Form("#splitline{Phi_ew omitting different channels; centered opposite omitted channel,}{Run %s, [%.1f, %.1f] deg., [%.1f, %.1f]cm}", runNumberString.c_str(), angleLowerLimit, angleUpperLimit, posLeftLimit, posRightLimit));
+title.SetLabel(Form("#splitline{Phi_ew omitting different channels; centered opposite omitted channel,}{Run %s, [%.1f, %.1f]cm top., [%.1f, %.1f]cm bot}", runNumberString.c_str(), posTopLeftLimit, posTopRightLimit, posBotLeftLimit, posBotRightLimit));
 
 string loc_name = saveFolder + "/phi_ew_omitting.pdf";
 // std::cout << loc_name << endl;
@@ -302,7 +318,7 @@ TH1F* phiEwStuff[3] = {allChannels, stdPhiew, phiShifted};
 
 // cout << 1 << endl;
 TCanvas canvas2("canvas", "Phi_ew from all channels", 1500, 1000);
-TPaveLabel title2(0.1, 0.96, 0.9, 0.99, Form("Phi_ew centered opposite omitted channel, Run %s, [%.1f, %.1f] deg., [%.1f, %.1f]cm", runNumberString.c_str(), angleLowerLimit, angleUpperLimit, posLeftLimit, posRightLimit));
+TPaveLabel title2(0.1, 0.96, 0.9, 0.99, Form("Phi_ew centered opposite omitted channel, Run %s, [%.1f, %.1f]cm top., [%.1f, %.1f]cm bot", runNumberString.c_str(), posTopLeftLimit, posTopRightLimit, posBotLeftLimit, posBotRightLimit));
 TPaveLabel xTitle2(0, 0.01, 1, 0.03, "Phi_ew (deg.)");
 TPaveLabel yTitle2(0.03, 0, 0.03, 1, "#splitline{Number of Entries}{ }");
 
@@ -434,7 +450,7 @@ for (int i=0; i<3; i++) {
 
 
     // fprintf(fitLog, "#Max\tPeak\tSigma\tOffset\n");
-    fprintf(fitLog, "\n##Run %s, [%.1f, %.1f] deg., [%.1f, %.1f]cm\n", runNumberString.c_str(), angleLowerLimit, angleUpperLimit, posLeftLimit, posRightLimit);
+    fprintf(fitLog, "\n##Run %s, [%.1f, %.1f]cm top., [%.1f, %.1f]cm bot", runNumberString.c_str(), posTopLeftLimit, posTopRightLimit, posBotLeftLimit, posBotRightLimit);
     fprintf(fitLog, "%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\n", fitParams[0], fitParamErrs[0], fitParams[1], fitParamErrs[1], fitParams[2], fitParamErrs[2], fitParams[3], fitParamErrs[3], chi2/ndf);
     fprintf(fitLog, "#Covariance Matrix\n");
     for (int m=0; m<4; m++) {
@@ -497,7 +513,7 @@ for (int i=0; i<3; i++) {
   }
 }
 
-title2.SetLabel(Form("Phi_ew centered opposite omitted channel, Run %s, [%.1f, %.1f] deg., [%.1f, %.1f]cm", runNumberString.c_str(), angleLowerLimit, angleUpperLimit, posLeftLimit, posRightLimit));
+title2.SetLabel(Form("Phi_ew centered opposite omitted channel, Run %s, [%.1f, %.1f]cm top., [%.1f, %.1f]cm bot", runNumberString.c_str(), posTopLeftLimit, posTopRightLimit, posBotLeftLimit, posBotRightLimit));
 
 
 

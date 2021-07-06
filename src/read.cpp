@@ -47,21 +47,34 @@
 
 // andrea
 int firstTrigger = 8; // first of 4 trigger channels. COSMICS
-bool ANGLECUTS = true;
-bool POSITIONCUTS = true;
-bool INTEGRALCUT = true;
+bool ANGLECUTS = false; //UNUSED
+
+bool POSITIONCUTS = true; // this automatically makes angle cut now!
+bool INTEGRALCUT = false;
 bool SCINTCUT = false;
-bool FILTERWEIRD = true; // filter "weird" (2021) PMT signals by cutting PMT amp over 5mV
+bool FILTERWEIRD = true; // filter "weird" (may 2021) PMT signals by cutting PMT amp over 5mV
+
 float lowAmpScint = -2000; // lowest amplitude in ch10 still counted
 float highAmpScint = -60; // highest amplitude in ch10 still counted
 float integralCut = 300; // 300 standard
 float integralCutTop = 1500; // 1500.0 standard
 
-float dTintervalTop = 1; // ANGLE cut upper limit (PMT)
-float dTintervalBot = -1; // angle cut lower limit (PMT)
+float dTintervalTop = 999; // ANGLE cut upper limit (PMT) UNUSED
+float dTintervalBot = -999; // angle cut lower limit (PMT) UNUSED
 
-float diffTopIntervalTop = 3.3; // POSITION cut upper limit (PMT)
-float diffTopIntervalBot = 2.5;  // position cut lower limit (PMT)
+int angleMode = 0; // 0 and 30 degrees
+
+// pos,   top,            bottom
+// pos0: (-1.75, 2.25), (-1.15, 2.85)
+// pos1: (6.25; -),     (6.85, -)
+// pos2: (-, -5.75),    (-, -5.15)
+int position = 1; //0, 1, 2, 99 (none)
+
+float diffTopIntervalTop; // POSITION cut upper limit (upper PMT)
+float diffTopIntervalBot; // position cut lower limit (upper PMT)
+float diffBotIntervalTop; // POSITION cut upper limit (lower PMT)
+float diffBotIntervalBot; // position cut lower limit (lower PMT
+
 int entriesChannelSum = 0;
 float SiPMMaximumAverage;
 int weirdEvents = 0;
@@ -195,14 +208,54 @@ void read(map<string, string> readParameters)
  */
 
   // andrea
-  if (!ANGLECUTS) {
-    dTintervalTop = 999;
-    dTintervalBot = 999;
+  // if (!ANGLECUTS) {
+  //   dTintervalTop = 999;
+  //   dTintervalBot = 999;
+  // }
+
+   
+
+  // assign PMT interval cuts according to chosen position and angle
+  // float positions[4];
+  // if (0 == angleMode) {
+    float positionOptions[][4] = {{-1.75, 2.25, -1.15, 2.85},
+                                    {6.25, 999, 6.85, 999},
+                                    {-999, -5.75, -999, -5.15},
+                                    {-999, 999, -999, 999}};
+  // } 
+  // else {
+  //   float positions0[4] = {-999, 999, -999, 999};
+  //   float positions1[4] = {-999, 999, -999, 999};
+  //   float positions2[4] = {-999, 999, -999, 999};
+  //   float positions99[4] = {-999, 999, -999, 999};
+  // }
+
+  float* positions;
+  
+  if (POSITIONCUTS) {
+    switch(position) {
+      case 0:
+        positions = positionOptions[0];
+        break;
+      case 1:
+        positions = positionOptions[1];
+        break;
+      case 2:
+        positions = positionOptions[2];
+        break;
+      default:
+        positions = positionOptions[3];
+        break;
+    }
+  } else {
+    positions = positionOptions[3];
   }
-  if (!POSITIONCUTS) {
-    diffTopIntervalTop = 999;
-    diffTopIntervalBot = 999;
-  } // end andrea
+  diffTopIntervalBot = positions[0];
+  diffTopIntervalTop = positions[1];
+  diffBotIntervalBot = positions[2];
+  diffBotIntervalTop = positions[3];
+  
+  // end andrea
 
   gErrorIgnoreLevel = defaultErrorLevel;
   std::string runName = readParameters["runName"];
@@ -232,7 +285,7 @@ void read(map<string, string> readParameters)
   }
 
   // HERE
-  cout << "RUNCHANNELWNUMBERWC " << runChannelNumberWC << endl;
+  // cout << "RUNCHANNELWNUMBERWC " << runChannelNumberWC << endl;
 
 
   switch_BL = parseBoolean(readParameters["dynamicBL"]);
@@ -591,8 +644,10 @@ void read(map<string, string> readParameters)
   
   tree->Branch("angleIntTop", &dTintervalTop, "angleIntTop/F");
   tree->Branch("angleIntBot", &dTintervalBot, "angleIntBot/F");
-  tree->Branch("posIntTop", &diffTopIntervalTop, "posIntTop/F");
-  tree->Branch("posIntBot", &diffTopIntervalBot, "posIntBot/F");
+  tree->Branch("posTopIntTop", &diffTopIntervalTop, "posIntTop/F");
+  tree->Branch("posTopIntBot", &diffTopIntervalBot, "posIntBot/F");
+  tree->Branch("posBotIntTop", &diffBotIntervalTop, "posIntTop/F");
+  tree->Branch("posBotIntBot", &diffBotIntervalBot, "posIntBot/F");
   tree->Branch("integralCut", &integralCut, "integralCut/F");
   tree->Branch("integralCutTop", &integralCutTop, "integralCutTop/F");
   tree->Branch("lowAmpScint", &lowAmpScint, "lowAmpScint/F");
@@ -844,7 +899,7 @@ void read(map<string, string> readParameters)
       {
         printf("Percentage: %lf, EventNr: %d, nCh: %d+   \n", ftell(pFILE) / totFileSizeByte, EventNumber, nCh);
         // HERE
-        cout << "NCH " << nCh << endl;
+        // cout << "NCH " << nCh << endl;
       }
 
       float MeasuredBaseline[runChannelNumberWC];
@@ -1157,14 +1212,17 @@ void read(map<string, string> readParameters)
 
         // cut on TimeDifference -> angle:
         // only events in Interval get counted
-        if (ANGLECUTS && !(timeDifference <= dTintervalTop && timeDifference >= dTintervalBot)) {
-          skipThisEvent = true;
-        }
+        // if (ANGLECUTS && !(timeDifference <= dTintervalTop && timeDifference >= dTintervalBot)) {
+        //   skipThisEvent = true;
+        // }
 
-        // cut on timeDiffTop -> Position
+        // cut on timeDiffTop -> Position and angle
         // only events in interval get counted:
         if (POSITIONCUTS && !(timeDifferenceTop <= diffTopIntervalTop && timeDifferenceTop >= diffTopIntervalBot)) {
-          skipThisEvent = true; // Dt top and Dt bot in interval [-interval, interval]
+          skipThisEvent = true; // Dt top in interval positions[2,3]
+        }
+        if (POSITIONCUTS && !(timeDifferenceBot <= diffBotIntervalTop && timeDifferenceBot >= diffBotIntervalBot)) {
+          skipThisEvent = true; // Dt bot in interval positions[0,1]
         }
 
         
@@ -1724,9 +1782,9 @@ void read(map<string, string> readParameters)
   fprintf(cut_log, "\n#Run log of timing cuts \n");
   fprintf(cut_log, "#Runname: \n");
   fprintf(cut_log, "%s", runName.c_str());
-  fprintf(cut_log, "\nPosition cuts: %s\nAngle cuts: %s\nIntegral cuts: %s\nPMT amp cuts: %s", POSITIONCUTS ? "true" : "false", ANGLECUTS ? "true" : "false", INTEGRALCUT ? "true" : "false", SCINTCUT ? "true" : "false");
-  fprintf(cut_log, "\n#POS interval left\tPOS interval right\tANGLE interval left\tANGLE interval right\tmin. N_pe\tmax. N_pre\tmin PMT amp\tmax PMT amp\n");
-  fprintf(cut_log, "%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f", diffTopIntervalBot, diffTopIntervalTop, dTintervalBot, dTintervalTop, integralCut, integralCutTop, lowAmpScint, highAmpScint);
+  fprintf(cut_log, "\nPosition cuts: %s\nAngle cuts (DEPR): %s\nIntegral cuts: %s\nPMT amp cuts: %s", POSITIONCUTS ? "true" : "false", ANGLECUTS ? "true" : "false", INTEGRALCUT ? "true" : "false", SCINTCUT ? "true" : "false");
+  fprintf(cut_log, "\n#POS top min\tPOS top max\t POS bot min\t bot max\tANGLE interval left\tANGLE interval right\tmin. N_pe\tmax. N_pre\tmin PMT amp\tmax PMT amp\n");
+  fprintf(cut_log, "%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f", diffTopIntervalBot, diffTopIntervalTop, diffBotIntervalBot, diffBotIntervalTop, dTintervalBot, dTintervalTop, integralCut, integralCutTop, lowAmpScint, highAmpScint);
   fclose(cut_log);
 
   fprintf(weirdEventCounter, "%s\t%d\t%d\t%f\n", runName.c_str(), totalWeirdEvents, totalEvents, totalWeirdEvents*1.0/totalEvents);
