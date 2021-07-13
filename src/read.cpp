@@ -47,7 +47,7 @@
 
 // andrea
 int firstTrigger = 8; // first of 4 trigger channels. COSMICS
-bool ANGLECUTS = false; //UNUSED
+bool ANGLECUTS = false; //
 
 bool POSITIONCUTS = true; // this automatically makes angle cut now!
 bool INTEGRALCUT = false;
@@ -59,16 +59,17 @@ float highAmpScint = -60; // highest amplitude in ch10 still counted
 float integralCut = 300; // 300 standard
 float integralCutTop = 1500; // 1500.0 standard
 
-float dTintervalTop = 999; // ANGLE cut upper limit (PMT) UNUSED
-float dTintervalBot = -999; // angle cut lower limit (PMT) UNUSED
-
-int angleMode = 0; // 0 and 30 degrees
+float dTintervalTop = 1; // ANGLE cut upper limit (PMT) UNUSED
+float dTintervalBot = -1; // angle cut lower limit (PMT) UNUSED
 
 // pos,   top,            bottom
 // pos0: (-1.75, 2.25), (-1.15, 2.85)
 // pos1: (6.25; -),     (6.85, -)
 // pos2: (-, -5.75),    (-, -5.15)
-int position = 1; //0, 1, 2, 99 (none)
+int position = 2; //0, 1, 2, 99 (none)
+
+
+int angleMode = 0; // 0 and 30 degrees
 
 float diffTopIntervalTop; // POSITION cut upper limit (upper PMT)
 float diffTopIntervalBot; // position cut lower limit (upper PMT)
@@ -208,10 +209,10 @@ void read(map<string, string> readParameters)
  */
 
   // andrea
-  // if (!ANGLECUTS) {
-  //   dTintervalTop = 999;
-  //   dTintervalBot = 999;
-  // }
+  if (!ANGLECUTS) {
+    dTintervalTop = 999;
+    dTintervalBot = 999;
+  }
 
    
 
@@ -1132,7 +1133,7 @@ void read(map<string, string> readParameters)
             weirdSkip = true;
             
           } else {
-            if (FILTERWEIRD && (EventNumber%5 == 0) ) forcePrintThisEvent = true; // ATTENTION
+            if (FILTERWEIRD && (EventNumber%50 == 0) ) forcePrintThisEvent = true; // ATTENTION
           }  
 
           // if (!skipThisEvent) {
@@ -1212,9 +1213,9 @@ void read(map<string, string> readParameters)
 
         // cut on TimeDifference -> angle:
         // only events in Interval get counted
-        // if (ANGLECUTS && !(timeDifference <= dTintervalTop && timeDifference >= dTintervalBot)) {
-        //   skipThisEvent = true;
-        // }
+        if (ANGLECUTS && !(timeDifference <= dTintervalTop && timeDifference >= dTintervalBot)) {
+          skipThisEvent = true;
+        }
 
         // cut on timeDiffTop -> Position and angle
         // only events in interval get counted:

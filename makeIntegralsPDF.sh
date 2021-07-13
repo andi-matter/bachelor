@@ -40,7 +40,7 @@ else
 	exit
 fi
 
-file=$(find /mnt/d/Programme/RootAnalysis/RootAnalysis/finishedRootfiles -name "${runNumber}*" )
+file=$(find /mnt/d/Programme/RootAnalysis/RootAnalysis/finishedRootfiles -maxdepth 1 -name "${runNumber}*" )
 # echo "file here!"
 # echo $file
 

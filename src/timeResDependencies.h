@@ -9,6 +9,7 @@
 #include <TString.h>
 #include <TCanvas.h>
 #include <TPaveLabel.h>
+#include <TPaveStats.h>
 #include <TPad.h>
 #include <TFile.h>
 #include <TTree.h>
@@ -68,11 +69,12 @@ void timeResDependencies(TTree* tree, string rootFilename, string saveFolder, fl
 
   string histNamesTree[] = {"timeResApprox:minimum_ch10", "timeResApprox:minimum_ch11", "timeResApprox:minimum_ch12", "timeResApprox:minimum_ch13", "timeResApprox:Time_diff_top", "timeResApprox:Time_diff_bot"};
 
-  string histNames[] = {"minCh10", "minCh11", "minCh12", "minCh13", "t12", "t34"};
+  string histNames[] = {"Min. ch10 (mV)", "Min. ch11 (mV)", "Min. ch12 (mV)", "Min. ch13 (mV)", "top time diff. (ns)", "bot time diff. (ns)"};
 
   TString histDraw[6];
   TString xTitles[] = {"Minimum (mV)", "Minimum (mV)", "Minimum (mV)", "Minimum (mV)", "time (ns)", "time (ns)"};
-  TString ylabel = "#DeltaT (ns)";
+
+  TString ylabel = "#Time resolution (ns)";
 
   TH1F* histVec[6];
 
@@ -101,28 +103,39 @@ void timeResDependencies(TTree* tree, string rootFilename, string saveFolder, fl
   graphPad.cd();
   graphPad.Divide(2, 3);
 
-  Int_t xMin[] = {-50, -50, -50, -10, 80,80};
-  Int_t xMax[] = {10, 10, 10, 10, 140, 140};
+  Int_t xMin[] = {-50, -50, -50, -50, -30,-30};
+  Int_t xMax[] = {0, 0, 0, 0, 30, 30};
   Int_t yMin[] = {-10};
   Int_t yMax[] = {10};
+
   // Int_t binFactor[] = {5, 5, 5, 10, 5, 5, 5, 5};
+  Int_t nBins = 85;
 
   for (int nPad = 1; nPad < 7; nPad++) {
 		graphPad.cd(nPad);
 		gPad->SetLeftMargin(.08); //.18
-		gPad->SetBottomMargin(.052); //.15
-		gPad->SetRightMargin(0.065);
+		gPad->SetBottomMargin(.152); //.15
+		gPad->SetRightMargin(0.13);
 		gPad->SetGrid();
   }
 
-  for (int i=0; i<6; i++) {
-    graphPad.cd(i + 1);
-    histDraw[i] = Form("%s>>%s", histNamesTree[i].c_str(), histNames[i].c_str());
+  
 
-    histVec[i] = new TH1F(histNames[i].c_str(), histTitles[i].c_str(), 100, xMin[i], xMax[i]);
+  
+
+  for (int i=0; i<6; i++) {
+    // graphPad.cd(i + 1);
+    graphPad.cd(i + 1);
+    histDraw[i] = Form("%s>>%s(%d,%d,%d,%d,%d,%d)", histNamesTree[i].c_str(), histNames[i].c_str(), nBins, xMin[i], xMax[i], nBins, yMin[0], yMax[0]);
+
+    histVec[i] = new TH1F(histTitles[i].c_str(), histTitles[i].c_str(), 100, xMin[i], xMax[i]);
+
+    
+
     
 
     gStyle->SetTitleSize(0.08, "t"); 
+    gStyle->SetOptStat(0);
 		
     histVec[i]->GetXaxis()->SetLabelSize(.06);
     histVec[i]->GetYaxis()->SetLabelSize(.06);
@@ -131,12 +144,69 @@ void timeResDependencies(TTree* tree, string rootFilename, string saveFolder, fl
     histVec[i]->SetMarkerStyle(kCircle);
     // histVec[i]->SetMarkerSize(5);
     // histVec[i]->SetMarkerColorAlpha(kBlack, 1);
-    histVec[i]->SetXTitle(xTitles[i]);
-    histVec[i]->GetXaxis()->SetTitle(xTitles[i]);
+    // histVec[i]->SetXTitle(xTitles[i]);
+    
+    histVec[i]->SetAxisRange(xMin[i], xMax[i], "X");
 
-    tree->Draw(histDraw[i], "", "HIST");
+    tree->UseCurrentStyle();
+    tree->Draw(histDraw[i], "", "colz", 1000, 50);
+    
+    // TH2F *htemp = (TH2F*)gPad->GetPrimitive("htemp"); 
+    // htemp->GetXaxis()->SetTitle(xTitles[i]); 
+    // htemp->GetYaxis()->SetTitle("my new Y title"); 
+    // gPad->Update();
+    
+
+    // if (true) {
+          
+    //   TCanvas *histTest = new TCanvas();
+    //   histVec[i]->Draw();
+    //   TString locationTest;
+    //   locationTest.Form("%s/histTest%d.pdf", saveFolder.c_str(), i);
+    //   histTest->SaveAs(locationTest);
+    // }
 
   }
+
+/**
+  TH2F* histVector2D[6];
+
+
+  for (int i=0; i<6; i++) {
+    graphPad.cd(i + 1);
+
+    histVector2D[i] = new TH2F(histNames[i+1].c_str(), histNames[i+1].c_str(), nBins, xMin[i+1], xMax[i+1], nBins, yMin[0], yMax[0]);
+
+    
+
+    for (int k=1; k<=nBins; k++) {
+      // cout << histVec[i+1]->GetBinContent(i) << endl;
+      if (i==0) cout << histVec[0]->GetBinContent(k) << endl;
+
+      histVector2D[i]->Fill(histVec[i+1]->GetBinContent(k), histVec[0]->GetBinContent(k));
+    }
+
+    // if (i==0) {
+          
+    //   TCanvas *histTest = new TCanvas();
+    //   histVector2D[i]->Draw();
+    //   std::string locationTest = saveFolder + "/histTest.pdf";
+    //   histTest->SaveAs(locationTest.c_str());
+    // }
+
+    gStyle->SetTitleSize(0.08, "t"); 
+		
+    histVector2D[i]->GetXaxis()->SetLabelSize(.06);
+    histVector2D[i]->GetYaxis()->SetLabelSize(.06);
+    histVector2D[i]->SetLineColorAlpha(kBlack, 0.7);
+    histVector2D[i]->SetFillColorAlpha(kBlack, 0.5);
+
+    histVector2D[i]->GetXaxis()->SetTitle(xTitles[i]);
+    histVector2D[i]->GetYaxis()->SetTitle("Time resolution (ns)");
+
+    histVector2D[i]->Draw("colz");
+
+  } **/
   canvas.SaveAs(locationTimes.c_str());
 
 }
