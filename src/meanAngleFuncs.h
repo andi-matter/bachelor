@@ -47,6 +47,8 @@ float translateAngle(float inputAngle, float zeroAngle);
 void translateAngle(float *inputAngles ,int sizeAngles, float zeroAngle);
 void cartesianToPolar(int numberEntries, float* inputX, float* inputY, float* outputAngles);
 float cartesianToPolar(float inputX, float inputY);
+void arctan2Arr(int numberEntries, float* inputX, float* inputY, float* outputAngles);
+float arctan2(float inputX, float inputY);
 void printArray(float *array, int arraySize);
 Double_t fitf(Double_t *x, Double_t *par);
 
@@ -156,6 +158,69 @@ void cartesianToPolar(int numberEntries, float* inputX, float* inputY, float* ou
     }
 }
 
+/**
+ * @brief Arctan func in polar angle [0, 360)
+ * 
+ * @param inputX 
+ * @param inputY 
+ * @return float 
+ */
+float arctan2(float inputX, float inputY) {
+    float pi = TMath::Pi();
+    float outputAngle;
+    if (inputX > 0 && inputY >= 0) {
+        outputAngle = (TMath::ATan(inputY / inputX) * 180.0 / pi);
+    } 
+    else if (inputX < 0) {
+        outputAngle = (TMath::ATan(inputY / inputX)  + pi) * 180.0 / pi;
+    } 
+    else if (inputX > 0 && inputY < 0) {
+        outputAngle = (TMath::ATan(inputY / inputX)  + 2*pi) * 180.0 / pi;
+    } 
+    else if (inputX == 0 && inputY > 0) {
+        outputAngle = 0.5 * 180.0;
+    }
+    else if (inputX == 0 && inputY < 0) {
+        outputAngle = -1.5* 180.0;
+    }
+    return outputAngle;
+}
+
+/**
+ * @brief Convert list of Arctan func in polar angle [0, 360)
+ * 
+ * @param numberEntries 
+ * @param inputX 
+ * @param inputY 
+ * @param outputAngles 
+ */
+void arctan2Arr(int numberEntries, float* inputX, float* inputY, float* outputAngles) {
+    float pi = TMath::Pi();
+    for (int i=0; i<numberEntries; i++) {
+        // cout << "x = " << inputX[i] << " y = " << inputY[i] << endl;
+        if (inputX[i] > 0 && inputY[i] >= 0) {
+          outputAngles[i] = (TMath::ATan(inputY[i] / inputX[i]) * 180.0 / pi);
+        //   cout << "case 1" << endl;
+        } 
+        else if (inputX[i] < 0) {
+          outputAngles[i] = (TMath::ATan(inputY[i] / inputX[i])  + pi) * 180.0 / pi;
+        //   cout << "case 2" << endl;
+        } 
+        else if (inputX[i] > 0 && inputY[i] < 0) {
+          outputAngles[i] = (TMath::ATan(inputY[i] / inputX[i])  + 2*pi) * 180.0 / pi;
+        //   cout << "case 3" << endl;
+        } 
+        else if (inputX[i] == 0 && inputY[i] > 0) {
+          outputAngles[i] = 0.5 * 180.0;
+        //   cout << "case 4" << endl;
+        }
+        else if (inputX[i] == 0 && inputY[i] < 0) {
+          outputAngles[i] = -1.5* 180.0;
+        //   cout << "case 5" << endl;
+        } else cout << "no case" << endl;
+        // printArray(outputAngles, numberEntries);
+    }
+}
 
 
 
