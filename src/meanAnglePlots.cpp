@@ -293,7 +293,7 @@ histDraw2Shift.Form("Phi_ew_shifted>>HistAllShift");
 TString histTitle2;
 TString histName2;
 TString histDraw2;
-histTitle2.Form("Phi_ew from all channels, centered around channel %d", centerChannel);
+histTitle2.Form("#phi_{ew} centered around channel %d", centerChannel);
 histName2.Form("HistAll");
 histDraw2.Form("Phi_ew_all_ch>>HistAll");
 TString histTitle3;
@@ -308,13 +308,13 @@ TString histTitlesPhi[] = {histTitle2, histTitle3, histTitle2Shift};
 TString histDrawsPhi[] = {histDraw2, histDraw3, histDraw2Shift};
 // cout << 2 << endl;
 TH1F* phiShifted = new TH1F(histName2Shift, histTitle2Shift, 3*(xMax - xMin)/10, 3*xMin, 3*xMax);
-TH1F* allChannels = new TH1F(histName2, histTitle2, (xMax - xMin)/10, xMin, xMax);
+TH1F* allChannels = new TH1F(histName2, histTitle2, 180, xMin, xMax);
 TH1F* stdPhiew = new TH1F(histName3, histTitle3, (1200)/10, 0, 250);
 
 TH1F* phiEwStuff[3] = {allChannels, stdPhiew, phiShifted};
 // cout << 3 << endl;
 
-
+// gStyle->SetTitleFont(28,'t');
 
 // cout << 1 << endl;
 TCanvas canvas2("canvas", "Phi_ew from all channels", 1500, 1000);
@@ -341,7 +341,7 @@ TPad graphPad2("Graphs", "Graphs", 0.01, 0.03, 1, 0.96);
 graphPad2.Draw();
 graphPad2.Divide(2, 2);
 graphPad2.cd();
-TString xAxesPhiAll[] = {"Phi_ew in (deg.)", "Phi_ew in (deg.)", "Std. dev. of Phi_ew (deg.)"};
+TString xAxesPhiAll[] = {"#phi_{ew} (deg.)", "#phi_{ew} (deg.)", "Std. dev. of Phi_ew (deg.)"};
 
 
 // fit stuff
@@ -380,6 +380,7 @@ for (int i=0; i<3; i++) {
   // gStyle->SetTitleFont(70, "t");
   gStyle->SetTitleOffset(3, "t");
   gStyle->SetTitleY(1.01);
+  // gStyle->SetTitleFont(30,'t');
 
   phiEwStuff[i]->SetLineColorAlpha(kBlack, 0.7);
   phiEwStuff[i]->SetFillColorAlpha(kBlack, 0.5);
@@ -390,7 +391,7 @@ for (int i=0; i<3; i++) {
   phiEwStuff[i]->GetXaxis()->SetTitleOffset(1);
   phiEwStuff[i]->GetXaxis()->SetTitleSize(0.04);
   phiEwStuff[i]->GetYaxis()->SetTitle("Counts");
-  phiEwStuff[i]->GetYaxis()->SetTitleOffset(1.4);
+  phiEwStuff[i]->GetYaxis()->SetTitleOffset(1.3);
   phiEwStuff[i]->GetYaxis()->SetTitleSize(0.04);
 
 
@@ -502,12 +503,13 @@ for (int i=0; i<3; i++) {
     histLeg2->Draw();
   }
   else {
+    // gStyle->SetPalette(kOcean);
     tree->Draw(histDrawsPhi[i]); //, "", "HIST");
-    TLegend* histLeg2 = new TLegend(0.15, 0.58, 0.52, 0.65);
+    TLegend* histLeg2 = new TLegend(0.9, 0.8, 0.68, 0.65);
     histLeg2->SetFillColorAlpha(kWhite, 0.7); //translucent legend
     histLeg2->SetBorderSize(1);
     histLeg2->AddEntry((TObject*)0, Form("Entries = %d", (int) phiEwStuff[i]->GetEntries()));
-    // histLeg->AddEntry((TObject*)0, Form("Mean = %1.2f #pm %1.2f", histMeanVec[i], histMeanErrVec[i]), "");
+    histLeg2->AddEntry((TObject*)0, Form("Mean = %1.2f #pm %1.2f", phiEwStuff[i]->GetMean(), phiEwStuff[i]->GetMeanError()), "");
     gStyle->SetLegendTextSize(0.03);
     histLeg2->Draw();
   }

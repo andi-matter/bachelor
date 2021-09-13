@@ -69,7 +69,7 @@ float dTintervalBot = -1; // angle cut lower limit (PMT) UNUSED
 int position = 2; //0, 1, 2, 99 (none)
 
 
-int angleMode = 0; // 0 and 30 degrees
+int angleMode = 0; // 
 
 float diffTopIntervalTop; // POSITION cut upper limit (upper PMT)
 float diffTopIntervalBot; // position cut lower limit (upper PMT)
@@ -88,7 +88,7 @@ Int_t channelOrder[8] = { 0,1,2,3,4,5,6,7 }; // XXX //e.g. 0 deg --> channel 6, 
 Float_t phi_ew[9];
 float phiStd; // Standard deviation of phi_ew (no omission) for each event
 Float_t threePhiEw[3];
-int centerChannel = 1; // channel to center phi_ew around for no omissions
+int centerChannel = 0; // channel to center phi_ew around for no omissions
 // end andrea
 
 

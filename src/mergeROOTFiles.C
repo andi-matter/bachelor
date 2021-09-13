@@ -47,7 +47,7 @@ void addToSumHistogram(int counter, string token)
 			file->GetObject(name.c_str(), tempHist);
 			 sumHistList[i]->Add(tempHist);
 			 numberOfEntries += 1;
-			 cout << "number of entries " << numberOfEntries << endl;
+			//  cout << "number of entries " << numberOfEntries << endl;
 		}
 	}
 }
