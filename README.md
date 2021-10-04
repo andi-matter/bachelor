@@ -1,3 +1,13 @@
+- install rootreader as follows, but with src files in this repository
+- install rootreader analysis stuff from here https://github.com/Uni2K/RootReader/wiki/Introduction
+- follow tutorials
+- put finished root files you want to analyse in finishedRootfiles folder
+- run makeIntegralsPDF.sh , when prompted enter desired root file name (root files stored in finishedRootfiles folder)
+
+
+
+
+
 # RootReader
 
  Welcome to the Git repository of the **RootReader**. This piece of software helps you to create .root files out of raw data stored in .bin files.
