@@ -307,7 +307,7 @@ TString histNamesPhi[] = {histName2, histName3, histName2Shift};
 TString histTitlesPhi[] = {histTitle2, histTitle3, histTitle2Shift};
 TString histDrawsPhi[] = {histDraw2, histDraw3, histDraw2Shift};
 // cout << 2 << endl;
-TH1F* phiShifted = new TH1F(histName2Shift, histTitle2Shift, 3*(xMax - xMin)/10, 3*xMin, 3*xMax);
+TH1F* phiShifted = new TH1F(histName2Shift, histTitle2Shift, 3*(xMax - xMin)/5, 3*xMin, 3*xMax);
 TH1F* allChannels = new TH1F(histName2, histTitle2, 180, xMin, xMax);
 TH1F* stdPhiew = new TH1F(histName3, histTitle3, (1200)/10, 0, 250);
 
@@ -341,7 +341,7 @@ TPad graphPad2("Graphs", "Graphs", 0.01, 0.03, 1, 0.96);
 graphPad2.Draw();
 graphPad2.Divide(2, 2);
 graphPad2.cd();
-TString xAxesPhiAll[] = {"#phi_{ew} (deg.)", "#phi_{ew} (deg.)", "Std. dev. of Phi_ew (deg.)"};
+TString xAxesPhiAll[] = {"#phi_{ew} (deg.)", "#phi_{ew} (deg.)", "#phi_{ew} (deg.)"};
 
 
 // fit stuff
@@ -486,18 +486,18 @@ for (int i=0; i<3; i++) {
     fprintf(fitLog, "#Peak Valley Ratio\n");
     fprintf(fitLog, "%f\t%f\n", peakValleyRatio, peakValleyRatioErrors);
 
-    TLegend* histLeg2 = new TLegend(0.8, 0.3, 1.0, 0.7);
-    histLeg2->SetFillColorAlpha(kWhite, 0.9); //translucent legend
+    TLegend* histLeg2 = new TLegend(0.83, 0.5, 1.0, 0.83);
+    histLeg2->SetFillColorAlpha(kWhite, 0.91); //translucent legend
     histLeg2->SetBorderSize(1);
 
     histLeg2->AddEntry((TObject*)0, Form("Entries = %d", (int) phiEwStuff[i]->GetEntries()), "");
-    histLeg2->AddEntry((TObject*)0, Form("Mean = %.2f", fitParams[1]), "");
-    histLeg2->AddEntry((TObject*)0, Form("Mean err = %.2f", fitParamErrs[1]), "");
-    histLeg2->AddEntry((TObject*)0, Form("Sigma = %.2f", fitParams[2]), "");
-    histLeg2->AddEntry((TObject*)0, Form("Sigma err = %.2f", fitParamErrs[2]), "");
-    histLeg2->AddEntry((TObject*)0, Form("Plateau = %.2f", fitParams[3]), "");
-    histLeg2->AddEntry((TObject*)0, Form("Plateau err = %.2f", fitParamErrs[3]), "");
-    histLeg2->AddEntry((TObject*)0, Form("Chi2/dof = %.2f", chi2/ndf), "");
+    histLeg2->AddEntry((TObject*)0, Form("#bar{#Phi_{ew}} = %.2f", fitParams[1]), "");
+    histLeg2->AddEntry((TObject*)0, Form("#bar{#Phi_{ew}} err. = %.2f", fitParamErrs[1]), "");
+    histLeg2->AddEntry((TObject*)0, Form("#sigma = %.2f", fitParams[2]), "");
+    histLeg2->AddEntry((TObject*)0, Form("#sigma err. = %.2f", fitParamErrs[2]), "");
+    histLeg2->AddEntry((TObject*)0, Form("p_{3} = %.2f", fitParams[3]), "");
+    histLeg2->AddEntry((TObject*)0, Form("p_{3} err. = %.2f", fitParamErrs[3]), "");
+    histLeg2->AddEntry((TObject*)0, Form("#Chi^{2}/dof = %.2f", chi2/ndf), "");
     // histLeg->AddEntry((TObject*)0, Form("Mean = %1.2f #pm %1.2f", histMeanVec[i], histMeanErrVec[i]), "");
     gStyle->SetLegendTextSize(0.03);
     histLeg2->Draw();
