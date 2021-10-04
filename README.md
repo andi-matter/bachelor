@@ -1,3 +1,5 @@
+# Stuff by Andrea
+
 - install rootreader as follows, but with src files in this repository
 - install rootreader analysis stuff from here https://github.com/Uni2K/RootReader/wiki/Introduction
 - follow tutorials
