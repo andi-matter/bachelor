@@ -59,4 +59,5 @@ Master theses:
 
 Root Analysis:
 Multiple scripts that are needed for the RootReader:
-https://github.com/Uni2K/RootAnalysis
+!!! Actually just use RootAnalysis folder in this repo !!!
+[ https://github.com/Uni2K/RootAnalysis ]
