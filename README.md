@@ -1,3 +1,17 @@
+# Stuff by Andrea
+
+- install rootreader as follows, but with src files in this repository
+- download RootAnalysis-upload, rename to RootAnalysis
+- make folder called 'finishedRootfiles' in RootAnalysis directory
+- follow tutorials on https://github.com/Uni2K/RootReader/wiki/Introduction
+- if something goes wrong: often it's because a hard-coded file location/directory has to be adjusted to your computer. Locations for these are the analysisPath.txt, and in the RootAnalysis directory several files under integralAnalysis. Check the locations hard-coded in there, and adjust so that the directories match your setup.
+- put finished root files you want to analyse in finishedRootfiles folder
+- run makeIntegralsPDF.sh , when prompted enter desired root file name (root files stored in finishedRootfiles folder)
+
+
+
+
+
 # RootReader
 
  Welcome to the Git repository of the **RootReader**. This piece of software helps you to create .root files out of raw data stored in .bin files.
@@ -59,5 +73,9 @@ Master theses:
 
 Root Analysis:
 Multiple scripts that are needed for the RootReader:
+download RootAnalysis directory
+
+=======
 !!! Actually just use RootAnalysis folder in this repo !!!
+
 [ https://github.com/Uni2K/RootAnalysis ]

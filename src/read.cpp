@@ -34,6 +34,7 @@
 #include <numeric>
 #include <tuple>
 #include <map>
+#include <string>
 //specific
 #include "geometry.h"
 #include "analysis.h"
@@ -42,7 +43,53 @@
 #include <linux/limits.h>
 
 // andrea
-bool TIMINGCUTS = false;
+#include "meanAngleFuncs.h"
+
+// andrea
+int firstTrigger = 8; // first of 4 trigger channels. COSMICS
+bool ANGLECUTS = false; //
+
+bool POSITIONCUTS = false; // this automatically makes angle cut now!
+bool INTEGRALCUT = false;
+bool SCINTCUT = false;
+bool FILTERWEIRD = true; // filter "weird" (may 2021) PMT signals by cutting PMT amp over 5mV
+
+float lowAmpScint = -2000; // lowest amplitude in ch10 still counted
+float highAmpScint = -60; // highest amplitude in ch10 still counted
+float integralCut = 300; // 300 standard
+float integralCutTop = 1500; // 1500.0 standard
+
+float dTintervalTop = 1; // ANGLE cut upper limit (PMT) UNUSED
+float dTintervalBot = -1; // angle cut lower limit (PMT) UNUSED
+
+// pos,   top,            bottom
+// pos0: (-1.75, 2.25), (-1.15, 2.85)
+// pos1: (6.25; -),     (6.85, -)
+// pos2: (-, -5.75),    (-, -5.15)
+int position = 2; //0, 1, 2, 99 (none)
+
+
+int angleMode = 0; // 
+
+float diffTopIntervalTop; // POSITION cut upper limit (upper PMT)
+float diffTopIntervalBot; // position cut lower limit (upper PMT)
+float diffBotIntervalTop; // POSITION cut upper limit (lower PMT)
+float diffBotIntervalBot; // position cut lower limit (lower PMT
+
+int entriesChannelSum = 0;
+float SiPMMaximumAverage;
+int weirdEvents = 0;
+
+
+
+Int_t angles[8] = { 0,45,90,135,180,225,270,315 };
+Int_t channelOrder[8] = { 0,1,2,3,4,5,6,7 }; // XXX //e.g. 0 deg --> channel 6, 45 deg --> channel 5, 90 deg --> channel 4, ... , 315 deg --> channel 7
+
+Float_t phi_ew[9];
+float phiStd; // Standard deviation of phi_ew (no omission) for each event
+Float_t threePhiEw[3];
+int centerChannel = 0; // channel to center phi_ew around for no omissions
+// end andrea
 
 
 float SP = 0.3125; // ns per bin
@@ -50,7 +97,7 @@ float pe = 47.46;  //mV*ns
 
 vector<float> calibrationCharges = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};      // dummy
 vector<float> calibrationChargeErrors = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // dummy
-string calibrationRunName = ""; //7_calib_vb58_tune8700_pcbd
+string calibrationRunName = "dummy"; // "7_calib_vb58_tune8700_pcbd";
 string dcIntegrationWindow = "";
 
 vector<float> BL_const = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};                       // dummy
@@ -67,7 +114,7 @@ Int_t runPosition = -999;
 Float_t runEnergy = -999;
 Int_t runAngle = -999;
 Int_t runNumber = -999;
-Int_t runChannelNumberWC = 32; //maximum
+Int_t runChannelNumberWC = 14; //ANDREA
 /*Declare & define the variables that are to be saved in the root-tree or that are used during the analysis.*/
 Int_t EventNumber = -999;
 Int_t LastEventNumber = -999;
@@ -109,15 +156,17 @@ int triggerChannel = 8; //starting from 0 -> Calib: 8?, Testbeam '18: 15, Import
 
 int plotGrid = 3;
 
-int maximalExtraPrintEvents = 0;
+int maximalExtraPrintEvents = 50;
 int printedExtraEvents = 0;
-bool printExtraEvents = false;
+bool printExtraEvents = true;
 //Event Skipping
 bool skipThisEvent = false;
 int skippedCount = 0;
 // andrea
 // event skipping cuts
 bool skipThisEventInCut = false;
+// andrea
+bool weirdSkip;
 //Skip events with bad baseline
 bool allowBaselineEventSkipping = false;
 int skipInChannel = 0;
@@ -133,9 +182,9 @@ bool zoomedInWaves = false; //Zoom in the waves.pdf on the signal range
 
 bool enableBaselineCorrection = true;
 //Allow Force Printing individual events
-bool allowForcePrintEvents = false;
+bool allowForcePrintEvents = true;
 bool forcePrintThisEvent = false;
-int maximalForcePrintEvents = 2;
+int maximalForcePrintEvents = 50;
 int forcePrintEvents = 0;
 
 struct rusage r_usage;
@@ -159,8 +208,59 @@ void read(map<string, string> readParameters)
  *     paramaters                                                 
  */
 
+  // andrea
+  if (!ANGLECUTS) {
+    dTintervalTop = 999;
+    dTintervalBot = 999;
+  }
+
+   
+
+  // assign PMT interval cuts according to chosen position and angle
+  // float positions[4];
+  // if (0 == angleMode) {
+    float positionOptions[][4] = {{-1.75, 2.25, -1.15, 2.85},
+                                    {6.25, 999, 6.85, 999},
+                                    {-999, -5.75, -999, -5.15},
+                                    {-999, 999, -999, 999}};
+  // } 
+  // else {
+  //   float positions0[4] = {-999, 999, -999, 999};
+  //   float positions1[4] = {-999, 999, -999, 999};
+  //   float positions2[4] = {-999, 999, -999, 999};
+  //   float positions99[4] = {-999, 999, -999, 999};
+  // }
+
+  float* positions;
+  
+  if (POSITIONCUTS) {
+    switch(position) {
+      case 0:
+        positions = positionOptions[0];
+        break;
+      case 1:
+        positions = positionOptions[1];
+        break;
+      case 2:
+        positions = positionOptions[2];
+        break;
+      default:
+        positions = positionOptions[3];
+        break;
+    }
+  } else {
+    positions = positionOptions[3];
+  }
+  diffTopIntervalBot = positions[0];
+  diffTopIntervalTop = positions[1];
+  diffBotIntervalBot = positions[2];
+  diffBotIntervalTop = positions[3];
+  
+  // end andrea
+
   gErrorIgnoreLevel = defaultErrorLevel;
-  string runName = readParameters["runName"];
+  std::string runName = readParameters["runName"];
+  // cout << "runname in read" << runName << "\n" << endl;
   TString inFileList = readParameters["inFileList"];
   TString inDataFolder = readParameters["inDataFolder"];
   TString outFile = readParameters["outFile"];
@@ -168,6 +268,12 @@ void read(map<string, string> readParameters)
 
   try
   {
+
+    // std::cerr <<"#### runNumber:'" << readParameters["runNumber"] << "'\n";
+    // std::cerr <<"#### pposition:'" << readParameters["runPosition"] << "'\n";
+    // std::cerr <<"####ang:'" << readParameters["runAngle"] << "'\n";
+    // std::cerr <<"#### runener:'" << readParameters["runEnergy"] << "'\n";
+    // std::cerr <<"#### runNumberWC:'" << readParameters["runChannelNumberWC"] << "'\n";
     runNumber = stoi(readParameters["runNumber"]);
     runPosition = stoi(readParameters["runPosition"]);
     runAngle = stoi(readParameters["runAngle"]);
@@ -176,8 +282,12 @@ void read(map<string, string> readParameters)
   }
   catch (const std::exception &e)
   {
-    //  std::cerr <<"Error at runNumber:" <<e.what() << '\n';
+    // std::cerr <<"Error at runNumber:" <<e.what() << '\n';
   }
+
+  // HERE
+  // cout << "RUNCHANNELWNUMBERWC " << runChannelNumberWC << endl;
+
 
   switch_BL = parseBoolean(readParameters["dynamicBL"]);
   isDC = parseBoolean(readParameters["isDC"]);
@@ -202,14 +312,17 @@ void read(map<string, string> readParameters)
   string correctionFactorPath = "/src/CorrectionValues.txt";
 
   string calib_path_charge = workingDir + charge_file;
+  // cout << calib_path_charge << " CAlIBRATION PATH \n" << endl;
   string calib_path_bl = workingDir + baseline_file;
   string integrationWindowFile = workingDir + integrationWindowPath;
   string correctionValueFile = workingDir + correctionFactorPath;
+  cout << "correctionvaluefile" << correctionValueFile << endl;
 
   if (useConstCalibValues)
   {
     pair<vector<float>, vector<float>> pairIW = readPair(calib_path_charge, calibrationRunName, 1, 0);
     calibrationCharges = pairIW.first;
+    // cout << "calibration charges " << vectorToString(calibrationCharges) << "\n" << endl;
     calibrationChargeErrors = pairIW.second;
   }
   string iwSelection = runName;
@@ -302,15 +415,23 @@ void read(map<string, string> readParameters)
   float IntegralSumErrorM[runChannelNumberWC];
   
   //andrea
-  Float_t IncidenceTime[4]; // for ch 10-13 save time of signal incidence for coincidence cuts
+  Float_t IncidenceTime[4]; // for trig channels save time of signal incidence for coincidence cuts
   Float_t timeDifferenceTop; // calculate time differences between PMTs
   Float_t timeDifferenceBot;
   Float_t timeDifference; // time difference of top bottom time difference
+  // these are old names, translates to the four trigger channels, in order
   Float_t Incidence10; // incidence time channel 10
   Float_t Incidence11; // incidence time channel 11
   Float_t Incidence12; // incidence time channel 12
   Float_t Incidence13; // incidence time channel 13
 
+  Float_t timeMeanTop; // arithmetic mean
+  Float_t timeMeanBot;
+  Float_t timeResApprox; // (t1 + t2 - (t3 + t4))/4
+  Float_t amplitudeMeanTop; // geometric mean
+  Float_t amplitudeMeanBot;
+  Float_t meanFlightTime;
+  // these are old names, translates to the four trigger channels, in order
   Float_t Invert_Incidence10; // incidence time channel 10, calc by CFDInvert
   Float_t Invert_Incidence11; // incidence time channel 11, calc by CFDInvert
   Float_t Invert_Incidence12;
@@ -323,6 +444,20 @@ void read(map<string, string> readParameters)
   Float_t minCh11;
   Float_t minCh12;
   Float_t minCh13;
+
+  float integral_hist[8]; // save signal integrals for SiPM channels (COSMICs)
+
+  // cartesian values for phiew calculations 
+  float cartX;  // cartesian x value
+  float cartY;  // cartesian y value
+  float sumCartX; // sum of cart. x values
+  float sumCartY; // sum of cart. y values
+  float sigmaX; //std dev cart x values
+  float sigmaY; //std dev cart y values
+  float cartXarray[8]; // array of individual weighted x values
+  float cartYarray[8]; // array of individual weighted y values
+  // end andrea
+
 
 
 
@@ -353,10 +488,13 @@ void read(map<string, string> readParameters)
   std::vector<TH1F> hChtemp;
   std::vector<TH1F *> hChShift;
 
+
+
   Float_t amplitudeChannelSumWOM[womCount];
   Float_t chargeChannelSumWOM[womCount];
   Float_t chargeChannelSumWOMErrorP[womCount];
   Float_t chargeChannelSumWOMErrorM[womCount];
+
 
   std::vector<TH1F *> histChannelSumWOM;
   int binNumber = 1024; //Default: 1024, change with caution
@@ -390,6 +528,16 @@ void read(map<string, string> readParameters)
       h->SetName(name);
       histChannelSumWOM.push_back(h);
     }
+
+    //andrea
+    // for (int i = 0; i < 8; i++)
+    // {
+    //   TString name("");
+    //   name.Form("histChannelIntegral%d", i);
+    //   TH1F *h = new TH1F("h", ";integral [ns*mV];counts", binNumber, -0.5 * SP, 1023.5 * SP);
+    //   h->SetName(name);
+    //   histChannelIntegral.push_back(h);
+    // }
   }
 
   for (int i = 0; i < runChannelNumberWC; i++)
@@ -411,6 +559,10 @@ void read(map<string, string> readParameters)
   womCanvas.Divide(2, 2);
   TCanvas cChSum("cChSum", "cChSum", 1500, 900);
   cChSum.Divide(plotGrid, plotGrid);
+
+  // andrea
+  TCanvas cIntegralsWOM("cIntegralsWOM", "cIntegralsWOM", 1000, 1000);
+  cIntegralsWOM.Divide(2, 4);
 
   /*Create branches in the root-tree for the data.*/
   tree->Branch("EventNumber", &EventNumber, "EventNumber/I");
@@ -459,25 +611,62 @@ void read(map<string, string> readParameters)
   tree->Branch("tSiPM", tSiPM, "tSiPM[nCh]/F");
 
   //andrea
-  tree->Branch("Time_diff_top", &timeDifferenceTop, "timeDiff_ns/F");
-  tree->Branch("Time_diff_bot", &timeDifferenceBot, "timeDiff_ns/F");
-  tree->Branch("Trigger_time", IncidenceTime, "time_ns[4]/F");
-  tree->Branch("Time_diff_all", &timeDifference, "timeDiff_ns/F");
-  tree->Branch("Incidence_time_ch10", &Incidence10, "time_ns/F");
-  tree->Branch("Incidence_time_ch11", &Incidence11, "time_ns/F");
-  tree->Branch("Incidence_time_ch12", &Incidence12, "time_ns/F");
-  tree->Branch("Incidence_time_ch13", &Incidence13, "time_ns/F");
-  tree->Branch("Invert_Incidence_time_ch10", &Invert_Incidence10, "time_ns/F");
-  tree->Branch("Invert_Incidence_time_ch11", &Invert_Incidence11, "time_ns/F");
-  tree->Branch("Invert_Incidence_time_ch12", &Invert_Incidence12, "time_ns/F");
-  tree->Branch("Invert_Incidence_time_ch13", &Invert_Incidence13, "time_ns/F");
-  tree->Branch("Inv_Time_diff_all", &inv_timeDifference, "timeDiff_ns/F");
-  tree->Branch("Inv_Time_diff_top", &inv_timeDifferenceTop, "timeDiff_ns/F");
-  tree->Branch("Inv_Time_diff_bot", &inv_timeDifferenceBot, "timeDiff_ns/F");
-  tree->Branch("minimum_ch10", &minCh10, "voltage_mV/F");
-  tree->Branch("minimum_ch11", &minCh11, "voltage_mV/F");
-  tree->Branch("minimum_ch12", &minCh12, "voltage_mV/F");
-  tree->Branch("minimum_ch13", &minCh13, "voltage_mV/F");
+  tree->Branch("Time_diff_top", &timeDifferenceTop, "Time_diff_top/F");
+  tree->Branch("Time_diff_bot", &timeDifferenceBot, "Time_diff_bot/F");
+  //tree->Branch("Trigger_time", IncidenceTime, "Trigger_time[4]/F");
+  tree->Branch("Time_diff_all", &timeDifference, "Time_diff_all/F");
+  tree->Branch("Incidence_time_ch10", &Incidence10, "Incidence_time_ch10/F");
+  tree->Branch("Incidence_time_ch11", &Incidence11, "Incidence_time_ch11/F");
+  tree->Branch("Incidence_time_ch12", &Incidence12, "Incidence_time_ch12/F");
+  tree->Branch("Incidence_time_ch13", &Incidence13, "Incidence_time_ch13/F");
+
+  tree->Branch("minimum_ch10", &minCh10, "minimum_ch10/F");
+  tree->Branch("minimum_ch11", &minCh11, "minimum_ch11/F");
+  tree->Branch("minimum_ch12", &minCh12, "minimum_ch12/F");
+  tree->Branch("minimum_ch13", &minCh13, "minimum_ch13/F");
+  tree->Branch("timeMeanTop", &timeMeanTop, "timeMeanTop/F");
+  tree->Branch("timeMeanBot", &timeMeanBot, "timeMeanBot/F");
+  tree->Branch("timeResApprox", &timeResApprox, "timeResApprox/F");
+  tree->Branch("amplitudeMeanTop", &amplitudeMeanTop, "amplitudeMeanTop/F");
+  tree->Branch("amplitudeMeanBot", &amplitudeMeanBot, "amplitudeMeanBot/F");
+  tree->Branch("meanFlightTime", &meanFlightTime, "meanFlightTime/F");
+ 
+  for (int i=0; i<8; i++) {
+    tree->Branch(Form("integral_hist_%d", i), &(integral_hist[i]), Form("integral_hist_%d/F", i));
+  }
+  for (int i=0; i<8; i++) {
+    tree->Branch(Form("Phi_ew_omit_ch%d", i), &(phi_ew[i]), Form("Phi_ew_omit_ch%d/F", i));
+  }
+  tree->Branch("Phi_ew_all_ch", &(phi_ew[8]), "Phi_ew_all_ch/F");
+  tree->Branch("Std_Phi_ew_all", &phiStd, "Std_Phi_ew_all/F");
+  tree->Branch("Phi_ew_shifted", threePhiEw, "Phi_ew_shifted[3]/F");
+  tree->Branch("CenterChannelPhiEw", &centerChannel, "CenterChannelPhiEw/I");
+  // tree->Branch("integral_hist_0", &integral_hist[0], "integral_hist_0/F");
+  
+  tree->Branch("angleIntTop", &dTintervalTop, "angleIntTop/F");
+  tree->Branch("angleIntBot", &dTintervalBot, "angleIntBot/F");
+  tree->Branch("posTopIntTop", &diffTopIntervalTop, "posIntTop/F");
+  tree->Branch("posTopIntBot", &diffTopIntervalBot, "posIntBot/F");
+  tree->Branch("posBotIntTop", &diffBotIntervalTop, "posIntTop/F");
+  tree->Branch("posBotIntBot", &diffBotIntervalBot, "posIntBot/F");
+  tree->Branch("integralCut", &integralCut, "integralCut/F");
+  tree->Branch("integralCutTop", &integralCutTop, "integralCutTop/F");
+  tree->Branch("lowAmpScint", &lowAmpScint, "lowAmpScint/F");
+  tree->Branch("highAmpScint", &highAmpScint, "highAmpScint/F");
+
+  tree->Branch("sumCartX", &sumCartX, "sumCartX/F");
+  tree->Branch("sumCartY", &sumCartY, "sumCartY/F");
+  tree->Branch("sigmaSumCartY", &sigmaY, "sigmaSumCartY/F");
+  tree->Branch("sigmaSumCartX", &sigmaX, "sigmaSumCartX/F");
+  for (int i=0; i<8; i++) {
+    tree->Branch("cartXi", &cartXarray[i], "cartXi/F");
+    tree->Branch("cartYi", &cartYarray[i], "cartYi/F");
+  }
+
+  int multiPeaks = 0;
+  tree->Branch("multiPeaks", &multiPeaks, "multiPeaks/I");
+  // end andrea
+
 
 
   
@@ -505,82 +694,7 @@ void read(map<string, string> readParameters)
   tree->Branch("nSkipped", skippedCount, "nSkipped/I");
 
 
-/*   // andrea
-  // create branches for cut-tree
-  //Create branches in the root-tree for the data.
-  treeCut->Branch("EventNumber", &EventNumber, "EventNumber/I");
-  treeCut->Branch("SamplingPeriod", &SamplingPeriod, "SamplingPeriod/F");
-  treeCut->Branch("EpochTime", &EpochTime, "EpochTime/D");
-  treeCut->Branch("Year", &Year, "Year/I");
-  treeCut->Branch("Month", &Month, "Month/I");
-  treeCut->Branch("Day", &Day, "Day/I");
-  treeCut->Branch("Hour", &Hour, "Hour/I");
-  treeCut->Branch("Minute", &Minute, "Minute/I");
-  treeCut->Branch("Second", &Second, "Second_/I");
-  treeCut->Branch("Millisecond", &Millisecond, "Millisecond/I");
-  treeCut->Branch("trigT", &trigT, "trigT/F");
-  treeCut->Branch("tSUMp", &tSUMp, "tSUMp/F");
-  treeCut->Branch("tSUMm", &tSUMm, "tSUMm/F");
 
-  //RUN PARAMETER
-  treeCut->Branch("runPosition", &runPosition, "runPosition/I");
-  treeCut->Branch("runEnergy", &runEnergy, "runEnergy/F");
-  treeCut->Branch("runAngle", &runAngle, "runAngle/I");
-  treeCut->Branch("runNumber", &runNumber, "runNumber/I");
-  treeCut->Branch("runChannelNumberWC", &runChannelNumberWC, "runChannelNumberWC/I");
-  treeCut->Branch("integrationWindowRun", &iwRun, "integrationWindowRun/I");
-
-  // CHANNEL INFO (but everything that is nCH-dependend below)
-  treeCut->Branch("nCh", &nCh, "nCh/I");
-  treeCut->Branch("WOMID", WOMID, "WOMID[nCh]/I");
-  treeCut->Branch("ch", ChannelNr, "ch[nCh]/I");
-  // AMPLITUDE
-  treeCut->Branch("Amplitude", Amplitude, "Amplitude[nCh]/F"); // calibrated
-  //tree->Branch("amp_inRange", amp_inRange.data(), "amp_inRange[nCh]/F"); // calibrated
-  treeCut->Branch("max", max.data(), "max[nCh]/F");
-  treeCut->Branch("min", min.data(), "min[nCh]/F");
-  // INTEGRAL
-  //tree->Branch("Integral_0_300", Integral_0_300, "Integral_0_300[nCh]/F");
-  //tree->Branch("Integral_inRange", Integral_inRange, "Integral_inRange[nCh]/F");
-  treeCut->Branch("Integral", Integral, "Integral[nCh]/F");
-  treeCut->Branch("IntegralErrorP", IntegralErrorP, "IntegralErrorP[nCh]/F");
-  treeCut->Branch("IntegralErrorM", IntegralErrorM, "IntegralErrorM[nCh]/F");
-
-  // tree->Branch("Integral_mVns", Integral_mVns, "Integral_mVns[nCh]/F"); // calibrated
-  treeCut->Branch("IntegralDifference", IntegralDiff, "IntegralDifference[nCh]/F");
-
-  // TIMING
-  treeCut->Branch("t", t, "t[nCh]/F");
-  treeCut->Branch("tSiPM", tSiPM, "tSiPM[nCh]/F");
-  //andrea
-  treeCut->Branch("Time_diff_top", &timeDifferenceTop, "timeDiff_ns/F");
-  treeCut->Branch("Time_diff_bot", &timeDifferenceBot, "timeDiff_ns/F");
-  treeCut->Branch("Trigger_time", IncidenceTime, "time_ns[4]/F");
-  treeCut->Branch("Time_diff_all", &timeDifference, "timeDiff_ns/F");
-  
-  // BASELINE
-  treeCut->Branch("BL_lower", BL_lower, "BL_lower[nCh]/F");
-  treeCut->Branch("BL_RMS_lower", BL_RMS_lower, "BL_RMS_lower[nCh]/F");
-  treeCut->Branch("BL_Chi2_lower", BL_Chi2_lower, "BL_Chi2_lower[nCh]/F");
-  treeCut->Branch("BL_pValue_lower", BL_pValue_lower, "BL_pValue_lower[nCh]/F");
-  treeCut->Branch("BL_upper", BL_upper, "BL_upper[nCh]/F");
-  treeCut->Branch("BL_RMS_upper", BL_RMS_upper, "BL_RMS_upper[nCh]/F");
-  treeCut->Branch("BL_Chi2_upper", BL_Chi2_upper, "BL_Chi2_upper[nCh]/F");
-  treeCut->Branch("BL_pValue_upper", BL_pValue_upper, "BL_pValue_upper[nCh]/F");
-  treeCut->Branch("BL_used", BL_used, "BL_used[nCh]/F");
-  treeCut->Branch("BL_Chi2_used", BL_Chi2_used, "BL_Chi2_used[nCh]/F");
-  treeCut->Branch("BL_pValue_used", BL_pValue_used, "BL_pValue_used[nCh]/F");
-  // CALIBRATED SUM
-  treeCut->Branch("chargeChannelSumWOM", chargeChannelSumWOM, "chargeChannelSumWOM[4]/F");
-  treeCut->Branch("chargeChannelSumWOMErrorP", chargeChannelSumWOMErrorP, "chargeChannelSumWOMErrorP[4]/F");
-  treeCut->Branch("chargeChannelSumWOMErrorM", chargeChannelSumWOMErrorM, "chargeChannelSumWOMErrorM[4]/F");
-
-  treeCut->Branch("amplitudeChannelSumWOM", amplitudeChannelSumWOM, "amplitudeChannelSumWOM[4]/F");
-  treeCut->Branch("EventIDsamIndex", EventIDsamIndex, "EventIDsamIndex[nCh]/I");
-  treeCut->Branch("FirstCellToPlotsamIndex", FirstCellToPlotsamIndex, "FirstCellToPlotsamIndex[nCh]/I");
-
-  treeCut->Branch("nSkipped", skippedCount, "nSkipped/I");
- */
 
   /***
  *     __   ___       __          __      __  ___       __  ___ 
@@ -650,6 +764,8 @@ void read(map<string, string> readParameters)
 
   int fileCounter = 0;
   int currentPrint = -1;
+  int totalWeirdEvents = 0;
+  int totalEvents = 0;
 
   /***
  *     ___         ___          __   __   __  
@@ -658,11 +774,13 @@ void read(map<string, string> readParameters)
  *               file loop                             
  */
 
+
   while (inList >> fileName)
   {
-
+    int eventsInFile = 0;
+    int weirdInFile = 0;
     fileName = inDataFolder + fileName;
-    cout << fileName << endl;
+    // cout << fileName << endl;
     FILE *pFILE = fopen(fileName.Data(), "rb");
     if (pFILE == NULL)
     {
@@ -754,8 +872,11 @@ void read(map<string, string> readParameters)
     while (nitem > 0)
     { //event loop
 
+      eventsInFile += 1;
+
       skipThisEvent = false;
       skipThisEventInCut = false;
+      weirdSkip = false;  // andrea
       forcePrintThisEvent = false;
       std::vector<TObject *> eventTrash;
       whileCounter++;
@@ -773,9 +894,13 @@ void read(map<string, string> readParameters)
 
       nitem = fread(&nCh, sizeof(unsigned int), 1, pFILE); // since V2.8.14 the number of stored channels is written for each event
 
+      
+
       if (EventNumber % 100 == 0)
       {
         printf("Percentage: %lf, EventNr: %d, nCh: %d+   \n", ftell(pFILE) / totFileSizeByte, EventNumber, nCh);
+        // HERE
+        // cout << "NCH " << nCh << endl;
       }
 
       float MeasuredBaseline[runChannelNumberWC];
@@ -791,6 +916,9 @@ void read(map<string, string> readParameters)
 
       for (int i = 0; i < nCh; i++)
       {
+        // start old version
+        // use for 17_cosmics_vb58_50k_2808!!!
+        /*
         nitem = fread(&ChannelNr[i], sizeof(int), 1, pFILE);
         nitem = fread(&EventIDsamIndex[i], sizeof(int), 1, pFILE);
         nitem = fread(&FirstCellToPlotsamIndex[i], sizeof(int), 1, pFILE);
@@ -808,6 +936,15 @@ void read(map<string, string> readParameters)
         nitem = fread(&floatR, 1, 4, pFILE);
         RawTriggerRate[i] = floatR;
         ChannelNr[i] = i;
+        */ 
+        // end old version
+
+        //new version
+        // use for measurements 04/2021 onward
+        nitem = fread(&ChannelNr[i], sizeof(int), 1, pFILE);
+        nitem = fread(&EventIDsamIndex[i], sizeof(int), 1, pFILE);
+        nitem = fread(&FirstCellToPlotsamIndex[i], sizeof(int), 1, pFILE);
+        // end new version
 
         /***
  *          __              __  
@@ -955,47 +1092,85 @@ void read(map<string, string> readParameters)
  *     |  |  |  | | | \| \__>    .__/ | |     |  | .__/ 
  *                               timing sipms                       
  */
-
+        /* Deactivated for COSMICS from 04/2021 since four trigger channels now
         if (i == triggerChannel)
         {                                //trigger
           t[i] = CFDNegative(&hCh, 0.5); //Negative Trigger
         }
-		    else if ((i==10 || i==11 || i==12 || i==13)){ //andrea
+        */
+
+        // andrea
+		    if ((i==firstTrigger || i==firstTrigger+1 || i==firstTrigger+2 || i==firstTrigger+3)){ 
           float threshold = 0.5;
-          int offset = 20;
+          int offset = 120;
           if (EventNumber % 10000 == 0) {
             cout << "Threshold for CFD in timing: " << threshold << "Offset: " << offset << endl;
           }
-          Float_t inc = CFDNegativeCustom(&hCh, threshold, offset); // search half peak from peak - offset up
-          Float_t invert_inc = CFDNegativeInvert(&hCh, threshold); // search half peak from peak down
-			    IncidenceTime[i-10] = inc; // want to record signal time from PMTs
-          Float_t signalMinimum = (&hCh)->GetMinimum();
+
+          // andrea
+          Float_t inc = CFDNegativeCustom(&hChtemp.at(i), threshold, offset); // search half peak from peak - offset up
+
+          // cout << "channel number inc time" << i << endl;
+
+          Float_t invert_inc = CFDNegativeInvert(&hChtemp.at(i), threshold); // search half peak from peak down
+			    IncidenceTime[i-8] = inc; // want to record signal time from PMTs
+          
+          
+          
+          Float_t signalMinimum = hChtemp.at(i).GetMinimum();
+          Float_t signalMaximum = hChtemp.at(i).GetMaximum();
+          
+          if (signalMinimum > (-20.0)) {
+            // skipThisEvent = true;
+            // continue;
+          } 
+          if (SCINTCUT && (signalMinimum < lowAmpScint || signalMinimum > highAmpScint) ) { //&& (i==firstTrigger || i==firstTrigger+1)) {
+              skipThisEvent = true;
+          }
+
+          if (FILTERWEIRD && (signalMaximum > 5)) {
+            skipThisEvent = true;
+            weirdSkip = true;
+            
+          } else {
+            if (FILTERWEIRD && (EventNumber%50 == 0) ) forcePrintThisEvent = true; // ATTENTION
+          }  
+
+          // if (!skipThisEvent) {
+          //   cout<< "signalMaximum" << signalMaximum << endl;
+          // }
+
+          
           // cout << "minimum signal " << signalMinimum << endl;
-          // here are some test lines
-          // geh du alter esel hol
-          if (10 == i) {
+          // bla bla blaaa
+          if (firstTrigger == i) {
             Incidence10 = inc;
             Invert_Incidence10 = invert_inc;
             minCh10 = signalMinimum;
+            
+            if (inc > 350 || inc < 0) { 
+              //forcePrintThisEvent = true;
+              skipThisEvent = true;
+              cout << "Inc time weird " << whileCounter << endl;
+              cout << inc << minCh10 << endl;
+            }
           }   
-          if (11 == i) {
+          if (firstTrigger+1 == i) {
             Incidence11 = inc;
             Invert_Incidence11 = invert_inc;
             minCh11 = signalMinimum;
           }
-          if (12 == i) {
+          if (firstTrigger+2 == i) {
             Incidence12 = inc;
             Invert_Incidence12 = invert_inc;
             minCh12 = signalMinimum;
           }
-          if (13 == i) {
+          if (firstTrigger+3 == i) {
             Incidence13 = inc;
             Invert_Incidence13 = invert_inc;
-            minCh13 = signalMinimum;
-            
-            
+            minCh13 = signalMinimum;           
           }
-		    } 
+		    } //end andrea
         
         else
         { //SiPMs
@@ -1008,27 +1183,53 @@ void read(map<string, string> readParameters)
         }
 
 		//andrea
-        if (11 == i) {
+        if (firstTrigger+1 == i) {
           timeDifferenceTop = Incidence11 - Incidence10;
+          timeMeanTop = 0.5*(Incidence11 + Incidence10);
+          amplitudeMeanTop = sqrtf(fabs(minCh10 * minCh11));
+
           inv_timeDifferenceTop = Invert_Incidence11 - Invert_Incidence10;
         }	
-        if (13 == i) {
+
+        if (firstTrigger+3 == i) {
           timeDifferenceBot = Incidence13 - Incidence12;
           inv_timeDifferenceBot = Invert_Incidence13 - Invert_Incidence12;
           inv_timeDifference = inv_timeDifferenceTop - inv_timeDifferenceBot;
           timeDifference = timeDifferenceTop - timeDifferenceBot;
-          int absTimeDifference = abs(timeDifference);
-          // cout << " uh oh " << absTimeDifference << endl;
-          if (15 < absTimeDifference) {
-            // skipThisEvent = true;
-            //cout << "skip this event? " << skipThisEvent << endl;
-            //cout << " greater 15! " << endl;
-            //skipThisEventInCut = true;
-          }
-          if (TIMINGCUTS && !((0 <= absTimeDifference) && (2 >= absTimeDifference))) {
-          // skipThisEventInCut = true;
-            // skipThisEvent = true;
-          }
+          
+          timeMeanBot = 0.5*(Incidence12 + Incidence13);
+          amplitudeMeanBot = sqrtf(fabs(minCh12 * minCh13));
+          timeResApprox = 0.25*(Incidence11 + Incidence10 - (Incidence12 + Incidence13));
+          meanFlightTime = 0.5*(Incidence11 + Incidence10 - (Incidence12 + Incidence13));
+          float absTimeDifference = fabs(timeDifference);
+
+        // cout << " uh oh " << absTimeDifference << endl;
+        if (15 < absTimeDifference) {
+          // skipThisEvent = true;
+          //cout << "skip this event? " << skipThisEvent << endl;
+          //cout << " greater 15! " << endl;
+          //skipThisEventInCut = true;
+        }
+
+        // cut on TimeDifference -> angle:
+        // only events in Interval get counted
+        if (ANGLECUTS && !(timeDifference <= dTintervalTop && timeDifference >= dTintervalBot)) {
+          skipThisEvent = true;
+        }
+
+        // cut on timeDiffTop -> Position and angle
+        // only events in interval get counted:
+        if (POSITIONCUTS && !(timeDifferenceTop <= diffTopIntervalTop && timeDifferenceTop >= diffTopIntervalBot)) {
+          skipThisEvent = true; // Dt top in interval positions[2,3]
+        }
+        if (POSITIONCUTS && !(timeDifferenceBot <= diffBotIntervalTop && timeDifferenceBot >= diffBotIntervalBot)) {
+          skipThisEvent = true; // Dt bot in interval positions[0,1]
+        }
+
+        
+        //end andrea
+
+          
         }
 
         /***
@@ -1072,7 +1273,43 @@ void read(map<string, string> readParameters)
         float effectivFactor = correctionValues[shiftedIndex] / calibrationCharges.at(shiftedIndex);
         float effectivFactorError = sqrt(pow((correctionValueError / calibrationCharges.at(shiftedIndex)), 2) + pow((correctionValues[shiftedIndex] * calibrationError / pow(calibrationCharges.at(shiftedIndex), 2)), 2));
 
-        Integral[i] = IntegralHist(&hCh, integralStartShifted, integralEndShifted, 0) * effectivFactor;
+        Integral[i] = IntegralHist(&hCh, integralStartShifted, integralEndShifted, 0) ; //* effectivFactor;
+       
+        // andrea
+        // Integral stuff only for the 8 SiPM channels
+        if (i < 8) {
+          integral_hist[i] = Integral[i];
+        // cout << Integral[i] << endl;
+
+          if (INTEGRALCUT && i<8 && ((Integral[i] < integralCut) || (Integral[i] > integralCutTop))) { // (Integral[i] < integralCut) ||
+            skipThisEvent = true;
+          }
+
+          float SiPMMaximum = hChtemp.at(i).GetMaximum();
+          // cout << SiPMMaximum << endl;
+          if (0==i) {
+            SiPMMaximumAverage = 0;
+            bool manyPeaks = false;
+          }
+         
+          SiPMMaximumAverage += SiPMMaximum;
+
+          // ATTENTION
+          // if (0==i && !skipThisEvent){
+          //   TSpectrum *s = new TSpectrum(2*5);
+          //   Int_t nfound = s->Search(&hChtemp.at(i),2,"",0.80);
+          //   // cout << "nfound " << nfound << endl;
+          //   if (nfound != 1) multiPeaks += 1;
+          //   }
+
+          if (FILTERWEIRD && i == 7 && (SiPMMaximumAverage/8.0 < 10)) {
+
+            // skipThisEvent = true;
+          }
+        }
+
+        // end andrea
+
 
         IntegralErrorP[i] = IntegralHist(&hCh, integralStartShifted, integralEndShifted, 0) * (effectivFactor + effectivFactorError);
         IntegralErrorM[i] = IntegralHist(&hCh, integralStartShifted, integralEndShifted, 0) * (effectivFactor - effectivFactorError);
@@ -1086,8 +1323,13 @@ void read(map<string, string> readParameters)
           {
             skipThisEvent = true;
             //forcePrintEvent=true;
-          }
+          } 
         }
+
+        // if (!skipThisEvent && (maximalForcePrintEvents >= forcePrintEvents)) {
+        //   forcePrintThisEvent = true;
+        //   forcePrintEvents++;
+        // }
 
         // cout<<"DD: "<<IntegralDiff[i]<<"  "<<i<<endl;
         // skipThisEvent=true;
@@ -1107,7 +1349,7 @@ void read(map<string, string> readParameters)
           //  if(!skipThisEvent || (skipThisEvent && (forcePrintThisEvent || (printedExtraEvents < maximalExtraPrintEvents)))){
           //  if ((forcePrintThisEvent && (forcePrintEvents < maximalForcePrintEvents)) || ((currentPrint != fileCounter) || (printedExtraEvents < maximalExtraPrintEvents)))
 
-          if (allowForcePrintEvents || ((currentPrint != fileCounter) || (printedExtraEvents < maximalExtraPrintEvents)))
+          if ( (allowForcePrintEvents || ((currentPrint != fileCounter) || (printedExtraEvents < maximalExtraPrintEvents)))) // !skipThisEvent && 
           {
 
             cWaves.cd(i + 1);
@@ -1213,9 +1455,127 @@ void read(map<string, string> readParameters)
           // End of loop over inividual channels
         }
 
-        if (IntegralDiff[i] > -88 && !skipThisEvent)
+        if (IntegralDiff[i] > -88 && !skipThisEvent) {
+          entriesChannelSum += 1;
+          // cout << "added in channel sum" << endl;
+          // cout << entriesChannelSum << endl;
           hChSum.at(i)->Add(&hCh, 1); //Dont sum empty waveforms into your sum histogram
+        }
+      } // end of channel loop
+
+      // andrea
+      // ATTENTION HERE
+      
+      Double_t pi = TMath::Pi();
+
+      
+
+      for (int i=0; i<9; i++) { // do loop 9 times, omit every channel once, omit no channel once
+        sumCartX = 0;
+        sumCartY = 0;
+        
+        float individualPhi[8];
+
+        for (int k=0; k<8; k++) { // sum weighted cart values from channels
+          if (k != i) { // omits channel i. when i=8, no channel omitted
+            int kk = channelOrder[k]; // take corresponding angle value for each channel
+            cartX = TMath::Cos(angles[kk] * (pi/180.0)) * Integral[k];
+            cartY = TMath::Sin(angles[kk] * (pi/180.0)) * Integral[k];           
+            sumCartY += cartY;
+            sumCartX += cartX;
+          }        
+        }
+
+        if (8==i) {
+          for (int j=0; j<8; j++) {
+            int kk = channelOrder[j]; // take corresponding angle value for each channel
+            cartX = TMath::Cos(angles[kk] * (pi/180.0)) * Integral[j];
+            cartY = TMath::Sin(angles[kk] * (pi/180.0)) * Integral[j];
+            cartXarray[j] = cartX;
+            cartYarray[j] = cartY;
+            sumCartY += 1/8.0 * cartY;
+            sumCartX += 1/8.0 * cartX;
+          }
+          float sigmaX_raw;
+          float sigmaY_raw;
+          for (int j=0; j<8; j++) {
+            sigmaX_raw += (sumCartX - cartXarray[j])*(sumCartX - cartXarray[j]);
+            sigmaX_raw += (sumCartY - cartYarray[j])*(sumCartY - cartYarray[j]);
+          }
+          sigmaX = TMath::Sqrt(sigmaX_raw * 1/8.0);
+          sigmaY = TMath::Sqrt(sigmaY_raw * 1/8.0);
+        }
+
+        // now to convert sumCartY and sumCartX back to polar coordinates, minding ATan periodicity
+        // if (sumCartX > 0 && sumCartY >= 0) {
+        //   phi_ew[i] = (TMath::ATan(sumCartY / sumCartX) * 180.0 / pi);
+        // } 
+        // else if (sumCartX < 0) {
+        //   phi_ew[i] = (TMath::ATan(sumCartY / sumCartX)  + pi) * 180.0 / pi;
+        // } 
+        // else if (sumCartX > 0 && sumCartY < 0) {
+        //   phi_ew[i] = (TMath::ATan(sumCartY / sumCartX)  + 2*pi) * 180.0 / pi;
+        // } 
+        // else if (sumCartX = 0 && sumCartY > 0) {
+        //   phi_ew[i] = 0.5 * 180.0;
+        // }
+        // else if (sumCartX = 0 && sumCartY < 0) {
+        //   phi_ew[i] = -1.5* 180.0;
+        // }
+
+        // now to convert sumCartY and sumCartX back to polar coordinates, minding ATan periodicity
+        phi_ew[i] = cartesianToPolar(sumCartX, sumCartY);
+
+        
+        if (8 == i) {
+          // cout << " xes " << endl;
+          // printArray(cartXarray, 8);
+          // cout << " ys " << endl;
+          // printArray(cartYarray, 8);
+          // cout << "convert " << endl;
+
+          // also convert indivudual weighted angles to cartesian again
+          // this is equivalent to making another angle list that is ordered according to which angle is assigned to which detector
+          cartesianToPolar(8, cartXarray, cartYarray, individualPhi);
+
+          // printArray(individualPhi, 8);
+
+          // calculate the standard deviation of phi_ew for each event, only when no channel was omitted:
+          float sigma_raw = 0;
+          float difference = 0;
+          for (int m=0; m<8; m++) {
+            difference = phi_ew[i] - individualPhi[m];
+            if (difference > 180) difference -= 180;
+            else if (difference < -180) difference += 180;
+            sigma_raw += difference * difference; // XXX
+            // cout << sigma_raw << endl;
+          }
+          phiStd = sqrt(1/8.0 * sigma_raw);
+        }
+        
+
+        // translate angles from [0, 360) range to (-180, 180] range centered around omitted channel (channel k for no omissions):
+        // COSMICS specific! like everything else too basically
+        int k;
+
+        if (i > 3 && 8 != i) k = (i + 4) % (4);
+        else if (8 != i) k = i + 4;
+        else k = centerChannel; // no channels omitted
+
+
+        phi_ew[i] = translateAngle(phi_ew[i], angles[k]);
+        threePhiEw[0] = phi_ew[i] - 360.0;
+        threePhiEw[1] = phi_ew[i];
+        threePhiEw[2] = phi_ew[i] + 360.0;
       }
+
+
+
+      
+     // ATTENTION HERE
+      //end andrea
+
+      
 
       /***
  *          __            __              __  
@@ -1309,11 +1669,14 @@ void read(map<string, string> readParameters)
  *    \__/ \__/  |  |    \__/  |  
  *                                
  */
+      
+
 
       if (print)
       {
 
-        if (!skipThisEvent || (skipThisEvent && (forcePrintThisEvent || (printedExtraEvents < maximalExtraPrintEvents))))
+        // if (!skipThisEvent || (skipThisEvent && (forcePrintThisEvent || (printedExtraEvents < maximalExtraPrintEvents))))
+        if (!skipThisEvent && (printedExtraEvents < maximalExtraPrintEvents)) // ANDREA
         {
           if ((forcePrintThisEvent && (forcePrintEvents < maximalForcePrintEvents)) || ((currentPrint != fileCounter) || (printedExtraEvents < maximalExtraPrintEvents)))
           {
@@ -1324,17 +1687,22 @@ void read(map<string, string> readParameters)
             if (fileCounter == 0 && ((fileCounter != (numberOfBinaryFiles - 1)) || forcePrintThisEvent))
             {
               cWaves.Print((TString)(plotSaveFolder + "/waveforms.pdf("), "pdf");
-              womCanvas.Print((TString)(plotSaveFolder + "/waveforms_womSum.pdf("), "pdf");
-            }
-            else
-            {
+              //cWaves.Print((TString)(plotSaveFolder + "/waveforms2.pdf("), "pdf");
 
-              cWaves.Print((TString)(plotSaveFolder + "/waveforms.pdf"), "pdf");
+              womCanvas.Print((TString)(plotSaveFolder + "/waveforms_womSum.pdf("), "pdf");
+              // cout << "print in if filecounter" << endl;
+              
+            } else
+            {
+              // HERE
+              // cWaves.Print((TString)(plotSaveFolder + "/waveforms.pdf"), "pdf");
               womCanvas.Print((TString)(plotSaveFolder + "/waveforms_womSum.pdf"), "pdf");
+              // cout << "print in else" << endl;
             }
           }
         }
       }
+      cWaves.Clear("D");
 
       /*Writing the data for that event to the tree.*/
       if (!skipThisEvent)
@@ -1345,26 +1713,41 @@ void read(map<string, string> readParameters)
       {
         skippedCount = skippedCount + 1;
       }
-    }
+
+      if (weirdSkip) weirdInFile += 1;
+    } // end of event loop
+
+
     auto nevent = tree->GetEntries();
 
     cout << "Events in Tree:  " << nevent << " Skipped:  " << skippedCount << endl;
     fclose(pFILE);
     fileCounter++;
-  }
+    // andrea
+    totalEvents += eventsInFile;
+    totalWeirdEvents += weirdInFile;
+    // end andrea
+
+  } // end of file loop
+
+  
 
   if (print)
   {
     /*Clearing objects and saving files.*/
     inList.close();
 
-    if (numberOfBinaryFiles != 1 || forcePrintEvents > 0)
+    if ((numberOfBinaryFiles != 1 || forcePrintEvents > 0))
     {
       cWaves.Print((TString)(plotSaveFolder + "/waveforms.pdf)"), "pdf");
+
+
       womCanvas.Print((TString)(plotSaveFolder + "/waveforms_womSum.pdf)"), "pdf");
+
     }
     cWaves.Clear();
     womCanvas.Clear();
+
     for (int i = 0; i < runChannelNumberWC; i++)
     {
       cChSum.cd(i + 1);
@@ -1378,6 +1761,8 @@ void read(map<string, string> readParameters)
       //   hChSum.at(i)->SetFillColorAlpha(4, 0.8);
     }
     cChSum.Print((TString)(plotSaveFolder + "/waveforms_chSum.pdf"), "pdf");
+
+
   }
 
   gErrorIgnoreLevel = kWarning;
@@ -1390,10 +1775,22 @@ void read(map<string, string> readParameters)
   rootFile->Write();
   rootFile->Close();
 
-/*   // andrea
-// set up additional root-file and root-tree for data with applied cut on timing interval
-Create root-file and root-tree for data
-//TString outFileCut = "0" + outFile(0, outFile.Length()-5) + "_cut.root";
+  // andrea
+  FILE* cut_log = fopen("/mnt/d/Programme/RootReader/RootReader-master/runlogs/cut_log.txt", "a");
+
+  FILE* weirdEventCounter = fopen("/mnt/d/Programme/RootReader/RootReader-master/runlogs/weirdEvents.txt", "a");
+
+  fprintf(cut_log, "\n#Run log of timing cuts \n");
+  fprintf(cut_log, "#Runname: \n");
+  fprintf(cut_log, "%s", runName.c_str());
+  fprintf(cut_log, "\nPosition cuts: %s\nAngle cuts (DEPR): %s\nIntegral cuts: %s\nPMT amp cuts: %s", POSITIONCUTS ? "true" : "false", ANGLECUTS ? "true" : "false", INTEGRALCUT ? "true" : "false", SCINTCUT ? "true" : "false");
+  fprintf(cut_log, "\n#POS top min\tPOS top max\t POS bot min\t bot max\tANGLE interval left\tANGLE interval right\tmin. N_pe\tmax. N_pre\tmin PMT amp\tmax PMT amp\n");
+  fprintf(cut_log, "%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f", diffTopIntervalBot, diffTopIntervalTop, diffBotIntervalBot, diffBotIntervalTop, dTintervalBot, dTintervalTop, integralCut, integralCutTop, lowAmpScint, highAmpScint);
+  fclose(cut_log);
+
+  fprintf(weirdEventCounter, "%s\t%d\t%d\t%f\n", runName.c_str(), totalWeirdEvents, totalEvents, totalWeirdEvents*1.0/totalEvents);
+  fclose(weirdEventCounter);
+/*   
   TFile *rootFileCut = new TFile("cuts.root", "RECREATE");
   if (rootFileCut->IsZombie())
   {

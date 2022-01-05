@@ -205,6 +205,7 @@ parseRunList() {
 compileRead() {
     echo "Compiling Read.C..."
     g++ ./src/geometry.C ./src/read.cpp ./src/analysis.C ./src/main.C ./src/misc.C $(root-config --libs --cflags) -lSpectrum -o ./src/read
+	#g++ ./src/makeIntegralsPDF.cpp $(root-config --libs --cflags) -lSpectrum -o ./src/makeIntegralsPDF
     echo "Compiling done!"
 }
 
@@ -234,8 +235,8 @@ readFull() {
     while read line; do
         [[ $line == \#* ]] && continue
         lineArr=($line)
-		echo HIERHER
-		echo $line
+		# echo HIERHER
+		# echo $line
 
         doRun="0"
         if [[ " ${runNumber[@]} " =~ " ${lineArr[0]} " ]]; then
@@ -252,12 +253,15 @@ readFull() {
             fi
 
             #time $here/readFull $runDir/$runName.list $inFolder/$runName/ $runDir/out.root ${lineArr[0]} ${lineArr[2]} ${lineArr[3]} ${lineArr[4]} ${lineArr[5]} ${lineArr[6]}
-
+            # echo "Runnumber in readFull"
+            # echo $runNumber
+            # echo $runName
             time ./src/read $runDir/$runName.list $inFolder/$runName/ $runDir/$runName.root $runName $headerSize "$isDC" "$dynamicBL" "$useCalibValues" "${lineArr[0]}" "${lineArr[1]}" "${lineArr[2]}" "${lineArr[3]}" "${lineArr[4]}" "${lineArr[5]}" "$automaticWindow" "$iWForceRun"
-
+			
         fi
     done <./RootRunlist.txt
-
+	#time ./src/makeIntegralsPDF $runDir/$runName.root
+	#echo "Doing integrals"
 }
 
 compileMerger() {
@@ -274,6 +278,8 @@ merger() {
     pdfunite $(find $2 -name "*waveforms.pdf") $2/waveforms.pdf
     pdfunite $(find $2 -name "*waveforms_chSum.pdf") $2/waveforms_chSum.pdf
     pdfunite $(find $2 -name "*waveforms_womSum.pdf") $2/waveforms_womSum.pdf
+	#pdfunite $(find $2 -name "*integrals.pdf") $2/integrals.pdf
+
 
 }
 
@@ -295,10 +301,39 @@ readFast() {
     installPDFUnite
     compileMerger
     readAll=false
+
     inFolder=$2
     outFolder=$3
     headerSize=$4
     saveFolder=$outFolder
+	 
+	
+	# echo "${saveFolder}"
+	 
+	
+	# for dir in ${saveFolder}/*; do
+		# printf $dir 
+		# printf "\n ylgsodfij \n"
+		# if [[ $dir == *"${runNumber}"* ]]; then
+			# memDir=$dir
+			# printf "memDir "
+			# printf $memDir
+			# for file in ${memDir}/*; do
+				# echo " test here   "
+				# printf $file
+				# if [[ $file == *".root"* ]]; then
+					# memFile=$file
+					# printf "rootfile found  "
+					# printf $memFile 
+					# break
+				# fi 
+			# done 
+			# break
+		# fi
+	# done 
+	
+	# echo "${saveFolder}/${file}/${file}.root"
+	
 
     if [[ " ${runNumber[@]} " =~ "a" ]]; then
         readAll=true
@@ -400,6 +435,37 @@ readFast() {
         #reads lines of "runslist"
 
     )
+	
+	## andrea
+	for dir in ${saveFolder}/*; do
+		# printf $dir 
+		# printf "\n ylgsodfij \n"
+		if [[ $dir == *"${runNumber}"* ]]; then
+			memDir=$dir
+			# printf "memDir "
+			# printf $memDir
+			for file in ${memDir}/*; do
+				# echo " test here   "
+				# printf $file
+				if [[ $file == *".root"* ]]; then
+					memFile=$file
+					printf "rootfile found  "
+					printf $memFile 
+                    printf "\n "
+					break
+				fi 
+			done 
+			break
+		fi
+	done
+	
+	# printf "this is the"    
+	# printf $memFile
+
+	#./src/makeIntegralsPDF "$memFile"
+	#pdfunite $(find $memDir -name "*integrals.pdf") $memDir/integrals.pdf
+	#echo "Doing integrals"
+	
 
 }
 
@@ -420,6 +486,13 @@ readRoot() {
 
 readFastIteration() {
 	echo "readFastITeration "
+
+    # echo "Runnumber in readFastIt"
+    # echo ${fastLineArr[2]}
+    # echo $fastRunName
+    # echo ${fastLineArr[0]}
+    # echo $fastRunDir/$1.list $fastInFolder/$fastRunName/ $fastRunDir/$1/out.root $fastRunName $fastHeaderSize "$isDC" "$dynamicBL" "$useCalibValues" "${fastLineArr[0]}" "${fastLineArr[1]}" "${fastLineArr[2]}" "${fastLineArr[3]}" "${fastLineArr[4]}" "${fastLineArr[5]}" "$automaticWindow" "$iWForceRun"
+
     ./src/read $fastRunDir/$1.list $fastInFolder/$fastRunName/ $fastRunDir/$1/out.root $fastRunName $fastHeaderSize "$isDC" "$dynamicBL" "$useCalibValues" "${fastLineArr[0]}" "${fastLineArr[1]}" "${fastLineArr[2]}" "${fastLineArr[3]}" "${fastLineArr[4]}" "${fastLineArr[5]}" "$automaticWindow" "$iWForceRun"
 
 }
@@ -571,7 +644,10 @@ startAutomaticEffRun() {
             dcScriptDir=$(find $analysisPath -name 'DCProbability.py' -printf "%h\n")
 
             rootfileFolderDir=$analysisPath/rootfiles
+            echo "saved run number "
+            echo "${runNumber[@]}"
             savedRunNumber=("${runNumber[@]}")
+            echo $savedRunNumber
 
             unset runNumber
             runNumber=("${runNumberDC[@]}")
@@ -830,8 +906,12 @@ start() {
             echo "Runlist creation failed!"
         fi
     fi
-
+    # echo "Runnumber before done"
+    # echo $runNumber
     readRoot $threads $runNumber $inFolder $outFolder $headerSize
+    # andrea
+    cp -v ./runlogs/cut_log.txt $outFolder/${runNumber}*
+    # end andrea
     echo "---------------------------------------------"
     echo "  ____    ___   _   _  _____ "
     echo " |  _ \  / _ \ | \ | || ____|"

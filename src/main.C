@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
     readParameters.insert(make_pair("runNumber", string(argv[9])));
   if (argc >= 12)
     readParameters.insert(make_pair("runPosition", string(argv[11])));
-    std::cout<<"RUNPOSITION"<<string(argv[11]);
+    // std::cout<<"RUNPOSITION"<<string(argv[11]);
   if (argc >= 13)
     readParameters.insert(make_pair("runAngle", string(argv[12])));
   if (argc >= 14)

@@ -41,7 +41,20 @@ double stringToDouble(string text)
 float stringToFloat(string text)
 {
   if(text.length()==0)return 0.0;
-  return stof(text);
+  float test = 0;
+  try {
+    test = stof(text);
+     
+    // cout << "stof test " << test << endl;
+  } catch (const std::exception &e)
+  {
+    std::cerr <<"Error at stof:" <<e.what() << '\n';
+    // cout << "\n";
+    // cout << text << "\n" << endl;
+    throw 20;
+    
+  }
+  return test;
 }
 string vectorToString(vector<float> vec)
 {
@@ -129,6 +142,8 @@ pair<vector<float>,vector<float>> readPair(string path, string _runName, double 
       size_t pos = 0;
       std::string token;
       string calibValue;
+      // cout << " string _runname " << _runName << "\n" << endl;
+      // cout << " string s " << s << "\n" << endl;
       while ((pos = s.find(columnDelimiter)) != std::string::npos)
       {
         token = s.substr(0, pos); //LIKE: 33/178
@@ -137,8 +152,9 @@ pair<vector<float>,vector<float>> readPair(string path, string _runName, double 
 
         string peak=token.substr(0,posOfDelimiter);
         string all=token.substr(posOfDelimiter+1, token.length()-1);
-
+        // cout << "peak " << peak << " \n" << endl;
         peakSignals.push_back(stringToFloat(peak));
+        // cout << " all " << all << " \n " << endl;
         allSignals.push_back(stringToFloat(all));
 
         s.erase(0, pos + columnDelimiter.length());
@@ -147,8 +163,9 @@ pair<vector<float>,vector<float>> readPair(string path, string _runName, double 
         string peak=s.substr(0,posOfDelimiter);
         string all=s.substr(posOfDelimiter+1, s.length()-1);
 
-
+        // cout << " after while peak " << peak << " \n" << endl;
         peakSignals.push_back(stringToFloat(peak));
+        // cout << " after while all " << all << " \n " << endl;
         allSignals.push_back(stringToFloat(all));
     }
   }
