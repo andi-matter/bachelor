@@ -75,5 +75,7 @@ Root Analysis:
 Multiple scripts that are needed for the RootReader:
 download RootAnalysis directory
 
+=======
+!!! Actually just use RootAnalysis folder in this repo !!!
 
 [ https://github.com/Uni2K/RootAnalysis ]
